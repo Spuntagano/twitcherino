@@ -1,0 +1,9 @@
+<div class="container-fluid">
+	<div class="row">
+		<div id="item-container" class="item-container channels">
+			<div data-viewernumber="{{stream.media_views}}"  ng-repeat="stream in channels.livestream" class="col-lg-2">
+				{{stream.media_user_name}}
+			</div>
+		</div>
+	</div>
+</div>
