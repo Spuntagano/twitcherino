@@ -1,5 +1,12 @@
+html, body{
+	height: 100%;
+}
+
 .channel-container{
 	margin-bottom: 10px;
+}
+
+.sort-container{
 	display: none;
 }
 
@@ -10,4 +17,41 @@
 		max-width: 100%;
 		height: auto;
 	}
+}
+
+.game-container{
+	margin-bottom: 10px;
+	display: none;
+}
+
+.game{
+	padding: 0 10px;
+
+	img{
+		width: 100%;
+		height: 260px;
+		overflow: hidden;
+	}
+}
+
+iframe{
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+
+.video-container{
+	width: calc(100% - 300px);
+	height: 800px;
+	float: left;
+}
+
+.chat-container{
+	width: 300px;
+	height: 800px;
+	float: left;
+}
+
+.game-category{
+	min-height: 40px;
 }

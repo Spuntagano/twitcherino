@@ -1,0 +1,28 @@
+<div class="container-fluid" ng-controller="ChannelCtrl">
+	<div class="row">
+		<div id="item-container" class="item-container">
+			<div data-viewers="{{game.viewers}}" repeat-done="layoutDone()" ng-repeat="game in twitchgames.top" class="col-lg-2 game-container sort-container">
+				<div class="game">
+					<a ng-href="#/games/{{game.game.name}}">
+						<img ng-src="{{game.game.box.large}}" alt="{{game.game.name}}" width="320" height="180" />
+					</a>
+					<div class="game-category">{{game.game.name}}</div>
+					<div>{{game.viewers}}</div>
+					<div>Twitch</div>
+				</div>
+			</div>
+		</div>
+		<div id="item-container" class="item-container">
+			<div data-viewers="{{game.category_viewers}}" repeat-done="layoutDone()" ng-repeat="game in hitboxgames.categories" class="col-lg-2 game-container sort-container">
+				<div class="game">
+					<a ng-href="#/games/{{game.category_name}}">
+						<img ng-src="http://edge.sf.hitbox.tv{{game.category_logo_large}}" alt="{{game.category_name}}" width="320" height="180" />
+					</a>
+					<div class="game-category">{{game.category_name}}</div>
+					<div>{{game.category_viewers}}</div>
+					<div>Hitbox</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

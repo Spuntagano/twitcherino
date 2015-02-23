@@ -1,9 +1,9 @@
-<div class="container-fluid" bg-controller="ChannelCtrl">
+<div class="container-fluid" ng-controller="ChannelCtrl">
 	<div class="row">
 		<div id="item-container" class="item-container" infinite-scroll="loadMore()" infinite-scroll-distance="2">
-			<div data-viewers="{{stream.media_views}}" repeat-done="layoutDone()" ng-repeat="stream in hitboxchannels.livestream" class="col-lg-2 channel-container">
+			<div data-viewers="{{stream.media_views}}" repeat-done="layoutDone()" ng-repeat="stream in hitboxchannels.livestream" class="col-lg-2 channel-container sort-container">
 				<div class="channel">
-					<a ng-href="{{stream.channel.channel_link}}">
+					<a ng-href="#/hitbox/{{stream.media_user_name}}">
 						<img ng-src="http://edge.sf.hitbox.tv{{stream.media_thumbnail}}" alt="{{stream.media_user_name}}" width="320" height="180" />
 					</a>
 					<div>{{stream.media_user_name}}</div>
@@ -11,9 +11,9 @@
 					<div>Hitbox</div>
 				</div>
 			</div>
-			<div data-viewers="{{stream.viewers}}" repeat-done="layoutDone()" ng-repeat="stream in twitchchannels.streams" class="col-lg-2 channel-container">
+			<div data-viewers="{{stream.viewers}}" repeat-done="layoutDone()" ng-repeat="stream in twitchchannels.streams" class="col-lg-2 channel-container sort-container">
 				<div class="channel">
-					<a ng-href="{{stream.channel.url}}">
+					<a ng-href="#/twitch/{{stream.channel.name}}">
 						<img ng-src="{{stream.preview.medium}}" alt="{{stream.channel.display_name}}" width="320" height="180" />
 					</a>
 					<div>{{stream.channel.display_name}}</div>

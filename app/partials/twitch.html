@@ -1,0 +1,10 @@
+<div class="container-fluid" ng-controller="TwitchCtrl">
+	<div class="row">
+		<div class="video-container">
+			<iframe ng-src="{{twitchVideoUrl(twitchchannel.name)}}"></iframe>
+		</div>
+		<div class="chat-container">
+			<iframe ng-src="{{twitchChatUrl(twitchchannel.name)}}"></iframe>
+		</div>
+	</div>
+</div>
