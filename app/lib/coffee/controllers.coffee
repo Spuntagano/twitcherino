@@ -11,6 +11,12 @@ twitcherinoControllers.controller('ChannelCtrl', ['$scope', '$routeParams', 'Hit
     			tinysort('.sort-container', {data: 'viewers', order:'desc'})
     			$('.sort-container').show();
     		, 0)
+
+    	$scope.limit = 30
+    	
+    	$scope.loadMore = ->
+    		$scope.limit += 10
+    	
 ])
 
 twitcherinoControllers.controller('HitboxCtrl', ['$scope', '$routeParams', '$sce','HitboxChannel'
