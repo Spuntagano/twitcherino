@@ -1,16 +1,47 @@
 twitcherinoControllers = angular.module('twitcherinoControllers', [])
 
-twitcherinoControllers.controller('ChannelCtrl', ['$scope', '$routeParams', 'HitboxChannels', 'TwitchChannels',
-  	($scope, $routeParams, HitboxChannels, TwitchChannels) ->
+twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$routeParams',
+  	($q, $http, $scope, $routeParams) ->
 
-    	$scope.hitboxchannels = HitboxChannels.query()
-    	$scope.twitchchannels = TwitchChannels.query()
+    	twitchcall = $http({
+    	  method: 'GET'
+    	  url: 'http://api.hitbox.tv/media?limit=50'
+    	})
+    	hitboxcall = $http({
+    	  method: 'JSONP'
+    	  url: 'https://api.twitch.tv/kraken/streams?callback=JSON_CALLBACK&limit=50'
+    	  headers: {
+    	  	Accept: 'application/vnd.twitchtv.v3+json'
+    	  }
+    	})
 
-    	$scope.layoutDone = ->
-    		setTimeout( ->
-    			tinysort('.sort-container', {data: 'viewers', order:'desc'})
-    			$('.sort-container').show();
-    		, 0)
+    	$q.all([twitchcall, hitboxcall]).then( 
+    		(result) ->
+    			channels = {}
+    			channels.streams = []
+    			for i in [0...result.length]
+    				if (result[i].data._links != undefined)
+    					for j in [0...result[i].data.streams.length]
+	    					channel =
+	    						username: result[i].data.streams[j].channel.name
+	    						viewers_number: parseInt(result[i].data.streams[j].viewers, 10)
+	    						thumbnail_url: result[i].data.streams[j].preview.medium
+	    						link: "#/twitch/#{result[i].data.streams[j].channel.name}"
+	    						platform: 'Twitch'
+	    					channels.streams.push(channel)
+    				else if (result[i].data.request != undefined)
+    					for j in [0...result[i].data.livestream.length]
+	    					channel =
+	    						username: result[i].data.livestream[j].media_user_name
+	    						viewers_number: parseInt(result[i].data.livestream[j].media_views, 10)
+	    						thumbnail_url: "http://edge.sf.hitbox.tv#{result[i].data.livestream[j].media_thumbnail}"
+	    						link: "#/hitbox/#{result[i].data.livestream[j].media_views}"
+	    						platform: 'Hitbox'
+	    					channels.streams.push(channel)
+
+							$scope.channels = channels
+
+    	)
 
     	$scope.limit = 30
     	
@@ -51,6 +82,9 @@ twitcherinoControllers.controller('GamesCtrl', ['$http', '$q', '$scope', '$route
 	    hitboxcall = $http({
 	      method: 'JSONP'
 	      url: 'https://api.twitch.tv/kraken/games/top?callback=JSON_CALLBACK'
+	      headers: {
+	      	Accept: 'application/vnd.twitchtv.v3+json'
+	      }
 	    })
 
 	    $q.all([twitchcall, hitboxcall]).then( 
