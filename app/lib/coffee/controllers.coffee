@@ -3,50 +3,54 @@ twitcherinoControllers = angular.module('twitcherinoControllers', [])
 twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$routeParams',
   	($q, $http, $scope, $routeParams) ->
 
-    	twitchcall = $http({
-    	  method: 'GET'
-    	  url: 'http://api.hitbox.tv/media?limit=50'
-    	})
-    	hitboxcall = $http({
-    	  method: 'JSONP'
-    	  url: 'https://api.twitch.tv/kraken/streams?callback=JSON_CALLBACK&limit=50'
-    	  headers: {
-    	  	Accept: 'application/vnd.twitchtv.v3+json'
-    	  }
-    	})
+  		$scope.loadMore= ->
+	    	twitchcall = $http({
+	    	  method: 'GET'
+	    	  url: "http://api.hitbox.tv/media?limit=50&offset=#{$scope.offset}"
+	    	})
+	    	hitboxcall = $http({
+	    	  method: 'JSONP'
+	    	  url: "https://api.twitch.tv/kraken/streams?callback=JSON_CALLBACK&limit=50&offset=#{$scope.offset}"
+	    	  headers: {
+	    	  	Accept: 'application/vnd.twitchtv.v3+json'
+	    	  }
+	    	})
 
-    	$q.all([twitchcall, hitboxcall]).then( 
-    		(result) ->
-    			channels = {}
-    			channels.streams = []
-    			for i in [0...result.length]
-    				if (result[i].data._links != undefined)
-    					for j in [0...result[i].data.streams.length]
-	    					channel =
-	    						username: result[i].data.streams[j].channel.name
-	    						viewers_number: parseInt(result[i].data.streams[j].viewers, 10)
-	    						thumbnail_url: result[i].data.streams[j].preview.medium
-	    						link: "#/twitch/#{result[i].data.streams[j].channel.name}"
-	    						platform: 'Twitch'
-	    					channels.streams.push(channel)
-    				else if (result[i].data.request != undefined)
-    					for j in [0...result[i].data.livestream.length]
-	    					channel =
-	    						username: result[i].data.livestream[j].media_user_name
-	    						viewers_number: parseInt(result[i].data.livestream[j].media_views, 10)
-	    						thumbnail_url: "http://edge.sf.hitbox.tv#{result[i].data.livestream[j].media_thumbnail}"
-	    						link: "#/hitbox/#{result[i].data.livestream[j].media_views}"
-	    						platform: 'Hitbox'
-	    					channels.streams.push(channel)
+	    	$q.all([twitchcall, hitboxcall]).then( 
+	    		(result) ->
+	    			channels = {}
+	    			channels.streams = []
+	    			if ($scope.channels == undefined)
+	    				$scope.channels = {}
 
-							$scope.channels = channels
+	    			if ($scope.channels.streams == undefined)
+	    				$scope.channels.streams = []
 
-    	)
+	    			for i in [0...result.length]
+	    				if (result[i].data._links != undefined)
+	    					for j in [0...result[i].data.streams.length]
+		    					channel =
+		    						username: result[i].data.streams[j].channel.name
+		    						viewers_number: parseInt(result[i].data.streams[j].viewers, 10)
+		    						thumbnail_url: result[i].data.streams[j].preview.medium
+		    						link: "#/twitch/#{result[i].data.streams[j].channel.name}"
+		    						platform: 'Twitch'
+		    					$scope.channels.streams.push(channel)
+	    				else if (result[i].data.request != undefined)
+	    					for j in [0...result[i].data.livestream.length]
+		    					channel =
+		    						username: result[i].data.livestream[j].media_user_name
+		    						viewers_number: parseInt(result[i].data.livestream[j].media_views, 10)
+		    						thumbnail_url: "http://edge.sf.hitbox.tv#{result[i].data.livestream[j].media_thumbnail}"
+		    						link: "#/hitbox/#{result[i].data.livestream[j].media_user_name}"
+		    						platform: 'Hitbox'
+		    					$scope.channels.streams.push(channel)
 
-    	$scope.limit = 30
-    	
-    	$scope.loadMore = ->
-    		$scope.limit += 10
+
+						if ($scope.offset == undefined)
+							$scope.offset = 0
+						$scope.offset +=50
+	    	)
     	
 ])
 
