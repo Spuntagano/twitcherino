@@ -38,11 +38,11 @@ twitcherinoControllers.controller('TwitchCtrl', ['$scope', '$routeParams', '$sce
 twitcherinoControllers.controller('GamesCtrl', ['$http', '$q', '$scope', '$routeParams',
   	($http, $q, $scope, $routeParams) ->
 
-	    twitchcall = $http({
+	    hitboxcall = $http({
 	      method: 'GET'
 	      url: 'http://api.hitbox.tv/games?limit=10'
 	    })
-	    hitboxcall = $http({
+	    twitchcall = $http({
 	      method: 'JSONP'
 	      url: 'https://api.twitch.tv/kraken/games/top?callback=JSON_CALLBACK'
 	    })
