@@ -3,6 +3,9 @@ twitcherinoControllers = angular.module('twitcherinoControllers', [])
 twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$routeParams',
   	($q, $http, $scope, $routeParams) ->
 
+  		if ($scope.offset == undefined)
+  			$scope.offset = 0
+
   		$scope.loadMore= ->
 	    	twitchcall = $http({
 	    	  method: 'GET'
@@ -47,8 +50,6 @@ twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$rou
 		    					$scope.channels.streams.push(channel)
 
 
-						if ($scope.offset == undefined)
-							$scope.offset = 0
 						$scope.offset +=50
 	    	)
     	

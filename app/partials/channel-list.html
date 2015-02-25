@@ -1,7 +1,7 @@
 <div class="container-fluid" ng-controller="ChannelCtrl">
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<div id="item-container" class="item-container">
-			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset/2 track by $index" class="col-lg-2 channel-container">
+			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="col-lg-2 channel-container">
 				<div class="channel">
 					<a ng-href="{{stream.link}}">
 						<img ng-src="{{stream.thumbnail_url}}" alt="{{stream.username}}" width="320" height="180" />
