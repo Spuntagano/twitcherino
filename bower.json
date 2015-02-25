@@ -12,6 +12,9 @@
     "angular-mocks": "~1.2.x",
     "html5-boilerplate": "~4.3.0",
     "tinysort": "~2.1.x",
-    "jquery-unveil": "~1.3.x"
+    "bootstrap": "~3.3.x",
+    "angular": "~1.2.x",
+    "angular-resource": "~1.3.x",
+    "nginfinitescroll": "~1.2.x"
   }
 }
