@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-controller="ChannelCtrl">
+<div class="container-fluid">
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<div id="item-container" class="item-container">
 			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="col-lg-2 channel-container">
