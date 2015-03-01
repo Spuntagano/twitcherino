@@ -20,6 +20,9 @@ twitcherinoApp.config(['$routeProvider',
 		}).when('/games', {
 			templateUrl: 'partials/games.html'
 			controller: 'GamesCtrl'
+		}).when('/games/:gameName', {
+			templateUrl: 'partials/channel-list.html'
+			controller: 'GamesChannelsCtrl'
 		}).otherwise({
 			redirectTo: '/'
 		})
