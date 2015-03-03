@@ -1,7 +1,31 @@
-twitcherinoControllers = angular.module('twitcherinoControllers', [])
+angular.module('twitcherinoControllers', [])
 
-twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$routeParams',
-	($q, $http, $scope, $routeParams) ->
+.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', 'HitboxChannel'
+	($scope, $routeParams, $sce, HitboxChannel) ->
+
+		$scope.videoUrl = () ->
+			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}")
+
+		$scope.chatUrl = () ->
+			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/#{$routeParams.channelUser}")
+
+])
+
+.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', 'HitboxChannel'
+	($scope, $routeParams, $sce, HitboxChannel) ->
+
+		$scope.videoUrl = () ->
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed");
+
+		$scope.chatUrl = () ->
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat");
+])
+
+.controller('ChannelsCtrl', ['$http', '$scope', '$routeParams',
+	($http, $scope, $routeParams) ->
+
+		increment = 30
+		initial = 30
 
 		if (!$scope.offset?)
 			$scope.offset = 0
@@ -13,29 +37,19 @@ twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$rou
 			$scope.channels.streams = []
 
 		$scope.loadMore= ->
-			hitboxcall = $http({
-				method: 'GET'
-				url: "http://api.hitbox.tv/media?limit=50&offset=#{$scope.offset}"
-			}).success( (data, status, headers, config) ->
-				console.log(data)
-				for i in [0...data.livestream.length]
-					channel =
-						username: data.livestream[i].media_user_name
-						viewers_number: parseInt(data.livestream[i].media_views, 10)
-						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
-						link: "#/hitbox/#{data.livestream[i].media_user_name}"
-						platform: 'Hitbox'
-					$scope.channels.streams.push(channel)
-			)
 
 			twitchcall = $http({
 				method: 'JSONP'
-				url: "https://api.twitch.tv/kraken/streams?callback=JSON_CALLBACK&limit=50&offset=#{$scope.offset}"
+				url: "https://api.twitch.tv/kraken/streams"
+				params : {
+					callback: 'JSON_CALLBACK'
+					limit: initial
+					offset: $scope.offset
+				}
 				headers: {
 					Accept: 'application/vnd.twitchtv.v3+json'
 				}
 			}).success( (data, status, headers, config) ->
-				console.log(data)
 				for i in [0...data.streams.length]
 					channel =
 						username: data.streams[i].channel.name
@@ -46,67 +60,54 @@ twitcherinoControllers.controller('ChannelCtrl', ['$q', '$http', '$scope', '$rou
 					$scope.channels.streams.push(channel)
 			)
 
-			$scope.offset +=50
+			hitboxcall = $http({
+				method: 'GET'
+				url: "http://api.hitbox.tv/media"
+				params: {
+					limit: initial
+					offset: $scope.offset
+				}
+			}).success( (data, status, headers, config) ->
+				for i in [0...data.livestream.length]
+					channel =
+						username: data.livestream[i].media_user_name
+						viewers_number: parseInt(data.livestream[i].media_views, 10)
+						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
+						link: "#/hitbox/#{data.livestream[i].media_user_name}"
+						platform: 'Hitbox'
+					$scope.channels.streams.push(channel)
+			)
+
+			$scope.offset += increment
+
 		
 ])
 
-twitcherinoControllers.controller('HitboxCtrl', ['$scope', '$routeParams', '$sce','HitboxChannel'
-	($scope, $routeParams, $sce, HitboxChannel) ->
-		$scope.hitboxchannel = HitboxChannel.query(channelUser: $routeParams.channelUser)
+.controller('GamesCtrl', ['$http', '$scope', '$routeParams',
+	($http, $scope, $routeParams) ->
 
-		$scope.hitboxVideoUrl = (url) ->
-			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{url}")
-
-		$scope.hitboxChatUrl = (url) ->
-			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/#{url}")
-])
-
-twitcherinoControllers.controller('TwitchCtrl', ['$scope', '$routeParams', '$sce', 'TwitchChannel',
-	($scope, $routeParams, $sce, TwitchChannel) ->
-		$scope.twitchchannel = TwitchChannel.query(channelUser: $routeParams.channelUser)
-
-		$scope.twitchVideoUrl = (url) ->
-			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{url}/embed");
-
-		$scope.twitchChatUrl = (url) ->
-			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{url}/chat");
-])
-
-twitcherinoControllers.controller('GamesCtrl', ['$http', '$q', '$scope', '$routeParams',
-	($http, $q, $scope, $routeParams) ->
+		increment = 30
+		initial = 30
 
 		if (!$scope.offset?)
 			$scope.offset = 0
 
-		if (!$scope.channels?)
-			$scope.channels = {}
+		if (!$scope.cats?)
+			$scope.cats = {}
 
-		if (!$scope.channels.streams?)
-			$scope.channels.streams = []
+		if (!$scope.cats.categories?)
+			$scope.cats.categories = []
 
 		$scope.loadMore= ->
-			hitboxcall = $http({
-				method: 'GET'
-				url: "http://api.hitbox.tv/games?limit=20&offset=#{$scope.offset}"
-			}).success( () ->
-				for i in [0...data.categories.length]
-					skip = false
-					for j in [0...$scope.cats.categories.length]
-						if ($scope.cats.categories[j].category_name == data.categories[i].category_name)
-							$scope.cats.categories[j].viewers_number += parseInt(data.categories[i].category_viewers, 10)
-							skip = true
-					if (!skip)
-						category =
-							category_name: data.categories[i].category_name
-							viewers_number: parseInt(data.categories[i].category_viewers, 10)
-							thumbnail_url: "http://edge.sf.hitbox.tv#{data.categories[i].category_logo_large}"
-							link: "#/hitbox/#{data.categories[i].category_name}"
-						$scope.cats.categories.push(category)
-			)
 
 			twitchcall = $http({
 				method: 'JSONP'
-				url: "https://api.twitch.tv/kraken/games/top?callback=JSON_CALLBACK&limit=20&offset=#{$scope.offset}"
+				url: "https://api.twitch.tv/kraken/games/top"
+				params: {
+					callback: 'JSON_CALLBACK'
+					limit: initial
+					offset: $scope.offset
+				}
 				headers: {
 					Accept: 'application/vnd.twitchtv.v3+json'
 				}
@@ -126,53 +127,39 @@ twitcherinoControllers.controller('GamesCtrl', ['$http', '$q', '$scope', '$route
 						$scope.cats.categories.push(category)
 			)
 
-			$scope.offset +=50
-
-			###
-			$q.all([twitchcall, hitboxcall]).then( 
-				(result) ->
-					cats = {}
-					cats.streams = []
-					if (!$scope.cats?)
-						$scope.cats = {}
-
-					if (!$scope.cats.categories?)
-						$scope.cats.categories = []
-
-					for i in [0...result.length]
-						if (result[i].data._links?)
-							for j in [0...Object.keys(result[i].data.top).length]
-								category =
-									category_name: result[i].data.top[j].game.name
-									viewers_number: parseInt(result[i].data.top[j].viewers, 10)
-									thumbnail_url: result[i].data.top[j].game.box.medium
-									link: "#/twitch/#{result[i].data.top[j].game.name}"
-								$scope.cats.categories.push(category)
-							twitchscopelength = $scope.cats.categories.length
-						else if (result[i].data.request?)
-							for j in [0...result[i].data.categories.length]
-								skip = false
-								for k in [0...$scope.cats.categories.length]
-									if ($scope.cats.categories[k].category_name == result[i].data.categories[j].category_name)
-										$scope.cats.categories[k].viewers_number += parseInt(result[i].data.categories[j].category_viewers, 10)
-										skip = true
-								if (!skip)
-									category =
-										category_name: result[i].data.categories[j].category_name
-										viewers_number: parseInt(result[i].data.categories[j].category_viewers, 10)
-										thumbnail_url: "http://edge.sf.hitbox.tv#{result[i].data.categories[j].category_logo_large}"
-										link: "#/hitbox/#{result[i].data.categories[j].category_name}"
-									$scope.cats.categories.push(category)
-
-						$scope.offset +=20
+			hitboxcall = $http({
+				method: 'GET'
+				url: "http://api.hitbox.tv/games"
+				params: {
+					limit: initial
+					offset: $scope.offset
+				}
+			}).success( (data, status, headers, config) ->
+				for i in [0...data.categories.length]
+					skip = false
+					for j in [0...$scope.cats.categories.length]
+						if ($scope.cats.categories[j].category_name == data.categories[i].category_name)
+							$scope.cats.categories[j].viewers_number += parseInt(data.categories[i].category_viewers, 10)
+							skip = true
+					if (!skip)
+						category =
+							category_name: data.categories[i].category_name
+							viewers_number: parseInt(data.categories[i].category_viewers, 10)
+							thumbnail_url: "http://edge.sf.hitbox.tv#{data.categories[i].category_logo_large}"
+							link: "#/hitbox/#{data.categories[i].category_name}"
+						$scope.cats.categories.push(category)
 			)
-			###
+
+			$scope.offset += increment
 
 ])
 
 
-twitcherinoControllers.controller('GamesChannelsCtrl', ['$http', '$q', '$scope', '$routeParams',
-	($http, $q, $scope, $routeParams) ->
+.controller('GamesChannelsCtrl', ['$http', '$scope', '$routeParams',
+	($http, $scope, $routeParams) ->
+
+		increment = 30
+		initial = 30
 
 		if (!$scope.offset?)
 			$scope.offset = 0
@@ -184,23 +171,16 @@ twitcherinoControllers.controller('GamesChannelsCtrl', ['$http', '$q', '$scope',
 			$scope.channels.streams = []
 
 		$scope.loadMore= ->
-			hitboxcall = $http({
-				method: 'GET'
-				url: "http://api.hitbox.tv/media?game=#{$routeParams.gameName}&limit=50&offset=#{$scope.offset}"
-			}).success( (data, status, headers, config) ->
-				for i in [0...data.livestream.length]
-					channel =
-						username: data.livestream[i].media_user_name
-						viewers_number: parseInt(data.livestream[i].media_views, 10)
-						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
-						link: "#/hitbox/#{data.livestream[i].media_user_name}"
-						platform: 'Hitbox'
-					$scope.channels.streams.push(channel)
-			)
 
 			twitchcall = $http({
 				method: 'JSONP'
-				url: "https://api.twitch.tv/kraken/streams?game=#{$routeParams.gameName}&callback=JSON_CALLBACK&limit=50&offset=#{$scope.offset}"
+				url: "https://api.twitch.tv/kraken/streams"
+				params: {
+					callback: 'JSON_CALLBACK'
+					game: $routeParams.gameName
+					limit: initial
+					offset: $scope.offset
+				}
 				headers: {
 					Accept: 'application/vnd.twitchtv.v3+json'
 				}
@@ -215,7 +195,26 @@ twitcherinoControllers.controller('GamesChannelsCtrl', ['$http', '$q', '$scope',
 					$scope.channels.streams.push(channel)
 			)
 
-			$scope.offset +=50
+			hitboxcall = $http({
+				method: 'GET'
+				url: "http://api.hitbox.tv/media"
+				params: {
+					game: $routeParams.gameName
+					limit: initial
+					offset: $scope.offset
+				}
+			}).success( (data, status, headers, config) ->
+				for i in [0...data.livestream.length]
+					channel =
+						username: data.livestream[i].media_user_name
+						viewers_number: parseInt(data.livestream[i].media_views, 10)
+						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
+						link: "#/hitbox/#{data.livestream[i].media_user_name}"
+						platform: 'Hitbox'
+					$scope.channels.streams.push(channel)
+			)
+
+			$scope.offset += increment
 
 
 ])

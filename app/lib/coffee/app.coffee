@@ -1,4 +1,4 @@
-twitcherinoApp = angular.module('twitcherinoApp', [
+angular.module('twitcherinoApp', [
 	'ngRoute',
 
 	'twitcherinoControllers',
@@ -6,22 +6,22 @@ twitcherinoApp = angular.module('twitcherinoApp', [
 	'infinite-scroll'
 ])
 
-twitcherinoApp.config(['$routeProvider',
+.config(['$routeProvider',
 	($routeProvider) ->
 		$routeProvider.when('/', {
-			templateUrl: 'partials/channel-list.html'
-			controller: 'ChannelCtrl'
+			templateUrl: 'partials/channels.html'
+			controller: 'ChannelsCtrl'
 		}).when('/hitbox/:channelUser', {
-			templateUrl: 'partials/hitbox.html'
-			controller: 'HitboxCtrl'
+			templateUrl: 'partials/channel.html'
+			controller: 'HitboxChannelCtrl'
 		}).when('/twitch/:channelUser', {
-			templateUrl: 'partials/twitch.html'
-			controller: 'TwitchCtrl'
+			templateUrl: 'partials/channel.html'
+			controller: 'TwitchChannelCtrl'
 		}).when('/games', {
 			templateUrl: 'partials/games.html'
 			controller: 'GamesCtrl'
 		}).when('/games/:gameName', {
-			templateUrl: 'partials/channel-list.html'
+			templateUrl: 'partials/channels.html'
 			controller: 'GamesChannelsCtrl'
 		}).otherwise({
 			redirectTo: '/'
