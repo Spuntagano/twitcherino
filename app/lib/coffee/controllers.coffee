@@ -21,8 +21,8 @@ angular.module('twitcherinoControllers', [])
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat");
 ])
 
-.controller('ChannelsCtrl', ['$http', '$scope', '$routeParams',
-	($http, $scope, $routeParams) ->
+.controller('ChannelsCtrl', ['$http', '$scope', '$routeParams', 'LoadChannelsProvider',
+	($http, $scope, $routeParams, LoadChannelsProvider) ->
 
 		increment = 30
 		initial = 30
@@ -38,6 +38,7 @@ angular.module('twitcherinoControllers', [])
 
 		$scope.loadMore= ->
 
+			###
 			twitchcall = $http({
 				method: 'JSONP'
 				url: "https://api.twitch.tv/kraken/streams"
@@ -59,7 +60,12 @@ angular.module('twitcherinoControllers', [])
 						platform: 'Twitch'
 					$scope.channels.streams.push(channel)
 			)
+			###
 
+			$scope.channels = LoadChannelsProvider.loadChannels()
+			console.log($scope.channels)
+
+			###
 			hitboxcall = $http({
 				method: 'GET'
 				url: "http://api.hitbox.tv/media"
@@ -79,6 +85,7 @@ angular.module('twitcherinoControllers', [])
 			)
 
 			$scope.offset += increment
+			###
 
 		
 ])
