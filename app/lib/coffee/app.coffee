@@ -11,6 +11,9 @@ angular.module('twitcherinoApp', [
 		$routeProvider.when('/', {
 			templateUrl: 'partials/channels.html'
 			controller: 'ChannelsCtrl'
+		}).when('/channels', {
+			templateUrl: 'partials/channels.html'
+			controller: 'ChannelsCtrl'
 		}).when('/hitbox/:channelUser', {
 			templateUrl: 'partials/channel.html'
 			controller: 'HitboxChannelCtrl'

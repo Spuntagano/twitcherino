@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid margin-top">
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<div id="item-container" class="item-container">
 			<div ng-repeat="category in cats.categories | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="col-lg-2 game-container">

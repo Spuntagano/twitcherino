@@ -21,30 +21,21 @@ angular.module('twitcherinoControllers', [])
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat");
 ])
 
-.controller('ChannelsCtrl', ['$http', '$scope', '$routeParams', 'LoadChannelsProvider',
-	($http, $scope, $routeParams, LoadChannelsProvider) ->
+.controller('ChannelsCtrl', ['$http', '$scope', '$routeParams',
+	($http, $scope, $routeParams) ->
 
-		increment = 30
-		initial = 30
-
-		if (!$scope.offset?)
-			$scope.offset = 0
-
-		if (!$scope.channels?)
-			$scope.channels = {}
-
-		if (!$scope.channels.streams?)
-			$scope.channels.streams = []
+		$scope.offset = 0
+		$scope.channels = {}
+		$scope.channels.streams = []
 
 		$scope.loadMore= ->
 
-			###
 			twitchcall = $http({
 				method: 'JSONP'
 				url: "https://api.twitch.tv/kraken/streams"
 				params : {
 					callback: 'JSON_CALLBACK'
-					limit: initial
+					limit: channelsInitial
 					offset: $scope.offset
 				}
 				headers: {
@@ -60,17 +51,12 @@ angular.module('twitcherinoControllers', [])
 						platform: 'Twitch'
 					$scope.channels.streams.push(channel)
 			)
-			###
 
-			$scope.channels = LoadChannelsProvider.loadChannels()
-			console.log($scope.channels)
-
-			###
 			hitboxcall = $http({
 				method: 'GET'
 				url: "http://api.hitbox.tv/media"
 				params: {
-					limit: initial
+					limit: channelsInitial
 					offset: $scope.offset
 				}
 			}).success( (data, status, headers, config) ->
@@ -84,8 +70,7 @@ angular.module('twitcherinoControllers', [])
 					$scope.channels.streams.push(channel)
 			)
 
-			$scope.offset += increment
-			###
+			$scope.offset += channelsIncrement
 
 		
 ])
@@ -93,17 +78,9 @@ angular.module('twitcherinoControllers', [])
 .controller('GamesCtrl', ['$http', '$scope', '$routeParams',
 	($http, $scope, $routeParams) ->
 
-		increment = 30
-		initial = 30
-
-		if (!$scope.offset?)
-			$scope.offset = 0
-
-		if (!$scope.cats?)
-			$scope.cats = {}
-
-		if (!$scope.cats.categories?)
-			$scope.cats.categories = []
+		$scope.offset = 0
+		$scope.cats = {}
+		$scope.cats.categories = []
 
 		$scope.loadMore= ->
 
@@ -112,7 +89,7 @@ angular.module('twitcherinoControllers', [])
 				url: "https://api.twitch.tv/kraken/games/top"
 				params: {
 					callback: 'JSON_CALLBACK'
-					limit: initial
+					limit: gamesInitial
 					offset: $scope.offset
 				}
 				headers: {
@@ -138,7 +115,7 @@ angular.module('twitcherinoControllers', [])
 				method: 'GET'
 				url: "http://api.hitbox.tv/games"
 				params: {
-					limit: initial
+					limit: gamesInitial
 					offset: $scope.offset
 				}
 			}).success( (data, status, headers, config) ->
@@ -157,7 +134,7 @@ angular.module('twitcherinoControllers', [])
 						$scope.cats.categories.push(category)
 			)
 
-			$scope.offset += increment
+			$scope.offset += gamesIncrement
 
 ])
 
@@ -165,17 +142,9 @@ angular.module('twitcherinoControllers', [])
 .controller('GamesChannelsCtrl', ['$http', '$scope', '$routeParams',
 	($http, $scope, $routeParams) ->
 
-		increment = 30
-		initial = 30
-
-		if (!$scope.offset?)
-			$scope.offset = 0
-
-		if (!$scope.channels?)
-			$scope.channels = {}
-
-		if (!$scope.channels.streams?)
-			$scope.channels.streams = []
+		$scope.offset = 0
+		$scope.channels = {}
+		$scope.channels.streams = []
 
 		$scope.loadMore= ->
 
@@ -185,7 +154,7 @@ angular.module('twitcherinoControllers', [])
 				params: {
 					callback: 'JSON_CALLBACK'
 					game: $routeParams.gameName
-					limit: initial
+					limit: gamesInitial
 					offset: $scope.offset
 				}
 				headers: {
@@ -207,7 +176,7 @@ angular.module('twitcherinoControllers', [])
 				url: "http://api.hitbox.tv/media"
 				params: {
 					game: $routeParams.gameName
-					limit: initial
+					limit: gamesInitial
 					offset: $scope.offset
 				}
 			}).success( (data, status, headers, config) ->
@@ -221,7 +190,7 @@ angular.module('twitcherinoControllers', [])
 					$scope.channels.streams.push(channel)
 			)
 
-			$scope.offset += increment
+			$scope.offset += gamesIncrement
 
 
 ])
