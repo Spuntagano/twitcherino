@@ -1,10 +1,10 @@
 <div class="container-fluid margin-top">
-	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
+	<div class="row games-container" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<div id="item-container" class="item-container">
-			<div ng-repeat="category in cats.categories | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="col-lg-2 game-container">
+			<div ng-repeat="category in cats.categories | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="game-container">
 				<div class="game">
 					<a ng-href="#/games/{{category.category_name}}">
-						<img ng-src="{{category.thumbnail_url}}" alt="{{category.category_name}}" width="320" height="180" />
+						<img ng-src="{{category.thumbnail_url}}" alt="{{category.category_name}}" />
 					</a>
 					<div class="game-category">{{category.category_name}}</div>
 					<div>{{category.viewers_number}}</div>

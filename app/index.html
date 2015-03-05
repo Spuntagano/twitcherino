@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en" ng-app="twitcherinoApp">
 <head>
-  <meta charset="utf-8">
-  <title>Twitcherino</title>
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="lib/css/app.css">
+	<meta charset="utf-8">
+	<title>Twitcherino</title>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="lib/css/app.css">
 
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-resource/angular-resource.js"></script>
-  <script src="lib/js/config.js"></script>
-  <script src="lib/js/app.js"></script>
-  <script src="lib/js/controllers.js"></script>
-  <script src="lib/js/services.js"></script>
-  <script src="lib/js/directives.js"></script>
-  <script src="bower_components/nginfinitescroll/build/ng-infinite-scroll.js"></script>
-  <script src="lib/js/scripts.js"></script>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-resource/angular-resource.js"></script>
+	<script src="lib/js/config.js"></script>
+	<script src="lib/js/app.js"></script>
+	<script src="lib/js/controllers.js"></script>
+	<script src="lib/js/services.js"></script>
+	<script src="lib/js/directives.js"></script>
+	<script src="bower_components/nginfinitescroll/build/ng-infinite-scroll.js"></script>
+	<script src="lib/js/scripts.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-default nav-style">
@@ -29,9 +29,8 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse activable" ng-controller="navigationCtrl">
 				<ul class="nav navbar-nav">
-					<li ng-repeat="link in links" ng-click="select($index)" ng-class="{active: $index == active}">
-						<a ng-href="{{link.href}}">{{link.name}}</a>
-					</li>
+					<li ng-class="{ active: isActive('/channels')}"><a href="#/channels">Channels</a></li>
+					<li ng-class="{ active: isActive('/games')}"><a href="#/games">Games</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Login</a></li>

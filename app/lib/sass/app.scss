@@ -22,12 +22,19 @@ nav.nav-style{
 
 /* Channels */
 
+h2.searching{
+	margin-bottom: 20px;
+	padding-left: 20px;
+}
+
 .channel-container{
 	margin-bottom: 10px;
+	width: 20%;
+	float: left;
 }
 
 .channel{
-	padding: 0 10px;
+	padding: 0 20px;
 
 	img{
 		max-width: 100%;
@@ -39,23 +46,45 @@ nav.nav-style{
 
 .game-container{
 	margin-bottom: 10px;
+	float: left;
 }
 
 .game{
-	padding: 0 10px;
+	padding: 0 24px;
 
 	img{
 		width: 100%;
-		height: 260px;
+		width: 272px;
+		height: 380px;
 		overflow: hidden;
+		margin-bottom: 5px;
 	}
 }
 
-/* Channel */
+.games-container{
+	width: 1600px;
+	margin: 0 auto;
+}
+
+$font-size: 14px;
+$line-height: 1;
+$lines-to-show: 1;
 
 .game-category{
-	min-height: 40px;
+	display: block; /* Fallback for non-webkit */
+	display: -webkit-box;
+	max-width: 400px;
+	height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+	margin: 0 auto;
+	font-size: $font-size;
+	line-height: $line-height;
+	-webkit-line-clamp: $lines-to-show;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
+
+/* Channel */
 
 iframe{
 	width: 100%;
