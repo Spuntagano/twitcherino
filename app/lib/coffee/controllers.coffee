@@ -195,3 +195,27 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
+.controller('navigationCtrl', ['$http', '$scope', '$routeParams',
+	($http, $scope, $routeParams) ->
+
+		$scope.links = [
+			{
+				navigationId: 1
+				name: 'Channels'
+				href: '#/channels'
+			},
+			{
+				navigationId: 2
+				name: 'Games'
+				href: '#/games'
+			}
+		]
+
+		$scope.active = -1;
+
+		$scope.select = (index) ->
+			$scope.active = index
+
+
+])
+

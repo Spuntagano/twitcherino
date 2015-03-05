@@ -1,6 +1,6 @@
 angular.module('twitcherinoApp', [
 	'ngRoute',
-
+	'twitcherinoDirectives',
 	'twitcherinoControllers',
 	'twitcherinoServices',
 	'infinite-scroll'

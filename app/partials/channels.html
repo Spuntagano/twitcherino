@@ -2,8 +2,8 @@
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<div id="item-container" class="item-container">
 			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="col-lg-2 channel-container">
-				<div class="channel">
-					<a class="channel-link" ng-href="{{stream.link}}">
+				<div streamlink class="channel">
+					<a class="streamlink" ng-href="{{stream.link}}">
 						<img ng-src="{{stream.thumbnail_url}}" alt="{{stream.username}}" width="320" height="180" />
 					</a>
 					<div>{{stream.username}}</div>

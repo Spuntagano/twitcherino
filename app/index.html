@@ -27,10 +27,11 @@
 				<a class="navbar-brand" href="#">Twitcherino</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse activable" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse activable" ng-controller="navigationCtrl">
 				<ul class="nav navbar-nav">
-					<li><a ng-href="#/channels">Channels</a></li>
-					<li><a ng-href="#/games">Games</a></li>
+					<li ng-repeat="link in links" ng-click="select($index)" ng-class="{active: $index == active}">
+						<a ng-href="{{link.href}}">{{link.name}}</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Login</a></li>

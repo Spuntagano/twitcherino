@@ -59,7 +59,7 @@ nav.nav-style{
 
 iframe{
 	width: 100%;
-	height: calc(100% - 50px);
+	height: calc(100% - 52px);
 	border: none;
 }
 
@@ -79,4 +79,11 @@ iframe{
 .screen-height{
 	height: 100%;
 	position: fixed;
+}
+
+.stream-overlay{
+	height: calc(100% - 80px);
+	width: calc(100% - 340px);
+	position: fixed;
+	z-index: 1;
 }
