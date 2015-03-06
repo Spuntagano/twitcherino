@@ -54,9 +54,43 @@ h2.searching{
 .channel{
 	padding: 0 20px;
 
+	img.stream-preview{
+		width: 100%;
+		height: auto;
+	}
+
+	.channel-image-container{
+		position: relative;
+	}
+}
+
+.platform-logo-container{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 20%;
+
 	img{
 		width: 100%;
 		height: auto;
+		display: block;
+		border-top: 2px solid #333;
+		border-right: 2px solid #333;
+	}
+}
+
+.game-boxart-container{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 20%;
+
+	img{
+		width: 100%;
+		height: auto;
+		display: block;
+		border-top: 2px solid #333;
+		border-left: 2px solid #333;
 	}
 }
 

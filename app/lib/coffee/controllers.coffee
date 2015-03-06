@@ -45,10 +45,15 @@ angular.module('twitcherinoControllers', [])
 				for i in [0...data.streams.length]
 					channel =
 						username: data.streams[i].channel.name
+						display_name: data.streams[i].channel.display_name
 						viewers_number: parseInt(data.streams[i].viewers, 10)
 						thumbnail_url: data.streams[i].preview.medium
+						game_thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/#{data.streams[i].channel.game}-73x100.jpg"
+						game_link: "#/games/#{data.streams[i].channel.game}"
+						game_name: data.streams[i].channel.game
 						link: "#/twitch/#{data.streams[i].channel.name}"
 						platform: 'Twitch'
+						platform_logo: '/app/img/twitch_logo.png'
 					$scope.channels.streams.push(channel)
 			)
 
@@ -63,10 +68,15 @@ angular.module('twitcherinoControllers', [])
 				for i in [0...data.livestream.length]
 					channel =
 						username: data.livestream[i].media_user_name
+						display_name: data.livestream[i].media_user_name
 						viewers_number: parseInt(data.livestream[i].media_views, 10)
 						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
+						game_thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
+						game_link: "#/games/#{data.livestream[i].category_name}"
+						game_name: data.livestream[i].category_name
 						link: "#/hitbox/#{data.livestream[i].media_user_name}"
 						platform: 'Hitbox'
+						platform_logo: '/app/img/hitbox_logo.png'
 					$scope.channels.streams.push(channel)
 			)
 
@@ -171,10 +181,15 @@ angular.module('twitcherinoControllers', [])
 				for i in [0...data.streams.length]
 					channel =
 						username: data.streams[i].channel.name
+						display_name: data.streams[i].channel.display_name
 						viewers_number: parseInt(data.streams[i].viewers, 10)
 						thumbnail_url: data.streams[i].preview.medium
+						game_thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/#{data.streams[i].channel.game}-73x100.jpg"
+						game_link: "#/games/#{data.streams[i].channel.game}"
+						game_name: data.streams[i].channel.game
 						link: "#/twitch/#{data.streams[i].channel.name}"
 						platform: 'Twitch'
+						platform_logo: '/app/img/twitch_logo.png'
 					$scope.channels.streams.push(channel)
 			)
 
@@ -190,10 +205,15 @@ angular.module('twitcherinoControllers', [])
 				for i in [0...data.livestream.length]
 					channel =
 						username: data.livestream[i].media_user_name
+						display_name: data.livestream[i].media_user_name
 						viewers_number: parseInt(data.livestream[i].media_views, 10)
 						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
+						game_thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
+						game_link: "#/games/#{data.livestream[i].category_name}"
+						game_name: data.livestream[i].category_name
 						link: "#/hitbox/#{data.livestream[i].media_user_name}"
 						platform: 'Hitbox'
+						platform_logo: '/app/img/hitbox_logo.png'
 					$scope.channels.streams.push(channel)
 			)
 
@@ -203,9 +223,7 @@ angular.module('twitcherinoControllers', [])
 
 .controller('navigationCtrl', ['$scope', '$location'
 	($scope, $location) ->
-
 		$scope.isActive = (viewLocation) ->
-
 			$location.path().startsWith(viewLocation)
 
 ])
