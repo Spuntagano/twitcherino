@@ -101,13 +101,13 @@ angular.module('twitcherinoControllers', [])
 					for j in [0...$scope.cats.categories.length]
 						if ($scope.cats.categories[j].category_name == data.top[i].game.name)
 							$scope.cats.categories[j].viewers_number += parseInt(data.top[i].viewers, 10)
-							$scope.cats.categories[j].thumbnail_url == data.top[i].game.box.large
+							$scope.cats.categories[j].thumbnail_url == "http://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-327x457.jpg"
 							skip = true
 					if (!skip)
 						category =
 							category_name: data.top[i].game.name
 							viewers_number: parseInt(data.top[i].viewers, 10)
-							thumbnail_url: data.top[i].game.box.large
+							thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-327x457.jpg"
 							link: "#/twitch/#{data.top[i].game.name}"
 						$scope.cats.categories.push(category)
 			)

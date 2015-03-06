@@ -5,9 +5,9 @@
 			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container">
 				<div class="channel">
 					<a streamlink ng-href="{{stream.link}}">
-						<img ng-src="{{stream.thumbnail_url}}" alt="{{stream.username}}" width="320" height="180" />
+						<img ng-src="{{stream.thumbnail_url}}" alt="{{stream.username}}" />
 					</a>
-					<div>{{stream.username}}</div>
+					<div class="ellipsis">{{stream.username}}</div>
 					<div>{{stream.viewers_number}}</div>
 					<div>{{stream.platform}}</div>
 				</div>

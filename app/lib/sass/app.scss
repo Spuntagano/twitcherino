@@ -20,6 +20,24 @@ nav.nav-style{
 	margin-top: 15px;
 }
 
+.ellipsis{
+	$font-size: 14px;
+	$line-height: 1.5;
+	$lines-to-show: 1;
+
+	display: block; /* Fallback for non-webkit */
+	display: -webkit-box;
+	max-width: 400px;
+	height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+	margin: 0 auto;
+	font-size: $font-size;
+	line-height: $line-height;
+	-webkit-line-clamp: $lines-to-show;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 /* Channels */
 
 h2.searching{
@@ -37,7 +55,7 @@ h2.searching{
 	padding: 0 20px;
 
 	img{
-		max-width: 100%;
+		width: 100%;
 		height: auto;
 	}
 }
@@ -47,41 +65,31 @@ h2.searching{
 .game-container{
 	margin-bottom: 10px;
 	float: left;
+	width: 20%;
 }
 
 .game{
 	padding: 0 24px;
 
-	img{
+	a{
+		display: block;
 		width: 100%;
-		width: 272px;
-		height: 380px;
+		position: relative;
+		height: 0;
+		padding: 140% 0 0 0;
 		overflow: hidden;
-		margin-bottom: 5px;
 	}
-}
 
-.games-container{
-	width: 1600px;
-	margin: 0 auto;
-}
-
-$font-size: 14px;
-$line-height: 1;
-$lines-to-show: 1;
-
-.game-category{
-	display: block; /* Fallback for non-webkit */
-	display: -webkit-box;
-	max-width: 400px;
-	height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
-	margin: 0 auto;
-	font-size: $font-size;
-	line-height: $line-height;
-	-webkit-line-clamp: $lines-to-show;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	img{
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
 }
 
 /* Channel */
@@ -115,4 +123,30 @@ iframe{
 	width: calc(100% - 340px);
 	position: fixed;
 	z-index: 1;
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+	.game-container, .channel-container{
+    	width: 25%;
+	}
+}
+
+@media (max-width: 992px) {
+	.game-container, .channel-container {
+    	width: 33.33333333333%;
+	}
+}
+
+@media (max-width: 768px) {
+	.game-container, .channel-container{
+    	width: 50%;
+	}
+}
+
+@media (max-width: 480px) {
+	.game-container, .channel-container{
+    	width: 100%;
+	}
 }
