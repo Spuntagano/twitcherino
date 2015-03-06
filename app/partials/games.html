@@ -7,7 +7,7 @@
 						<img ng-src="{{category.thumbnail_url}}" alt="{{category.category_name}}" />
 					</a>
 					<div class="ellipsis">{{category.category_name}}</div>
-					<div>{{category.viewers_number}}</div>
+					<div>Viewers: <span data-viewers="{{category.viewers_number}}" formatnumber></span></div>
 				</div>
 			</div>
 		</div>
