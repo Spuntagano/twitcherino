@@ -4,21 +4,26 @@ angular.module('twitcherinoControllers', [])
 	($scope, $routeParams, $sce, HitboxChannel) ->
 
 		$scope.videoUrl = () ->
-			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}")
+			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}?autoplay=true")
 
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/#{$routeParams.channelUser}")
 
+		$scope.stream = HitboxChannel.query({channelUser: $routeParams.channelUser});
+
 ])
 
-.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', 'HitboxChannel'
-	($scope, $routeParams, $sce, HitboxChannel) ->
+.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', 'TwitchChannel'
+	($scope, $routeParams, $sce, TwitchChannel) ->
 
 		$scope.videoUrl = () ->
-			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed");
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed")
 
 		$scope.chatUrl = () ->
-			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat");
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat")
+
+		$scope.stream = TwitchChannel.query({channelUser: $routeParams.channelUser});
+
 ])
 
 .controller('ChannelsCtrl', ['$http', '$scope', '$routeParams',
@@ -45,6 +50,7 @@ angular.module('twitcherinoControllers', [])
 				for i in [0...data.streams.length]
 					channel =
 						username: data.streams[i].channel.name
+						title: data.streams[i].channel.status
 						display_name: data.streams[i].channel.display_name
 						viewers_number: parseInt(data.streams[i].viewers, 10)
 						thumbnail_url: data.streams[i].preview.medium
@@ -54,6 +60,7 @@ angular.module('twitcherinoControllers', [])
 						link: "#/twitch/#{data.streams[i].channel.name}"
 						platform: 'Twitch'
 						platform_logo: '/app/img/twitch_logo.png'
+						profile_url: data.streams[i].channel.logo
 					$scope.channels.streams.push(channel)
 			)
 
@@ -68,6 +75,7 @@ angular.module('twitcherinoControllers', [])
 				for i in [0...data.livestream.length]
 					channel =
 						username: data.livestream[i].media_user_name
+						title: data.livestream[i].media_status
 						display_name: data.livestream[i].media_user_name
 						viewers_number: parseInt(data.livestream[i].media_views, 10)
 						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
@@ -77,6 +85,7 @@ angular.module('twitcherinoControllers', [])
 						link: "#/hitbox/#{data.livestream[i].media_user_name}"
 						platform: 'Hitbox'
 						platform_logo: '/app/img/hitbox_logo.png'
+						profile_url: "http://edge.sf.hitbox.tv#{data.livestream[i].channel.user_logo}"
 					$scope.channels.streams.push(channel)
 			)
 
@@ -182,6 +191,7 @@ angular.module('twitcherinoControllers', [])
 					channel =
 						username: data.streams[i].channel.name
 						display_name: data.streams[i].channel.display_name
+						title: data.streams[i].channel.status
 						viewers_number: parseInt(data.streams[i].viewers, 10)
 						thumbnail_url: data.streams[i].preview.medium
 						game_thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/#{data.streams[i].channel.game}-73x100.jpg"
@@ -190,6 +200,7 @@ angular.module('twitcherinoControllers', [])
 						link: "#/twitch/#{data.streams[i].channel.name}"
 						platform: 'Twitch'
 						platform_logo: '/app/img/twitch_logo.png'
+						profile_url: data.streams[i].channel.logo
 					$scope.channels.streams.push(channel)
 			)
 
@@ -206,6 +217,7 @@ angular.module('twitcherinoControllers', [])
 					channel =
 						username: data.livestream[i].media_user_name
 						display_name: data.livestream[i].media_user_name
+						title: data.livestream[i].media_status
 						viewers_number: parseInt(data.livestream[i].media_views, 10)
 						thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
 						game_thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
@@ -214,6 +226,7 @@ angular.module('twitcherinoControllers', [])
 						link: "#/hitbox/#{data.livestream[i].media_user_name}"
 						platform: 'Hitbox'
 						platform_logo: '/app/img/hitbox_logo.png'
+						profile_url: "http://edge.sf.hitbox.tv#{data.livestream[i].channel.user_logo}"
 					$scope.channels.streams.push(channel)
 			)
 

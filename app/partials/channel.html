@@ -1,6 +1,11 @@
-<div class="stream-overlay"></div>
 <div class="container-fluid no-padding screen-height">
 	<div class="row">
+		<div class="stream-overlay">
+			<img ng-src="{{stream.stream.channel.logo}}" alt="{{stream.stream.channel.display_name}}" />
+			<p>{{stream.stream.channel.display_name}}</p>
+			<p>{{stream.stream.channel.status}}</p>
+			<p>Viewers: {{stream.stream.viewers}}</p>
+		</div>
 		<div class="video-container">
 			<iframe width="100%" height="100%" ng-src="{{videoUrl()}}"></iframe>
 		</div>

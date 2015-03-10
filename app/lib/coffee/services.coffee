@@ -10,7 +10,7 @@ angular.module('twitcherinoServices', ['ngResource'])
 
 .factory('TwitchChannel', ['$resource',
 	($resource) ->
-		$resource('https://api.twitch.tv/kraken/channels/:channelUser', {}, {
+		$resource('https://api.twitch.tv/kraken/streams/:channelUser', {}, {
 			query: {method:'JSONP', params: {callback : 'JSON_CALLBACK'}, isArray:false, headers: "-H 'Accept: application/vnd.twitchtv.v3+json'"}
 		})
 ])

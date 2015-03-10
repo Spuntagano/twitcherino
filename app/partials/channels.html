@@ -5,6 +5,10 @@
 			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container">
 				<div class="channel">
 					<div class="channel-image-container">
+						<a ng-href="{{stream.link}}" title="{{stream.display_name}}" class="channels-overlay">
+							<img ng-src="{{stream.profile_url}}" alt="{{stream.display_name}}" />
+							<p>{{stream.title}}</p>
+						</a>
 						<div class="platform-logo-container">
 							<img ng-src="{{stream.platform_logo}}" alt="{{stream.platform}}" />
 						</div>
@@ -13,9 +17,7 @@
 								<img ng-src="{{stream.game_thumbnail_url}}" alt="{{stream.game_name}}" />
 							</a>
 						</div>
-						<a ng-href="{{stream.link}}" title="{{stream.display_name}}">
-							<img class="stream-preview" ng-src="{{stream.thumbnail_url}}" alt="{{stream.display_name}}" />
-						</a>
+						<img class="stream-preview" ng-src="{{stream.thumbnail_url}}" alt="{{stream.display_name}}" />
 					</div>
 					<div class="ellipsis">{{stream.display_name}}</div>
 					<div>Viewers: <span data-viewers="{{stream.viewers_number}}" formatnumber></span></div>
