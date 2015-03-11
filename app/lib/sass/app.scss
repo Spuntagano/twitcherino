@@ -190,17 +190,20 @@ iframe{
 	position: fixed;
 }
 
+.stream-overlay.twitch{
+	height: calc(100% - 80px);
+}
+
+.stream-overlay.hitbox{
+	height: calc(100% - 90px);
+}
+
 .stream-overlay{
 	height: calc(100% - 80px);
 	width: calc(100% - 340px);
 	position: fixed;
 	z-index: 1;
 	background-color: rgba(0,0,0,0);
-	-webkit-transition: background-color 200ms ease;
-	-moz-transition: background-color 200ms ease;
-	-ms-transition: background-color 200ms ease;
-	-o-transition: background-color 200ms ease;
-	transition: background-color 200ms ease;
 
 	img{
 		width: 100px;
@@ -220,13 +223,29 @@ iframe{
 		font-size: 22px;
 	}
 
-	p.viewers-count{
-		float: right;
+	.stream-info{
+		width: 70%;
+		float: left;
+	}
+
+	.channel-viewers{
+		width: 30%;
+		float: left;
+
+		p{
+			float: right;
+			margin-right: 10px;
+		}
 	}
 }
 
 .stream-overlay:hover{
-	background-color: rgba(0,0,0,0.7);
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0)));
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
 
 	img, p{
 		display: block;
