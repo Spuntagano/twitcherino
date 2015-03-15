@@ -10,9 +10,9 @@ module.exports = (grunt) ->
 	          		style: 'expanded'
 	        	files: [
 			        expand: true
-			        cwd: 'app/lib/sass'
+			        cwd: 'public/sass'
 			        src: ['**/*.scss']
-			        dest: 'app/lib/css'
+			        dest: 'public/css'
 			        ext: '.css'
 	        	]
 
@@ -20,9 +20,9 @@ module.exports = (grunt) ->
 	    coffee:
 	      	compile:
 		        expand: true
-		        cwd: 'app/lib/coffee'
+		        cwd: 'public/app/coffee'
 		        src: ['**/*.coffee']
-		        dest: 'app/lib/js'
+		        dest: 'public/app/js'
 		        ext: '.js'
 		        options:
 	          		bare: true

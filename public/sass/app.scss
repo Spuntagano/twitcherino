@@ -1,0 +1,279 @@
+html, body{
+	height: 100%;
+}
+
+body{
+	background-color: #333;
+	color: #ccc;
+}
+
+nav.nav-style{
+	border-radius: 0;
+	margin-bottom: 0;
+}
+
+.no-padding{
+	padding: 0;
+}
+
+.margin-top{
+	margin-top: 15px;
+}
+
+.ellipsis{
+	$font-size: 14px;
+	$line-height: 1.5;
+	$lines-to-show: 1;
+
+	display: block; /* Fallback for non-webkit */
+	display: -webkit-box;
+	max-width: 400px;
+	height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+	margin: 0 auto;
+	font-size: $font-size;
+	line-height: $line-height;
+	-webkit-line-clamp: $lines-to-show;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Channels */
+
+h2.searching{
+	margin-bottom: 20px;
+	padding-left: 20px;
+}
+
+.channel-container{
+	margin-bottom: 10px;
+	width: 20%;
+	float: left;
+}
+
+.channels-overlay{
+	position: absolute;
+	background-color: rgba(0,0,0,0.0);
+	width: 100%;
+	height: 100%;
+	text-decoration: none!important;
+	-webkit-transition: background-color 200ms ease;
+	-moz-transition: background-color 200ms ease;
+	-ms-transition: background-color 200ms ease;
+	-o-transition: background-color 200ms ease;
+	transition: background-color 200ms ease;
+
+	img{
+		width: 50px;
+		height: auto;
+		margin: 10px 0 0 10px;
+		float: left;
+		display: none;
+	}
+
+	p{
+		margin-top: 5px;
+		position: relative;
+		left: 10px;
+		padding-right: 10px;
+		display: none;
+		color: #ccc;
+	}
+}
+
+.channels-overlay:hover{
+	background-color: rgba(0,0,0,0.7);
+
+	img, p{
+		display: block;
+	}
+}
+
+.channel{
+	padding: 0 20px;
+
+	img.stream-preview{
+		width: 100%;
+		height: auto;
+	}
+
+	.channel-image-container{
+		position: relative;
+	}
+}
+
+.platform-logo-container{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 10%;
+
+	img{
+		width: 100%;
+		height: auto;
+		display: block;
+		border-top: 2px solid #333;
+		border-right: 2px solid #333;
+	}
+}
+
+.game-boxart-container{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 20%;
+
+	img{
+		width: 100%;
+		height: auto;
+		display: block;
+		border-top: 2px solid #333;
+		border-left: 2px solid #333;
+	}
+}
+
+/* Games */
+
+.game-container{
+	margin-bottom: 10px;
+	float: left;
+	width: 20%;
+}
+
+.game{
+	padding: 0 24px;
+
+	a{
+		display: block;
+		width: 100%;
+		position: relative;
+		height: 0;
+		padding: 140% 0 0 0;
+		overflow: hidden;
+	}
+
+	img{
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
+}
+
+/* Channel */
+
+iframe{
+	width: 100%;
+	height: calc(100% - 51px);
+	border: none;
+}
+
+.video-container{
+	width: calc(100% - 340px);
+	height: 100%;
+	position: fixed;
+}
+
+.chat-container{
+	width: 340px;
+	height: 100%;
+	position: fixed;
+	right: 0;
+}
+
+.screen-height{
+	height: 100%;
+	position: fixed;
+}
+
+.stream-overlay.twitch{
+	height: calc(100% - 80px);
+}
+
+.stream-overlay.hitbox{
+	height: calc(100% - 90px);
+}
+
+.stream-overlay{
+	height: calc(100% - 80px);
+	width: calc(100% - 340px);
+	position: fixed;
+	z-index: 1;
+	background-color: rgba(0,0,0,0);
+
+	img{
+		width: 100px;
+		height: auto;
+		margin: 10px 0 0 10px;
+		float: left;
+		display: none;
+	}
+
+	p{
+		margin-top: 5px;
+		position: relative;
+		left: 10px;
+		padding-right: 10px;
+		display: none;
+		color: #ccc;
+		font-size: 22px;
+	}
+
+	.stream-info{
+		width: 70%;
+		float: left;
+	}
+
+	.channel-viewers{
+		width: 30%;
+		float: left;
+
+		p{
+			float: right;
+			margin-right: 10px;
+		}
+	}
+}
+
+.stream-overlay:hover{
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0)));
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+
+	img, p{
+		display: block;
+	}
+}
+
+/* Responsive */
+
+@media (max-width: 1200px) {
+	.game-container, .channel-container{
+    	width: 25%;
+	}
+}
+
+@media (max-width: 992px) {
+	.game-container, .channel-container {
+    	width: 33.33333333333%;
+	}
+}
+
+@media (max-width: 768px) {
+	.game-container, .channel-container{
+    	width: 50%;
+	}
+}
+
+@media (max-width: 480px) {
+	.game-container, .channel-container{
+    	width: 100%;
+	}
+}

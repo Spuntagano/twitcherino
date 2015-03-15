@@ -1,0 +1,15 @@
+<div class="container-fluid margin-top">
+	<div class="row games-container" infinite-scroll="loadMore()" infinite-scroll-distance="0">
+		<div id="item-container" class="item-container">
+			<div ng-repeat="category in cats.categories | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="game-container">
+				<div class="game">
+					<a ng-href="/games/{{category.category_name}}" title="{{category.category_name}}">
+						<img ng-src="{{category.thumbnail_url}}" alt="{{category.category_name}}" />
+					</a>
+					<div class="ellipsis">{{category.category_name}}</div>
+					<div>Viewers: <span data-viewers="{{category.viewers_number}}" formatnumber></span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

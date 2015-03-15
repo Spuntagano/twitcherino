@@ -1,5 +1,5 @@
 node_modules
-app/bower_components
-app/lib/css
-app/lib/js
+public/bower_components
+public/css
+public/app/js
 .sass-cache
