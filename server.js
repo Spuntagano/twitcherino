@@ -15,8 +15,12 @@ app.use(logger('dev'));
 app.use(bodyParser());
 
 app.use(express.static(__dirname + '/public'));
+if (env === 'development'){
+	mongoose.connect('mongodb://localhost/twitcherino');
+} else{
+	mongoose.connect('mongodb://Spuntagano:bobcat3821@ds043170.mongolab.com:43170/heroku_app34924980');
+}
 
-mongoose.connect('mongodb://localhost/twitcherino');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error...'));
 db.once('open', function callback(){
