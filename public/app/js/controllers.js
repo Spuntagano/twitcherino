@@ -41,14 +41,14 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     $scope.channel = {};
     return hitboxcall = $http({
       method: 'GET',
-      url: "http://api.hitbox.tv/media/live/" + $routeParams.channelUser
+      url: "https://api.hitbox.tv/media/live/" + $routeParams.channelUser
     }).success(function(data, status, headers, config) {
       var channel;
       channel = {
         title: data.livestream[0].media_status,
         display_name: data.livestream[0].media_user_name,
         viewers_number: parseInt(data.livestream[0].media_views, 10),
-        profile_url: "http://edge.sf.hitbox.tv" + data.livestream[0].channel.user_logo,
+        profile_url: "https://edge.sf.hitbox.tv" + data.livestream[0].channel.user_logo,
         platform: 'hitbox'
       };
       return $scope.channel = channel;
@@ -82,7 +82,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             display_name: data.streams[i].channel.display_name,
             viewers_number: parseInt(data.streams[i].viewers, 10),
             thumbnail_url: data.streams[i].preview.medium,
-            game_thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/" + data.streams[i].channel.game + "-73x100.jpg",
+            game_thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/" + data.streams[i].channel.game + "-73x100.jpg",
             game_link: "/games/" + data.streams[i].channel.game,
             game_name: data.streams[i].channel.game,
             link: "/twitch/" + data.streams[i].channel.name,
@@ -95,7 +95,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       });
       hitboxcall = $http({
         method: 'GET',
-        url: "http://api.hitbox.tv/media",
+        url: "https://api.hitbox.tv/media",
         params: {
           limit: channelsInitial,
           offset: $scope.offset
@@ -109,13 +109,13 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             title: data.livestream[i].media_status,
             display_name: data.livestream[i].media_user_name,
             viewers_number: parseInt(data.livestream[i].media_views, 10),
-            thumbnail_url: "http://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
+            thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
             game_thumbnail_url: "http://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
             game_link: "/games/" + data.livestream[i].category_name,
             game_name: data.livestream[i].category_name,
             link: "/hitbox/" + data.livestream[i].media_user_name,
             platform_logo: '/img/hitbox_logo.png',
-            profile_url: "http://edge.sf.hitbox.tv" + data.livestream[i].channel.user_logo
+            profile_url: "https://edge.sf.hitbox.tv" + data.livestream[i].channel.user_logo
           };
           _results.push($scope.channels.streams.push(channel));
         }
@@ -150,7 +150,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
           for (j = _j = 0, _ref1 = $scope.cats.categories.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
             if ($scope.cats.categories[j].category_name === data.top[i].game.name) {
               $scope.cats.categories[j].viewers_number += parseInt(data.top[i].viewers, 10);
-              $scope.cats.categories[j].thumbnail_url === ("http://static-cdn.jtvnw.net/ttv-boxart/" + data.top[i].game.name + "-327x457.jpg");
+              $scope.cats.categories[j].thumbnail_url === ("https://static-cdn.jtvnw.net/ttv-boxart/" + data.top[i].game.name + "-327x457.jpg");
               skip = true;
             }
           }
@@ -158,7 +158,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             category = {
               category_name: data.top[i].game.name,
               viewers_number: parseInt(data.top[i].viewers, 10),
-              thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/" + data.top[i].game.name + "-327x457.jpg",
+              thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/" + data.top[i].game.name + "-327x457.jpg",
               link: "/twitch/" + data.top[i].game.name
             };
             _results.push($scope.cats.categories.push(category));
@@ -172,7 +172,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
         var hitboxcall;
         hitboxcall = $http({
           method: 'GET',
-          url: "http://api.hitbox.tv/games",
+          url: "https://api.hitbox.tv/games",
           params: {
             limit: gamesInitial,
             offset: $scope.offset
@@ -237,7 +237,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             title: data.streams[i].channel.status,
             viewers_number: parseInt(data.streams[i].viewers, 10),
             thumbnail_url: data.streams[i].preview.medium,
-            game_thumbnail_url: "http://static-cdn.jtvnw.net/ttv-boxart/" + data.streams[i].channel.game + "-73x100.jpg",
+            game_thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/" + data.streams[i].channel.game + "-73x100.jpg",
             game_link: "/games/" + data.streams[i].channel.game,
             game_name: data.streams[i].channel.game,
             link: "/twitch/" + data.streams[i].channel.name,
@@ -250,7 +250,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       });
       hitboxcall = $http({
         method: 'GET',
-        url: "http://api.hitbox.tv/media",
+        url: "https://api.hitbox.tv/media",
         params: {
           game: $routeParams.gameName,
           limit: gamesInitial,
@@ -265,13 +265,13 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             display_name: data.livestream[i].media_user_name,
             title: data.livestream[i].media_status,
             viewers_number: parseInt(data.livestream[i].media_views, 10),
-            thumbnail_url: "http://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
+            thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
             game_thumbnail_url: "http://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
             game_link: "/games/" + data.livestream[i].category_name,
             game_name: data.livestream[i].category_name,
             link: "/hitbox/" + data.livestream[i].media_user_name,
             platform_logo: '/img/hitbox_logo.png',
-            profile_url: "http://edge.sf.hitbox.tv" + data.livestream[i].channel.user_logo
+            profile_url: "https://edge.sf.hitbox.tv" + data.livestream[i].channel.user_logo
           };
           _results.push($scope.channels.streams.push(channel));
         }
