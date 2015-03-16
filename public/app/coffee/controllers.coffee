@@ -97,7 +97,7 @@ angular.module('twitcherinoControllers', [])
 
 			hitboxcall = $http({
 				method: 'GET'
-				url: "http://api.hitbox.tv/media"
+				url: "https://api.hitbox.tv/media"
 				params: {
 					limit: channelsInitial
 					offset: $scope.offset
@@ -164,7 +164,7 @@ angular.module('twitcherinoControllers', [])
 			setTimeout( -> #hack to get twitch images
 				hitboxcall = $http({
 					method: 'GET'
-					url: "http://api.hitbox.tv/games"
+					url: "https://api.hitbox.tv/games"
 					params: {
 						limit: gamesInitial
 						offset: $scope.offset
@@ -235,7 +235,7 @@ angular.module('twitcherinoControllers', [])
 
 			hitboxcall = $http({
 				method: 'GET'
-				url: "http://api.hitbox.tv/media"
+				url: "https://api.hitbox.tv/media"
 				params: {
 					game: $routeParams.gameName
 					limit: gamesInitial
