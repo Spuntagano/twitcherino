@@ -4,10 +4,10 @@ angular.module('twitcherinoControllers', [])
 	($scope, $routeParams, $sce, $http) ->
 
 		$scope.videoUrl = () ->
-			 $sce.trustAsResourceUrl("https://www.twitch.tv/#{$routeParams.channelUser}/embed?auto_play=true")
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed?auto_play=true")
 
 		$scope.chatUrl = () ->
-			 $sce.trustAsResourceUrl("https://www.twitch.tv/#{$routeParams.channelUser}/chat")
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat")
 
 		$scope.channel = {}
 
@@ -36,10 +36,10 @@ angular.module('twitcherinoControllers', [])
 	($scope, $routeParams, $sce, $http) ->
 
 		$scope.videoUrl = () ->
-			 $sce.trustAsResourceUrl("https://www.hitbox.tv/embed/#{$routeParams.channelUser}?autoplay=true")
+			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}?autoplay=true")
 
 		$scope.chatUrl = () ->
-			 $sce.trustAsResourceUrl("https://www.hitbox.tv/embedchat/#{$routeParams.channelUser}")
+			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/#{$routeParams.channelUser}")
 
 		$scope.channel = {}
 

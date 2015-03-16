@@ -2,10 +2,10 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
   '$scope', '$routeParams', '$sce', '$http', function($scope, $routeParams, $sce, $http) {
     var twitchcall;
     $scope.videoUrl = function() {
-      return $sce.trustAsResourceUrl("https://www.twitch.tv/" + $routeParams.channelUser + "/embed?auto_play=true");
+      return $sce.trustAsResourceUrl("http://www.twitch.tv/" + $routeParams.channelUser + "/embed?auto_play=true");
     };
     $scope.chatUrl = function() {
-      return $sce.trustAsResourceUrl("https://www.twitch.tv/" + $routeParams.channelUser + "/chat");
+      return $sce.trustAsResourceUrl("http://www.twitch.tv/" + $routeParams.channelUser + "/chat");
     };
     $scope.channel = {};
     return twitchcall = $http({
@@ -33,10 +33,10 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
   '$scope', '$routeParams', '$sce', '$http', function($scope, $routeParams, $sce, $http) {
     var hitboxcall;
     $scope.videoUrl = function() {
-      return $sce.trustAsResourceUrl("https://www.hitbox.tv/embed/" + $routeParams.channelUser + "?autoplay=true");
+      return $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/" + $routeParams.channelUser + "?autoplay=true");
     };
     $scope.chatUrl = function() {
-      return $sce.trustAsResourceUrl("https://www.hitbox.tv/embedchat/" + $routeParams.channelUser);
+      return $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/" + $routeParams.channelUser);
     };
     $scope.channel = {};
     return hitboxcall = $http({
