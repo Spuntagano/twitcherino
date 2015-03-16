@@ -37,6 +37,6 @@
     "body-parser": "1.12.x",
     "mongoose": "3.8.x",
     "grunt": "0.1.x",
-    "grunt-cli": "0.x"
+    "grunt-cli": "0.3.x"
   }
 }
