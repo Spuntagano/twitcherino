@@ -110,7 +110,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             display_name: data.livestream[i].media_user_name,
             viewers_number: parseInt(data.livestream[i].media_views, 10),
             thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
-            game_thumbnail_url: "http://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
+            game_thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
             game_link: "/games/" + data.livestream[i].category_name,
             game_name: data.livestream[i].category_name,
             link: "/hitbox/" + data.livestream[i].media_user_name,
@@ -266,7 +266,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
             title: data.livestream[i].media_status,
             viewers_number: parseInt(data.livestream[i].media_views, 10),
             thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
-            game_thumbnail_url: "http://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
+            game_thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
             game_link: "/games/" + data.livestream[i].category_name,
             game_name: data.livestream[i].category_name,
             link: "/hitbox/" + data.livestream[i].media_user_name,
@@ -282,8 +282,11 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
   }
 ]).controller('navigationCtrl', [
   '$scope', '$location', function($scope, $location) {
-    return $scope.isActive = function(viewLocation) {
+    $scope.isActive = function(viewLocation) {
       return $location.path().startsWith(viewLocation);
+    };
+    return $scope.signin = function(username, password) {
+      return console.log('swag');
     };
   }
 ]);

@@ -110,7 +110,7 @@ angular.module('twitcherinoControllers', [])
 						display_name: data.livestream[i].media_user_name
 						viewers_number: parseInt(data.livestream[i].media_views, 10)
 						thumbnail_url: "https://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
-						game_thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
+						game_thumbnail_url: "https://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
 						game_link: "/games/#{data.livestream[i].category_name}"
 						game_name: data.livestream[i].category_name
 						link: "/hitbox/#{data.livestream[i].media_user_name}"
@@ -249,7 +249,7 @@ angular.module('twitcherinoControllers', [])
 						title: data.livestream[i].media_status
 						viewers_number: parseInt(data.livestream[i].media_views, 10)
 						thumbnail_url: "https://edge.sf.hitbox.tv#{data.livestream[i].media_thumbnail}"
-						game_thumbnail_url: "http://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
+						game_thumbnail_url: "https://edge.sf.hitbox.tv#{data.livestream[i].category_logo_large}"
 						game_link: "/games/#{data.livestream[i].category_name}"
 						game_name: data.livestream[i].category_name
 						link: "/hitbox/#{data.livestream[i].media_user_name}"
@@ -266,5 +266,8 @@ angular.module('twitcherinoControllers', [])
 	($scope, $location) ->
 		$scope.isActive = (viewLocation) ->
 			$location.path().startsWith(viewLocation)
+
+		$scope.signin = (username, password) ->
+			console.log('swag')
 
 ])
