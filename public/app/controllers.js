@@ -281,12 +281,21 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     };
   }
 ]).controller('navigationCtrl', [
-  '$scope', '$location', function($scope, $location) {
+  '$scope', '$location', '$http', function($scope, $location, $http) {
     $scope.isActive = function(viewLocation) {
       return $location.path().startsWith(viewLocation);
     };
     return $scope.signin = function(username, password) {
-      return console.log('swag');
+      return $http.post('/login', {
+        username: username,
+        password: password
+      }).then(function(response) {
+        if (response.data.success) {
+          return console.log('mah nigga');
+        } else {
+          return console.log('fuk u');
+        }
+      });
     };
   }
 ]);

@@ -262,12 +262,17 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('navigationCtrl', ['$scope', '$location'
-	($scope, $location) ->
+.controller('navigationCtrl', ['$scope', '$location', '$http'
+	($scope, $location, $http) ->
 		$scope.isActive = (viewLocation) ->
 			$location.path().startsWith(viewLocation)
 
 		$scope.signin = (username, password) ->
-			console.log('swag')
+			$http.post('/login', {username: username, password: password}).then( (response) ->
+				if (response.data.success)
+					console.log('mah nigga')
+				else
+					console.log('fuk u')
+			)
 
 ])
