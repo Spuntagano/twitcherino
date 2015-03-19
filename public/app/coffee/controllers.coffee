@@ -262,17 +262,20 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('navigationCtrl', ['$scope', '$location', '$http'
-	($scope, $location, $http) ->
+.controller('navigationCtrl', ['$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth'
+	($scope, $location, $http, mvIdentity, mvNotifier, mvAuth) ->
+
+		$scope.identity = mvIdentity
+
 		$scope.isActive = (viewLocation) ->
 			$location.path().startsWith(viewLocation)
 
 		$scope.signin = (username, password) ->
-			$http.post('/login', {username: username, password: password}).then( (response) ->
-				if (response.data.success)
-					console.log('mah nigga')
+			mvAuth.authenticateUser(username, password).then( (success) ->
+				if (success)
+					mvNotifier.notify('mah nigga')
 				else
-					console.log('fuk u')
+					mvNotifier.notify('fuk uu')
 			)
 
 ])

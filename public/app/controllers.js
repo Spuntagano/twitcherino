@@ -281,19 +281,17 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     };
   }
 ]).controller('navigationCtrl', [
-  '$scope', '$location', '$http', function($scope, $location, $http) {
+  '$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth', function($scope, $location, $http, mvIdentity, mvNotifier, mvAuth) {
+    $scope.identity = mvIdentity;
     $scope.isActive = function(viewLocation) {
       return $location.path().startsWith(viewLocation);
     };
     return $scope.signin = function(username, password) {
-      return $http.post('/login', {
-        username: username,
-        password: password
-      }).then(function(response) {
-        if (response.data.success) {
-          return console.log('mah nigga');
+      return mvAuth.authenticateUser(username, password).then(function(success) {
+        if (success) {
+          return mvNotifier.notify('mah nigga');
         } else {
-          return console.log('fuk u');
+          return mvNotifier.notify('fuk uu');
         }
       });
     };

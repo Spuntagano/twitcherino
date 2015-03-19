@@ -12,9 +12,12 @@ require('./server/config/mongoose')(config)
 
 User = mongoose.model('User')
 passport.use(new LocalStrategy(
+	{
+		usernameField: 'username',
+		passwordField: 'password'
+	}
 	(username, password, done) ->
-		console.log(username)
-		console.log('aa')
+		console.log('Cc')
 		User.findOne({username: username}).exec( (err, user) ->
 			if (user)
 				done(null, user)
@@ -25,14 +28,13 @@ passport.use(new LocalStrategy(
 )
 
 passport.serializeUser( (user, done) ->
-	console.log(user)
 	if (user)
 		done(null, user._id)
 
 )
 
 passport.deserializeUser( (id, done) ->
-	console.log('cc')
+	console.log("BB")
 	User.findOne({_id: id}).exec( (err, user) ->
 		if (user)
 			done(null, user)

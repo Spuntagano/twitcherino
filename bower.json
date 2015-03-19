@@ -6,15 +6,15 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "1.2.x",
+    "angular": "~1.x",
     "angular-route": "1.2.x",
     "angular-loader": "1.2.x",
     "angular-mocks": "~1.2.x",
     "html5-boilerplate": "~4.3.0",
     "bootstrap": "~3.3.x",
-    "angular": "~1.x",
     "angular-resource": "~1.2.x",
     "nginfinitescroll": "~1.2.x",
-    "numeral": "~1.5.x"
+    "numeral": "~1.5.x",
+    "toastr": "~2.1.1"
   }
 }

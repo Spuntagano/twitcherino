@@ -232,6 +232,15 @@ iframe {
   display: block;
 }
 
+/*toastr*/
+.toast-top-right {
+  top: 70px;
+}
+
+.toast-success {
+  background-color: #000;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
   .game-container, .channel-container {

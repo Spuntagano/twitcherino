@@ -4,9 +4,11 @@
 	<meta charset="utf-8">
 	<title>Twitcherino</title>
 	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="/bower_components/toastr/toastr.css">
 	<link rel="stylesheet" href="/css/app.css">
 
 	<script src="/bower_components/jquery/dist/jquery.js"></script>
+	<script src="/bower_components/toastr/toastr.js"></script>
 	<script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 	<script src="/bower_components/angular/angular.js"></script>
 	<script src="/bower_components/angular-route/angular-route.js"></script>
@@ -16,6 +18,9 @@
 	<script src="/app/controllers.js"></script>
 	<script src="/app/services.js"></script>
 	<script src="/app/directives.js"></script>
+	<script src="/app/account/mvIdentity.js"></script>
+	<script src="/app/account/mvAuth.js"></script>
+	<script src="/app/common/mvNotifier.js"></script>
 	<script src="/bower_components/nginfinitescroll/build/ng-infinite-scroll.js"></script>
 	<script src="/bower_components/numeral/numeral.js"></script>
 	<script src="/vendors/js/attrchange.js"></script>
@@ -46,7 +51,7 @@
 				</ul>
 				-->
 				<div class="navbar-right">
-					<form class="navbar-form">
+					<form class="navbar-form" ng-hide="identity.isAuthenticated()">
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="username" ng-model="username" />
 						</div>
