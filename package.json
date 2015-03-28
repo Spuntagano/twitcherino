@@ -6,11 +6,14 @@
   "repository": "",
   "license": "MIT",
   "devDependencies": {
-    "karma": "~0.10",
-    "protractor": "^1.1.1",
     "http-server": "^0.6.1",
-    "shelljs": "^0.2.6",
-    "karma-junit-reporter": "^0.2.2"
+    "karma": "^0.12.31",
+    "karma-chai-plugins": "^0.4.0",
+    "karma-junit-reporter": "^0.2.2",
+    "karma-mocha": "^0.1.10",
+    "mocha": "^2.2.1",
+    "protractor": "^1.1.1",
+    "shelljs": "^0.2.6"
   },
   "scripts": {
     "postinstall": "bower install",

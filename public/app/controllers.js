@@ -280,13 +280,13 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       return $scope.offset += gamesIncrement;
     };
   }
-]).controller('navigationCtrl', [
+]).controller('NavigationCtrl', [
   '$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth', function($scope, $location, $http, mvIdentity, mvNotifier, mvAuth) {
     $scope.identity = mvIdentity;
     $scope.isActive = function(viewLocation) {
       return $location.path().startsWith(viewLocation);
     };
-    return $scope.signin = function(username, password) {
+    $scope.signin = function(username, password) {
       return mvAuth.authenticateUser(username, password).then(function(success) {
         if (success) {
           return mvNotifier.notify('mah nigga');
@@ -295,5 +295,17 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
         }
       });
     };
+    return $scope.signout = function() {
+      return mvAuth.logoutUser().then(function() {
+        $scope.username = "";
+        $scope.password = "";
+        mvNotifier.notify('peace out nigga');
+        return $location.path('/');
+      });
+    };
+  }
+]).controller('UserListCtrl', [
+  '$scope', 'mvUser', function($scope, mvUser) {
+    return $scope.users = mvUser.query();
   }
 ]);

@@ -1,7 +1,13 @@
-angular.module('twitcherinoApp').factory('mvIdentity', ->
+angular.module('twitcherinoApp').factory('mvIdentity', ['$window', 'mvUser', ($window, mvUser) ->
+
+	if (!!$window.bootstrappedUserObject)
+		currentUser = new mvUser()
+		angular.extend(currentUser, $window.bootstrappedUserObject)
 	{
-		currentUser: undefined
+		currentUser: currentUser
 		isAuthenticated: ->
-			return !!this.currentUser
+			!!this.currentUser
+		isAuthorized: (role) ->
+			return !!this.currentUser && this.currentUser.roles.indexOf('admin') > -1
 	}
-)
+])

@@ -20,7 +20,9 @@ module.exports = function(app, config) {
   app.use(cookieParser());
   app.use(bodyParser());
   app.use(session({
-    secret: 'twitch boys'
+    secret: 'twitch boys',
+    saveUninitialized: true,
+    resave: true
   }));
   app.use(passport.initialize());
   app.use(passport.session());

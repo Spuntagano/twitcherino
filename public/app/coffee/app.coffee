@@ -8,6 +8,14 @@ angular.module('twitcherinoApp', [
 
 .config(['$routeProvider', '$locationProvider'
 	($routeProvider, $locationProvider) ->
+
+		routeRoleChecks = {
+			admin: {
+				auth: (mvAuth) ->
+					mvAuth.authorizedCurrentUserForRoute('admin')
+			}
+		}
+
 		$locationProvider.html5Mode(true)
 		$routeProvider.when('/', {
 			templateUrl: '/partials/channels.html'
@@ -27,7 +35,18 @@ angular.module('twitcherinoApp', [
 		}).when('/games/:gameName', {
 			templateUrl: '/partials/channels.html'
 			controller: 'GamesChannelsCtrl'
+		}).when('/admin/users', {
+			templateUrl: '/partials/user-list.html'
+			controller: 'UserListCtrl'
+			resolve: routeRoleChecks.admin
 		}).otherwise({
 			redirectTo: '/'
 		})
 	])
+
+angular.module('twitcherinoApp').run( ($rootScope, $location) -> 
+	$rootScope.$on('$routeChangeError', (evt, current, previous, rejection) ->
+		if (rejection == 'Not authorized')
+			$location.path('/')
+	)
+)

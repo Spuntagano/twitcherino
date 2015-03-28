@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Twitcherino</title>
+	<base href="/" />
 	<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
 	<link rel="stylesheet" href="/bower_components/toastr/toastr.css">
 	<link rel="stylesheet" href="/css/app.css">
@@ -18,6 +19,7 @@
 	<script src="/app/controllers.js"></script>
 	<script src="/app/services.js"></script>
 	<script src="/app/directives.js"></script>
+	<script src="/app/account/mvUser.js"></script>
 	<script src="/app/account/mvIdentity.js"></script>
 	<script src="/app/account/mvAuth.js"></script>
 	<script src="/app/common/mvNotifier.js"></script>
@@ -25,6 +27,13 @@
 	<script src="/bower_components/numeral/numeral.js"></script>
 	<script src="/vendors/js/attrchange.js"></script>
 	<script src="/app/scripts.js"></script>
+
+	<% if (!!bootstrappedUser){ %>
+		<script>
+			window.bootstrappedUserObject = <%- JSON.stringify(bootstrappedUser) %>
+		</script>
+	<% } %>
+
 </head>
 <body>
 	<nav class="navbar navbar-default nav-style">
@@ -40,7 +49,7 @@
 				</button>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div id="navbar" class="collapse navbar-collapse activable" ng-controller="navigationCtrl">
+			<div id="navbar" class="collapse navbar-collapse activable" ng-controller="NavigationCtrl">
 				<ul class="nav navbar-nav">
 					<li ng-class="{ active: isActive('/channels')}"><a href="/channels">Channels</a></li>
 					<li ng-class="{ active: isActive('/games')}"><a href="/games">Games</a></li>
@@ -60,6 +69,21 @@
 						</div>
 						<button class="btn btn-primary" ng-click="signin(username, password)">Sign in</button>
 					</form>
+					<ul class="nav navbar-nav navbar-right" ng-show="identity.isAuthenticated()">
+						<li class="dropdown">
+							<a class="dropdown-toggle" href="" data-toggle="dropdown">
+								{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <strong class="caret"></strong>
+							</a>
+							<ul class="dropdown-menu">
+								<li ng-show="identity.currentUser.isAdmin()">
+									<a href="/admin/users">User admin</a>
+								</li>
+								<li>
+									<a href="" ng-click="signout()">Sign Out</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
 				</div>
 			</div>
 			<!-- /.navbar-collapse -->

@@ -13,7 +13,7 @@ module.exports = (app, config) ->
 	app.use(logger('dev'))
 	app.use(cookieParser())
 	app.use(bodyParser())
-	app.use(session({secret: 'twitch boys'}))
+	app.use(session({secret: 'twitch boys', saveUninitialized: true, resave: true}))
 	app.use(passport.initialize())
 	app.use(passport.session())
 

@@ -262,7 +262,7 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('navigationCtrl', ['$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth'
+.controller('NavigationCtrl', ['$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth'
 	($scope, $location, $http, mvIdentity, mvNotifier, mvAuth) ->
 
 		$scope.identity = mvIdentity
@@ -278,4 +278,15 @@ angular.module('twitcherinoControllers', [])
 					mvNotifier.notify('fuk uu')
 			)
 
+		$scope.signout = ->
+			mvAuth.logoutUser().then( ->
+				$scope.username = ""
+				$scope.password = ""
+				mvNotifier.notify('peace out nigga')
+				$location.path('/')
+			)
+])
+
+.controller('UserListCtrl', ['$scope', 'mvUser', ($scope, mvUser) ->
+	$scope.users = mvUser.query()
 ])
