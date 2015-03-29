@@ -21,6 +21,33 @@ angular.module('twitcherinoApp').factory('mvAuth', [
         });
         return dfd.promise;
       },
+      createUser: function(newUserData) {
+        var dfd, newUser;
+        newUser = new mvUser(newUserData);
+        dfd = $q.defer();
+        newUser.$save().then(function() {
+          mvIdentity.currentUser = newUser;
+          return dfd.resolve();
+        }, function(response) {
+          return dfd.reject(response.data.reason);
+        });
+        return dfd.promise;
+      },
+      updateCurrentUser: function(newUserData) {
+        var clone, dfd, newClone;
+        dfd = $q.defer();
+        clone = angular.copy(mvIdentity.currentUser);
+        angular.extend(clone, newUserData);
+        newClone = new mvUser(clone);
+        console.log(newClone);
+        newClone.$update().then(function() {
+          mvIdentity.currentUser = newClone;
+          return dfd.resolve();
+        }, function(response) {
+          return dfd.reject(response.data.reason);
+        });
+        return dfd.promise;
+      },
       logoutUser: function() {
         var dfd;
         dfd = $q.defer();
@@ -34,6 +61,13 @@ angular.module('twitcherinoApp').factory('mvAuth', [
       },
       authorizedCurrentUserForRoute: function(role) {
         if (mvIdentity.isAuthorized(role)) {
+          return true;
+        } else {
+          return $q.reject('Not authorized');
+        }
+      },
+      authorizedCurrentUserForRoute: function() {
+        if (mvIdentity.isAuthenticated()) {
           return true;
         } else {
           return $q.reject('Not authorized');

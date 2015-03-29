@@ -5,6 +5,10 @@ angular.module('twitcherinoApp').factory('mvNotifier', function(mvToastr) {
     notify: function(msg) {
       mvToastr.success(msg);
       return console.log(msg);
+    },
+    error: function(msg) {
+      mvToastr.error(msg);
+      return console.log(msg);
     }
   };
 });

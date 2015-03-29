@@ -15,6 +15,33 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		)
 		dfd.promise
 
+	createUser: (newUserData) ->
+		newUser = new mvUser(newUserData)
+		dfd = $q.defer()
+
+		newUser.$save().then( ->
+			mvIdentity.currentUser = newUser
+			dfd.resolve()
+		(response) ->
+			dfd.reject(response.data.reason)
+		)
+
+		dfd.promise
+
+	updateCurrentUser: (newUserData) ->
+		dfd = $q.defer()
+		clone = angular.copy(mvIdentity.currentUser)
+		angular.extend(clone, newUserData)
+		newClone = new mvUser(clone)
+		console.log(newClone)
+		newClone.$update().then( ->
+			mvIdentity.currentUser = newClone
+			dfd.resolve()
+		(response) ->
+			dfd.reject(response.data.reason)
+		)
+		dfd.promise
+
 	logoutUser: ->
 		dfd = $q.defer()
 		$http.post('/logout', {logout: true}).then( -> 
@@ -25,6 +52,12 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 
 	authorizedCurrentUserForRoute: (role) ->
 		if (mvIdentity.isAuthorized(role))
+			true
+		else
+			$q.reject('Not authorized')
+
+	authorizedCurrentUserForRoute: ->
+		if (mvIdentity.isAuthenticated())
 			true
 		else
 			$q.reject('Not authorized')

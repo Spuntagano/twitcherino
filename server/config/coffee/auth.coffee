@@ -1,8 +1,8 @@
 passport = require('passport')
 
 exports.authenticate = (req, res, next) ->
+	req.body.username = req.body.username.toLowerCase()
 	auth = passport.authenticate('local', (err, user) ->
-		console.log(user)
 		if (err)
 			next(err)
 		if(!user)
@@ -24,7 +24,6 @@ exports.requireApiLogin = (req, res, next) ->
 
 exports.requiresRole = (role) ->
 	(req, res, next) ->
-		console.log(req.user)
 		if (!req.isAuthenticated() || req.user.roles.indexOf(role) == -1)
 			res.status(403)
 			res.end()

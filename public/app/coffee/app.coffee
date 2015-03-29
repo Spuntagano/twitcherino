@@ -13,6 +13,10 @@ angular.module('twitcherinoApp', [
 			admin: {
 				auth: (mvAuth) ->
 					mvAuth.authorizedCurrentUserForRoute('admin')
+			},
+			user: {
+				auth: (mvAuth) ->
+					mvAuth.authorizedCurrentUserForRoute()
 			}
 		}
 
@@ -39,6 +43,13 @@ angular.module('twitcherinoApp', [
 			templateUrl: '/partials/user-list.html'
 			controller: 'UserListCtrl'
 			resolve: routeRoleChecks.admin
+		}).when('/signup', {
+			templateUrl: '/partials/signup.html'
+			controller: 'SignupCtrl'
+		}).when('/profile', {
+			templateUrl: '/partials/profile.html'
+			controller: 'ProfileCtrl'
+			resolve: routeRoleChecks.user
 		}).otherwise({
 			redirectTo: '/'
 		})

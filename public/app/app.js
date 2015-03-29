@@ -6,6 +6,11 @@ angular.module('twitcherinoApp', ['ngRoute', 'twitcherinoDirectives', 'twitcheri
         auth: function(mvAuth) {
           return mvAuth.authorizedCurrentUserForRoute('admin');
         }
+      },
+      user: {
+        auth: function(mvAuth) {
+          return mvAuth.authorizedCurrentUserForRoute();
+        }
       }
     };
     $locationProvider.html5Mode(true);
@@ -31,6 +36,13 @@ angular.module('twitcherinoApp', ['ngRoute', 'twitcherinoDirectives', 'twitcheri
       templateUrl: '/partials/user-list.html',
       controller: 'UserListCtrl',
       resolve: routeRoleChecks.admin
+    }).when('/signup', {
+      templateUrl: '/partials/signup.html',
+      controller: 'SignupCtrl'
+    }).when('/profile', {
+      templateUrl: '/partials/profile.html',
+      controller: 'ProfileCtrl',
+      resolve: routeRoleChecks.user
     }).otherwise({
       redirectTo: '/'
     });

@@ -1,15 +1,13 @@
 auth = require('./auth')
+users = require('../controllers/users')
 mongoose = require('mongoose')
 User = mongoose.model('User')
 
 module.exports = (app) ->
 
-	app.get('/api/users', auth.requiresRole('admin')
-	(req, res) ->
-		User.find({}).exec( (err, collection) ->
-			res.send(collection)
-		)
-	)
+	app.get('/api/users', auth.requiresRole('admin'), users.getUsers)
+	app.post('/api/users', users.createUser)
+	app.put('/api/users', users.updateUser)
 
 	app.get('/partials/:partialPath', (req, res) ->
 		res.render('partials/' + req.params.partialPath)
@@ -20,6 +18,10 @@ module.exports = (app) ->
 	app.post('/logout', (req, res) ->
 		req.logout()
 		res.end()
+	)
+
+	app.all('/api/*', ->
+		res.send(404)
 	)
 
 	app.get('*', (req, res) ->

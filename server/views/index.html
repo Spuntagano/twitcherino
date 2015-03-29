@@ -54,13 +54,13 @@
 					<li ng-class="{ active: isActive('/channels')}"><a href="/channels">Channels</a></li>
 					<li ng-class="{ active: isActive('/games')}"><a href="/games">Games</a></li>
 				</ul>
-				<!--
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Login</a></li>
-				</ul>
-				-->
 				<div class="navbar-right">
 					<form class="navbar-form" ng-hide="identity.isAuthenticated()">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="/signup">Sign Up</a>
+							</li>
+						</ul>
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="username" ng-model="username" />
 						</div>
@@ -77,6 +77,9 @@
 							<ul class="dropdown-menu">
 								<li ng-show="identity.currentUser.isAdmin()">
 									<a href="/admin/users">User admin</a>
+								</li>
+								<li>
+									<a href="/profile">Profile</a>
 								</li>
 								<li>
 									<a href="" ng-click="signout()">Sign Out</a>

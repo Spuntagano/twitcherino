@@ -262,8 +262,8 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('NavigationCtrl', ['$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth'
-	($scope, $location, $http, mvIdentity, mvNotifier, mvAuth) ->
+.controller('NavigationCtrl', ['$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth', 'mvUser'
+	($scope, $location, $http, mvIdentity, mvNotifier, mvAuth, mvUser) ->
 
 		$scope.identity = mvIdentity
 
@@ -285,8 +285,50 @@ angular.module('twitcherinoControllers', [])
 				mvNotifier.notify('peace out nigga')
 				$location.path('/')
 			)
+
 ])
 
 .controller('UserListCtrl', ['$scope', 'mvUser', ($scope, mvUser) ->
 	$scope.users = mvUser.query()
+])
+
+.controller('SignupCtrl', ['$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser'
+	($scope, $location, mvNotifier, mvAuth, mvUser) ->
+
+		$scope.signup = ->
+			newUserData =
+				username: $scope.email
+				password: $scope.password
+				firstName: $scope.fname
+				lastName: $scope.lname
+
+			mvAuth.createUser(newUserData).then( ->
+				mvNotifier.notify('User account created!')
+				$location.path('/')
+			(reason) ->
+				mvNotifier.error(reason)
+			)
+
+])
+
+
+.controller('ProfileCtrl', ['$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', ($scope, mvAuth, mvIdentity, mvNotifier) ->
+	$scope.email = mvIdentity.currentUser.username
+	$scope.fname = mvIdentity.currentUser.firstName
+	$scope.lname = mvIdentity.currentUser.lastName
+
+	$scope.update = ->
+		newUserData =
+			username: $scope.email
+			firstName: $scope.fname
+			lastName: $scope.lname
+
+		if ($scope.password && $scope.password.length > 0)
+			newUserData.password = $scope.password
+
+		mvAuth.updateCurrentUser(newUserData).then( ->
+			mvNotifier.notify('Your profile has been updated')
+		(reason) ->
+			mvNotifier.error(reason)
+		)
 ])

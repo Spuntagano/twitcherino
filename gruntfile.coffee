@@ -49,6 +49,27 @@ module.exports = (grunt) ->
 						ext: '.js'
 					},
 					{
+						expand: true
+						cwd: 'server/controllers/coffee'
+						src: ['**/*.coffee']
+						dest: 'server/controllers'
+						ext: '.js'
+					},
+					{
+						expand: true
+						cwd: 'server/utilities/coffee'
+						src: ['**/*.coffee']
+						dest: 'server/utilities'
+						ext: '.js'
+					},
+					{
+						expand: true
+						cwd: 'server/models/coffee'
+						src: ['**/*.coffee']
+						dest: 'server/models'
+						ext: '.js'
+					},
+					{
 						'server.js': 'server.coffee'
 					}
 				]
@@ -64,7 +85,7 @@ module.exports = (grunt) ->
 				files: '<%= sass.compile.files[0].src %>'
 				tasks: ['sass']
 			coffee:
-				files: ['<%= coffee.compile.files[0].src %>', '<%= coffee.compile.files[1].src %>', '<%= coffee.compile.files[2].src %>', '<%= coffee.compile.files[3].src %>']
+				files: ['<%= coffee.compile.files[0].src %>', '<%= coffee.compile.files[1].src %>', '<%= coffee.compile.files[2].src %>', '<%= coffee.compile.files[3].src %>', '<%= coffee.compile.files[4].src %>', '<%= coffee.compile.files[5].src %>', '<%= coffee.compile.files[6].src %>']
 				tasks: ['coffee']
 			options:
 				livereload: true

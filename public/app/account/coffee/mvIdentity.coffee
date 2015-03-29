@@ -8,6 +8,6 @@ angular.module('twitcherinoApp').factory('mvIdentity', ['$window', 'mvUser', ($w
 		isAuthenticated: ->
 			!!this.currentUser
 		isAuthorized: (role) ->
-			return !!this.currentUser && this.currentUser.roles.indexOf('admin') > -1
+			!!this.currentUser && this.currentUser.roles.indexOf('admin') > -1
 	}
 ])

@@ -281,7 +281,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     };
   }
 ]).controller('NavigationCtrl', [
-  '$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth', function($scope, $location, $http, mvIdentity, mvNotifier, mvAuth) {
+  '$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth', 'mvUser', function($scope, $location, $http, mvIdentity, mvNotifier, mvAuth, mvUser) {
     $scope.identity = mvIdentity;
     $scope.isActive = function(viewLocation) {
       return $location.path().startsWith(viewLocation);
@@ -307,5 +307,45 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
 ]).controller('UserListCtrl', [
   '$scope', 'mvUser', function($scope, mvUser) {
     return $scope.users = mvUser.query();
+  }
+]).controller('SignupCtrl', [
+  '$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser', function($scope, $location, mvNotifier, mvAuth, mvUser) {
+    return $scope.signup = function() {
+      var newUserData;
+      newUserData = {
+        username: $scope.email,
+        password: $scope.password,
+        firstName: $scope.fname,
+        lastName: $scope.lname
+      };
+      return mvAuth.createUser(newUserData).then(function() {
+        mvNotifier.notify('User account created!');
+        return $location.path('/');
+      }, function(reason) {
+        return mvNotifier.error(reason);
+      });
+    };
+  }
+]).controller('ProfileCtrl', [
+  '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', function($scope, mvAuth, mvIdentity, mvNotifier) {
+    $scope.email = mvIdentity.currentUser.username;
+    $scope.fname = mvIdentity.currentUser.firstName;
+    $scope.lname = mvIdentity.currentUser.lastName;
+    return $scope.update = function() {
+      var newUserData;
+      newUserData = {
+        username: $scope.email,
+        firstName: $scope.fname,
+        lastName: $scope.lname
+      };
+      if ($scope.password && $scope.password.length > 0) {
+        newUserData.password = $scope.password;
+      }
+      return mvAuth.updateCurrentUser(newUserData).then(function() {
+        return mvNotifier.notify('Your profile has been updated');
+      }, function(reason) {
+        return mvNotifier.error(reason);
+      });
+    };
   }
 ]);
