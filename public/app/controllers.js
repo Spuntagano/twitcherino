@@ -331,7 +331,8 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     $scope.email = mvIdentity.currentUser.username;
     $scope.fname = mvIdentity.currentUser.firstName;
     $scope.lname = mvIdentity.currentUser.lastName;
-    return $scope.update = function() {
+    $scope.isTwitchConnected = mvIdentity.isTwitchConnected();
+    $scope.update = function() {
       var newUserData;
       newUserData = {
         username: $scope.email,
@@ -346,6 +347,10 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       }, function(reason) {
         return mvNotifier.error(reason);
       });
+    };
+    return $scope.twitchCall = function() {
+      event.preventDefault();
+      return window.location.replace('http://localhost:3030/auth/twitchtv');
     };
   }
 ]);

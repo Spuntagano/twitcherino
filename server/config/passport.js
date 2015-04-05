@@ -1,4 +1,4 @@
-var LocalStrategy, User, mongoose, passport;
+var LocalStrategy, TWITCHTV_CLIENT_ID, TWITCHTV_CLIENT_SECRET, TwitchtvStrategy, User, mongoose, passport;
 
 mongoose = require('mongoose');
 
@@ -6,7 +6,13 @@ passport = require('passport');
 
 LocalStrategy = require('passport-local').Strategy;
 
+TwitchtvStrategy = require('../../node_modules/passport-twitchtv').Strategy;
+
 User = mongoose.model('User');
+
+TWITCHTV_CLIENT_ID = '3453206b4coczmz7878sejh31g7221j';
+
+TWITCHTV_CLIENT_SECRET = '1cst8e1swycb981xzh0hy589yqikmk2';
 
 module.exports = function() {
   passport.use(new LocalStrategy({
@@ -23,20 +29,89 @@ module.exports = function() {
       }
     });
   }));
+  passport.use(new TwitchtvStrategy({
+    clientID: TWITCHTV_CLIENT_ID,
+    clientSecret: TWITCHTV_CLIENT_SECRET,
+    callbackURL: "/auth/twitchtv/callback",
+    scope: "user_read",
+    passReqToCallback: true
+  }, function(req, accessToken, refreshToken, profile, done) {
+    if (req.user) {
+      return User.findOne({
+        username: req.user.username
+      }).exec(function(err, user) {
+        return User.findOne({
+          twitchtvId: profile.id
+        }).exec(function(err, user) {
+          if (!user) {
+            return User.update({
+              username: req.user.username
+            }, {
+              twitchtvId: profile.id
+            }, function(err, user) {
+              return done(null, false);
+            });
+          } else {
+            return done(null, false);
+          }
+        });
+      });
+    } else {
+      return User.findOne({
+        twitchtvId: profile.id
+      }).exec(function(err, user) {
+        if (user) {
+          return done(null, user);
+        } else if (!profile.email) {
+          return done(null, false);
+        } else if (!user) {
+          return User.findOne({
+            username: profile.email
+          }).exec(function(err, user) {
+            if (!user) {
+              return User.create({
+                twitchtvId: profile.id,
+                username: profile.email
+              }, function(err, user) {
+                return done(null, user);
+              });
+            } else {
+              return done(null, false);
+            }
+          });
+        } else {
+          return done(null, false);
+        }
+      });
+    }
+  }));
   passport.serializeUser(function(user, done) {
     if (user) {
-      return done(null, user._id);
+      return done(null, user);
     }
   });
-  return passport.deserializeUser(function(id, done) {
-    return User.findOne({
-      _id: id
-    }).exec(function(err, user) {
-      if (user) {
-        return done(null, user);
-      } else {
-        return done(null, false);
-      }
-    });
+  return passport.deserializeUser(function(obj, done) {
+    if (obj) {
+      return done(null, obj);
+    } else {
+      return done(null, false);
+    }
   });
+
+  /*
+  	passport.serializeUser( (user, done) ->
+  		if (user)
+  			done(null, user._id)
+  
+  	)
+  
+  	passport.deserializeUser( (id, done) ->
+  		User.findOne({_id: id}).exec( (err, user) ->
+  			if (user)
+  				done(null, user)
+  			else
+  				done(null, false)
+  		)
+  	)
+   */
 };

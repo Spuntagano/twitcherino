@@ -31,15 +31,17 @@ exports.updateUser = (req, res) ->
 		res.status(403)
 		res.end()
 
+	oldUsername = req.user.username
+
 	req.user.firstName = userUpdates.firstName
 	req.user.lastName = userUpdates.lastName
 	req.user.username = userUpdates.username
 
 	if (userUpdates.password && userUpdates.password.length > 0)
-		req.user.salt = encrypt.createSalt
+		req.user.salt = encrypt.createSalt()
 		req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password)
 
-	req.user.save( (err) ->
+	User.update({username: oldUsername}, req.user).exec( (err, collection) ->
 		if (err)
 			res.status(400)
 			res.send({reason: err.toString})

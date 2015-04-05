@@ -12,6 +12,13 @@ angular.module('twitcherinoApp').factory('mvIdentity', [
       },
       isAuthorized: function(role) {
         return !!this.currentUser && this.currentUser.roles.indexOf('admin') > -1;
+      },
+      isTwitchConnected: function() {
+        if (!!this.currentUser) {
+          return !!this.currentUser.twitchtvId;
+        } else {
+          return false;
+        }
       }
     };
   }

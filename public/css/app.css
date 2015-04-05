@@ -262,3 +262,25 @@ iframe {
     width: 100%;
   }
 }
+/*Menu*/
+.btn-twitch-login {
+  width: 170px;
+  height: 32px;
+  display: inline-block;
+  background: url(../img/twitch-login.png) no-repeat;
+  text-indent: -9999px;
+}
+
+.navbar-form {
+  margin-top: 0px;
+}
+
+.dropdown-login {
+  padding: 15px;
+}
+.dropdown-login input {
+  margin-bottom: 10px;
+}
+.dropdown-login .btn {
+  margin-bottom: 10px;
+}

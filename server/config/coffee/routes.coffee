@@ -1,6 +1,7 @@
 auth = require('./auth')
 users = require('../controllers/users')
 mongoose = require('mongoose')
+passport = require('passport')
 User = mongoose.model('User')
 
 module.exports = (app) ->
@@ -18,6 +19,14 @@ module.exports = (app) ->
 	app.post('/logout', (req, res) ->
 		req.logout()
 		res.end()
+	)
+
+	app.get('/auth/twitchtv', passport.authenticate('twitchtv'))
+
+	app.get('/auth/twitchtv/callback', 
+		passport.authenticate('twitchtv', { failureRedirect: '/' }),
+		(req, res) ->
+			res.redirect('/')
 	)
 
 	app.all('/api/*', ->

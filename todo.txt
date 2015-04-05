@@ -1,0 +1,6 @@
+twitch login verify email
+refactoring controllers
+refactoring views
+renaming front end code (mv)
+/auth/twitchtv button fix
+twitch connect dosent show right away

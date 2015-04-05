@@ -317,6 +317,8 @@ angular.module('twitcherinoControllers', [])
 	$scope.fname = mvIdentity.currentUser.firstName
 	$scope.lname = mvIdentity.currentUser.lastName
 
+	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
+
 	$scope.update = ->
 		newUserData =
 			username: $scope.email
@@ -331,4 +333,8 @@ angular.module('twitcherinoControllers', [])
 		(reason) ->
 			mvNotifier.error(reason)
 		)
+
+	$scope.twitchCall = ->
+		event.preventDefault()
+		window.location.replace('http://localhost:3030/auth/twitchtv')
 ])

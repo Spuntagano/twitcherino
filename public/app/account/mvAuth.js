@@ -39,7 +39,6 @@ angular.module('twitcherinoApp').factory('mvAuth', [
         clone = angular.copy(mvIdentity.currentUser);
         angular.extend(clone, newUserData);
         newClone = new mvUser(clone);
-        console.log(newClone);
         newClone.$update().then(function() {
           mvIdentity.currentUser = newClone;
           return dfd.resolve();

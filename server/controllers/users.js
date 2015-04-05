@@ -36,20 +36,23 @@ exports.createUser = function(req, res, next) {
 };
 
 exports.updateUser = function(req, res) {
-  var userUpdates;
+  var oldUsername, userUpdates;
   userUpdates = req.body;
   if (parseInt(req.user._id, 10) !== parseInt(userUpdates._id, 10) && !req.user.hasRole('admin')) {
     res.status(403);
     res.end();
   }
+  oldUsername = req.user.username;
   req.user.firstName = userUpdates.firstName;
   req.user.lastName = userUpdates.lastName;
   req.user.username = userUpdates.username;
   if (userUpdates.password && userUpdates.password.length > 0) {
-    req.user.salt = encrypt.createSalt;
+    req.user.salt = encrypt.createSalt();
     req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password);
   }
-  return req.user.save(function(err) {
+  return User.update({
+    username: oldUsername
+  }, req.user).exec(function(err, collection) {
     if (err) {
       res.status(400);
       res.send({
