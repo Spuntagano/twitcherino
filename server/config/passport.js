@@ -36,6 +36,7 @@ module.exports = function() {
     scope: "user_read",
     passReqToCallback: true
   }, function(req, accessToken, refreshToken, profile, done) {
+    console.log(profile);
     if (req.user) {
       return User.findOne({
         username: req.user.username
@@ -97,21 +98,4 @@ module.exports = function() {
       return done(null, false);
     }
   });
-
-  /*
-  	passport.serializeUser( (user, done) ->
-  		if (user)
-  			done(null, user._id)
-  
-  	)
-  
-  	passport.deserializeUser( (id, done) ->
-  		User.findOne({_id: id}).exec( (err, user) ->
-  			if (user)
-  				done(null, user)
-  			else
-  				done(null, false)
-  		)
-  	)
-   */
 };

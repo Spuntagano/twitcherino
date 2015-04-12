@@ -1,6 +1,8 @@
-var User, auth, mongoose, passport, users;
+var User, auth, follow, mongoose, passport, users;
 
 auth = require('./auth');
+
+follow = require('./follow');
 
 users = require('../controllers/users');
 
@@ -28,6 +30,8 @@ module.exports = function(app) {
   }), function(req, res) {
     return res.redirect('/');
   });
+  app.post('/follow', follow.addFollow);
+  app.post('/unfollow', follow.removeFollow);
   app.all('/api/*', function() {
     return res.send(404);
   });

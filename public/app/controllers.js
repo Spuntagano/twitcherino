@@ -1,5 +1,5 @@
 angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
-  '$scope', '$routeParams', '$sce', '$http', function($scope, $routeParams, $sce, $http) {
+  '$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', function($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) {
     var twitchcall;
     $scope.videoUrl = function() {
       return $sce.trustAsResourceUrl("http://www.twitch.tv/" + $routeParams.channelUser + "/embed?auto_play=true");
@@ -8,7 +8,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       return $sce.trustAsResourceUrl("http://www.twitch.tv/" + $routeParams.channelUser + "/chat");
     };
     $scope.channel = {};
-    return twitchcall = $http({
+    twitchcall = $http({
       method: 'JSONP',
       url: "https://api.twitch.tv/kraken/streams/" + $routeParams.channelUser,
       params: {
@@ -20,17 +20,36 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     }).success(function(data, status, headers, config) {
       var channel;
       channel = {
+        username: data.stream.channel.name,
         title: data.stream.channel.status,
         display_name: data.stream.channel.display_name,
         viewers_number: parseInt(data.stream.viewers, 10),
         profile_url: data.stream.channel.logo,
         platform: 'twitch'
       };
-      return $scope.channel = channel;
+      $scope.channel = channel;
+      $scope.isFollowed = mvFollow.isFollowed(channel.username, channel.platform);
+      $scope.addFollow = function() {
+        return mvFollow.addFollow(channel.username, channel.platform).then(function() {
+          mvNotifier.notify('Channel followed');
+          return $scope.isFollowed = true;
+        }, function(reason) {
+          return mvNotifier.error(reason);
+        });
+      };
+      return $scope.removeFollow = function() {
+        return mvFollow.removeFollow(channel.username, channel.platform).then(function() {
+          mvNotifier.notify('Channel unfollowed');
+          return $scope.isFollowed = false;
+        }, function(reason) {
+          return mvNotifier.error(reason);
+        });
+      };
     });
+    return $scope.isAuthenticated = mvIdentity.isAuthenticated();
   }
 ]).controller('HitboxChannelCtrl', [
-  '$scope', '$routeParams', '$sce', '$http', function($scope, $routeParams, $sce, $http) {
+  '$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', function($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) {
     var hitboxcall;
     $scope.videoUrl = function() {
       return $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/" + $routeParams.channelUser + "?autoplay=true");
@@ -39,20 +58,39 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       return $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/" + $routeParams.channelUser);
     };
     $scope.channel = {};
-    return hitboxcall = $http({
+    hitboxcall = $http({
       method: 'GET',
       url: "https://api.hitbox.tv/media/live/" + $routeParams.channelUser
     }).success(function(data, status, headers, config) {
       var channel;
       channel = {
+        username: data.livestream[0].media_user_name,
         title: data.livestream[0].media_status,
         display_name: data.livestream[0].media_user_name,
         viewers_number: parseInt(data.livestream[0].media_views, 10),
         profile_url: "https://edge.sf.hitbox.tv" + data.livestream[0].channel.user_logo,
         platform: 'hitbox'
       };
-      return $scope.channel = channel;
+      $scope.channel = channel;
+      $scope.isFollowed = mvFollow.isFollowed(channel.username, channel.platform);
+      $scope.addFollow = function() {
+        return mvFollow.addFollow(channel.username, channel.platform).then(function() {
+          mvNotifier.notify('Channel followed');
+          return $scope.isFollowed = true;
+        }, function(reason) {
+          return mvNotifier.error(reason);
+        });
+      };
+      return $scope.removeFollow = function() {
+        return mvFollow.removeFollow(channel.username, channel.platform).then(function() {
+          mvNotifier.notify('Channel unfollowed');
+          return $scope.isFollowed = false;
+        }, function(reason) {
+          return mvNotifier.error(reason);
+        });
+      };
     });
+    return $scope.isAuthenticated = mvIdentity.isAuthenticated();
   }
 ]).controller('ChannelsCtrl', [
   '$http', '$scope', '$routeParams', function($http, $scope, $routeParams) {

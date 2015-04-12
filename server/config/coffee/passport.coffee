@@ -32,6 +32,8 @@ module.exports = ->
 	}
 	(req, accessToken, refreshToken, profile, done) ->
 
+		console.log(profile)
+
 		if (req.user)
 			User.findOne({username: req.user.username}).exec( (err, user) -> 
 				User.findOne({twitchtvId: profile.id}).exec( (err, user) ->
@@ -75,20 +77,3 @@ module.exports = ->
 		else
 			done(null, false)
 	)
-
-	###
-	passport.serializeUser( (user, done) ->
-		if (user)
-			done(null, user._id)
-
-	)
-
-	passport.deserializeUser( (id, done) ->
-		User.findOne({_id: id}).exec( (err, user) ->
-			if (user)
-				done(null, user)
-			else
-				done(null, false)
-		)
-	)
-	###

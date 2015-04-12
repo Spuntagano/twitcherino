@@ -4,23 +4,6 @@ mongoose = require('mongoose');
 
 encrypt = require('../utilities/encryption');
 
-
-/*
-userSchema = mongoose.Schema({
-	firstName: {type: String, required: '{PATH} is required!'}
-	lastName: {type: String, required: '{PATH} is required!'}
-	username: {
-		type: String
-		required: '{PATH} is required!'
-		unique: true
-	}
-	twitchtvId: {type: String}
-	salt: {type: String, required: '{PATH} is required!'}
-	hashed_pwd: {type: String, required: '{PATH} is required!'}
-	roles: [String]
-})
- */
-
 userSchema = mongoose.Schema({
   firstName: {
     type: String
@@ -42,7 +25,9 @@ userSchema = mongoose.Schema({
   hashed_pwd: {
     type: String
   },
-  roles: [String]
+  roles: [String],
+  twitchFollows: [String],
+  hitboxFollows: [String]
 });
 
 userSchema.methods = {

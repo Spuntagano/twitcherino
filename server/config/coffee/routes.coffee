@@ -1,4 +1,5 @@
 auth = require('./auth')
+follow = require('./follow')
 users = require('../controllers/users')
 mongoose = require('mongoose')
 passport = require('passport')
@@ -28,6 +29,9 @@ module.exports = (app) ->
 		(req, res) ->
 			res.redirect('/')
 	)
+
+	app.post('/follow', follow.addFollow)
+	app.post('/unfollow', follow.removeFollow)
 
 	app.all('/api/*', ->
 		res.send(404)

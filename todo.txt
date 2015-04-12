@@ -1,6 +1,13 @@
-twitch login verify email
+twitch login failure message
 refactoring controllers
 refactoring views
 renaming front end code (mv)
 /auth/twitchtv button fix
 twitch connect dosent show right away
+grunt coffee script
+run grunt on live server
+stream viewers number count
+tests
+
+twitch sync follow
+follow page
