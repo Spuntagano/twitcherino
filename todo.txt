@@ -10,4 +10,3 @@ stream viewers number count
 tests
 
 twitch sync follow
-follow page

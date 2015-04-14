@@ -27,6 +27,9 @@ angular.module('twitcherinoApp', [
 		}).when('/channels', {
 			templateUrl: '/partials/channels.html'
 			controller: 'ChannelsCtrl'
+		}).when('/following', {
+			templateUrl: '/partials/channels.html'
+			controller: 'FollowingCtrl'
 		}).when('/hitbox/:channelUser', {
 			templateUrl: '/partials/channel.html'
 			controller: 'HitboxChannelCtrl'

@@ -162,6 +162,89 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
       return $scope.offset += channelsIncrement;
     };
   }
+]).controller('FollowingCtrl', [
+  '$http', '$scope', '$routeParams', 'mvIdentity', function($http, $scope, $routeParams, mvIdentity) {
+    var hitboxChannels, i, twitchChannels, _i, _ref;
+    $scope.offset = 0;
+    $scope.channels = {};
+    $scope.channels.streams = [];
+    hitboxChannels = "";
+    twitchChannels = "";
+    if (mvIdentity.isAuthenticated()) {
+      for (i = _i = 0, _ref = mvIdentity.currentUser.twitchFollows.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+        twitchChannels += "" + mvIdentity.currentUser.twitchFollows[i] + ",";
+      }
+      $scope.loadMore = function() {
+        var hitboxcall, twitchcall, _j, _ref1;
+        twitchcall = $http({
+          method: 'JSONP',
+          url: "https://api.twitch.tv/kraken/streams",
+          params: {
+            channel: twitchChannels,
+            callback: 'JSON_CALLBACK',
+            limit: channelsInitial,
+            offset: $scope.offset
+          },
+          headers: {
+            Accept: 'application/vnd.twitchtv.v3+json'
+          }
+        }).success(function(data, status, headers, config) {
+          var channel, _j, _ref1, _results;
+          _results = [];
+          for (i = _j = 0, _ref1 = data.streams.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+            channel = {
+              username: data.streams[i].channel.name,
+              title: data.streams[i].channel.status,
+              display_name: data.streams[i].channel.display_name,
+              viewers_number: parseInt(data.streams[i].viewers, 10),
+              thumbnail_url: data.streams[i].preview.medium,
+              game_thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/" + data.streams[i].channel.game + "-73x100.jpg",
+              game_link: "/games/" + data.streams[i].channel.game,
+              game_name: data.streams[i].channel.game,
+              link: "/twitch/" + data.streams[i].channel.name,
+              platform_logo: '/img/twitch_logo.png',
+              profile_url: data.streams[i].channel.logo
+            };
+            _results.push($scope.channels.streams.push(channel));
+          }
+          return _results;
+        });
+        for (i = _j = 0, _ref1 = mvIdentity.currentUser.hitboxFollows.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+          hitboxChannels += "" + mvIdentity.currentUser.hitboxFollows[i] + ",";
+        }
+        hitboxcall = $http({
+          method: 'GET',
+          url: "https://api.hitbox.tv/media/live/" + hitboxChannels,
+          params: {
+            limit: channelsInitial,
+            offset: $scope.offset
+          }
+        }).success(function(data, status, headers, config) {
+          var channel, _k, _ref2, _results;
+          _results = [];
+          for (i = _k = 0, _ref2 = data.livestream.length; 0 <= _ref2 ? _k < _ref2 : _k > _ref2; i = 0 <= _ref2 ? ++_k : --_k) {
+            channel = {
+              username: data.livestream[i].media_user_name,
+              title: data.livestream[i].media_status,
+              display_name: data.livestream[i].media_user_name,
+              viewers_number: parseInt(data.livestream[i].media_views, 10),
+              thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].media_thumbnail,
+              game_thumbnail_url: "https://edge.sf.hitbox.tv" + data.livestream[i].category_logo_large,
+              game_link: "/games/" + data.livestream[i].category_name,
+              game_name: data.livestream[i].category_name,
+              link: "/hitbox/" + data.livestream[i].media_user_name,
+              platform_logo: '/img/hitbox_logo.png',
+              profile_url: "https://edge.sf.hitbox.tv" + data.livestream[i].channel.user_logo
+            };
+            _results.push($scope.channels.streams.push(channel));
+          }
+          return _results;
+        });
+        return $scope.offset += channelsIncrement;
+      };
+    }
+    return $scope.isNotAuthenticated = !mvIdentity.isAuthenticated();
+  }
 ]).controller('GamesCtrl', [
   '$http', '$scope', '$routeParams', function($http, $scope, $routeParams) {
     $scope.offset = 0;
@@ -333,7 +416,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
         }
       });
     };
-    return $scope.signout = function() {
+    $scope.signout = function() {
       return mvAuth.logoutUser().then(function() {
         $scope.username = "";
         $scope.password = "";
@@ -341,6 +424,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
         return $location.path('/');
       });
     };
+    return $scope.isAuthenticated = mvIdentity.isAuthenticated();
   }
 ]).controller('UserListCtrl', [
   '$scope', 'mvUser', function($scope, mvUser) {

@@ -54,6 +54,7 @@
 				<ul class="nav navbar-nav">
 					<li ng-class="{ active: isActive('/channels')}"><a href="/channels">Channels</a></li>
 					<li ng-class="{ active: isActive('/games')}"><a href="/games">Games</a></li>
+					<li ng-show="isAuthenticated" ng-class="{ active: isActive('/following')}"><a href="/following">Following</a></li>
 				</ul>
 				<div class="navbar-right">
 
