@@ -19,6 +19,9 @@ userSchema = mongoose.Schema({
     type: String,
     unique: true
   },
+  twitchtvUsername: {
+    type: String
+  },
   salt: {
     type: String
   },

@@ -434,7 +434,7 @@ angular.module('twitcherinoControllers', [])
 ])
 
 
-.controller('ProfileCtrl', ['$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', ($scope, mvAuth, mvIdentity, mvNotifier) ->
+.controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow) ->
 	$scope.email = mvIdentity.currentUser.username
 	$scope.fname = mvIdentity.currentUser.firstName
 	$scope.lname = mvIdentity.currentUser.lastName
@@ -459,4 +459,56 @@ angular.module('twitcherinoControllers', [])
 	$scope.twitchCall = ->
 		event.preventDefault()
 		window.location.replace('http://localhost:3030/auth/twitchtv')
+
+	$scope.importTwitchFollows = ->
+
+		channels = [];
+
+		if (mvIdentity.currentUser.twitchtvId)
+			twitchcall = $http({
+				method: 'JSONP'
+				url: "https://api.twitch.tv/kraken/users/#{mvIdentity.currentUser.twitchtvUsername}/follows/channels"
+				params: {
+					callback: 'JSON_CALLBACK'
+					limit: 100
+				}
+				headers: {
+					Accept: 'application/vnd.twitchtv.v3+json'
+				}
+			}).success( (data, status, headers, config) ->
+				for i in [0...data.follows.length]
+					channels.push(data.follows[i].channel.name)
+
+				mvFollow.importTwitchFollows(channels).then( ->
+					mvNotifier.notify('Channels imported')
+				(reason) ->
+					mvNotifier.error(reason)
+				)
+
+				if (mvIdentity.currentUser.twitchtvId)
+					twitchcall = $http({
+						method: 'JSONP'
+						url: "https://api.twitch.tv/kraken/users/#{mvIdentity.currentUser.twitchtvUsername}/follows/channels"
+						params: {
+							callback: 'JSON_CALLBACK'
+							offset: 100
+							limit: 200
+						}
+						headers: {
+							Accept: 'application/vnd.twitchtv.v3+json'
+						}
+					}).success( (data, status, headers, config) ->
+						for i in [0...data.follows.length]
+							channels.push(data.follows[i].channel.name)
+
+						mvFollow.importTwitchFollows(channels).then( ->
+							mvNotifier.notify('Channels imported')
+						(reason) ->
+							mvNotifier.error(reason)
+						)
+
+					)
+
+			)
+
 ])

@@ -449,7 +449,7 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
     };
   }
 ]).controller('ProfileCtrl', [
-  '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', function($scope, mvAuth, mvIdentity, mvNotifier) {
+  '$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', function($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow) {
     $scope.email = mvIdentity.currentUser.username;
     $scope.fname = mvIdentity.currentUser.firstName;
     $scope.lname = mvIdentity.currentUser.lastName;
@@ -470,9 +470,60 @@ angular.module('twitcherinoControllers', []).controller('TwitchChannelCtrl', [
         return mvNotifier.error(reason);
       });
     };
-    return $scope.twitchCall = function() {
+    $scope.twitchCall = function() {
       event.preventDefault();
       return window.location.replace('http://localhost:3030/auth/twitchtv');
+    };
+    return $scope.importTwitchFollows = function() {
+      var channels, twitchcall;
+      channels = [];
+      if (mvIdentity.currentUser.twitchtvId) {
+        return twitchcall = $http({
+          method: 'JSONP',
+          url: "https://api.twitch.tv/kraken/users/" + mvIdentity.currentUser.twitchtvUsername + "/follows/channels",
+          params: {
+            callback: 'JSON_CALLBACK',
+            limit: 100
+          },
+          headers: {
+            Accept: 'application/vnd.twitchtv.v3+json'
+          }
+        }).success(function(data, status, headers, config) {
+          var i, _i, _ref;
+          for (i = _i = 0, _ref = data.follows.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+            channels.push(data.follows[i].channel.name);
+          }
+          mvFollow.importTwitchFollows(channels).then(function() {
+            return mvNotifier.notify('Channels imported');
+          }, function(reason) {
+            return mvNotifier.error(reason);
+          });
+          if (mvIdentity.currentUser.twitchtvId) {
+            return twitchcall = $http({
+              method: 'JSONP',
+              url: "https://api.twitch.tv/kraken/users/" + mvIdentity.currentUser.twitchtvUsername + "/follows/channels",
+              params: {
+                callback: 'JSON_CALLBACK',
+                offset: 100,
+                limit: 200
+              },
+              headers: {
+                Accept: 'application/vnd.twitchtv.v3+json'
+              }
+            }).success(function(data, status, headers, config) {
+              var _j, _ref1;
+              for (i = _j = 0, _ref1 = data.follows.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
+                channels.push(data.follows[i].channel.name);
+              }
+              return mvFollow.importTwitchFollows(channels).then(function() {
+                return mvNotifier.notify('Channels imported');
+              }, function(reason) {
+                return mvNotifier.error(reason);
+              });
+            });
+          }
+        });
+      }
     };
   }
 ]);

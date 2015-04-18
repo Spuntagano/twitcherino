@@ -70,9 +70,11 @@ module.exports = function() {
             username: profile.email
           }).exec(function(err, user) {
             if (!user) {
+              console.log(profile.username);
               return User.create({
                 twitchtvId: profile.id,
-                username: profile.email
+                username: profile.email,
+                twitchtvUsername: profile.username
               }, function(err, user) {
                 return done(null, user);
               });

@@ -97,3 +97,29 @@ exports.removeFollow = function(req, res, next) {
     }
   }
 };
+
+exports.importTwitchFollows = function(req, res, next) {
+  if (!req.user) {
+    return res.send({
+      success: false
+    });
+  } else {
+    return User.update({
+      username: req.user.username
+    }, {
+      $addToSet: {
+        twitchFollows: req.body.channels
+      }
+    }).exec(function(err, collection) {
+      if (err) {
+        res.status(400);
+        res.send({
+          reason: err.toString
+        });
+      }
+      return res.send({
+        success: true
+      });
+    });
+  }
+};

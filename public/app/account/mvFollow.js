@@ -20,7 +20,6 @@ angular.module('twitcherinoApp').factory('mvFollow', [
           user: mvIdentity.currentUser
         }).then(function(response) {
           if (response.data.success) {
-            console.log(mvIdentity.currentUser.twitchFollows);
             switch (platform) {
               case 'twitch':
                 mvIdentity.currentUser.twitchFollows.push(channelTitle);
@@ -28,8 +27,7 @@ angular.module('twitcherinoApp').factory('mvFollow', [
               case 'hitbox':
                 mvIdentity.currentUser.hitboxFollows.push(channelTitle);
             }
-            dfd.resolve(true);
-            return console.log(mvIdentity.currentUser.twitchFollows);
+            return dfd.resolve(true);
           } else {
             return dfd.resolve(false);
           }
@@ -46,7 +44,6 @@ angular.module('twitcherinoApp').factory('mvFollow', [
         }).then(function(response) {
           var i, _i, _j, _ref, _ref1;
           if (response.data.success) {
-            console.log(mvIdentity.currentUser.twitchFollows);
             switch (platform) {
               case 'twitch':
                 for (i = _i = 0, _ref = mvIdentity.currentUser.twitchFollows.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
@@ -62,8 +59,22 @@ angular.module('twitcherinoApp').factory('mvFollow', [
                   }
                 }
             }
-            dfd.resolve(true);
-            return console.log(mvIdentity.currentUser.twitchFollows);
+            return dfd.resolve(true);
+          } else {
+            return dfd.resolve(false);
+          }
+        });
+        return dfd.promise;
+      },
+      importTwitchFollows: function(channels) {
+        var dfd;
+        dfd = $q.defer();
+        $http.post('/importtwitchfollows', {
+          channels: channels
+        }).then(function(response) {
+          if (response.data.success) {
+            mvIdentity.currentUser.twitchFollows = mvIdentity.currentUser.twitchFollows.concat(channels).unique();
+            return dfd.resolve(true);
           } else {
             return dfd.resolve(false);
           }

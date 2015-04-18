@@ -47,6 +47,15 @@
 							</div>
 						</div>
 					</div>
+					<div class="form-group">
+						<div class="col-md-10-offset-2">
+							<div class="pull-right">
+								<div ng-show="isTwitchConnected">
+									<a ng-click="importTwitchFollows()" href="/auth/twitchtv" class="btn btn-primary">Twitch follows import</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</legend>
 			</fieldset>
 		</form>

@@ -32,6 +32,7 @@ module.exports = function(app) {
   });
   app.post('/follow', follow.addFollow);
   app.post('/unfollow', follow.removeFollow);
+  app.post('/importtwitchfollows', follow.importTwitchFollows);
   app.all('/api/*', function() {
     return res.send(404);
   });

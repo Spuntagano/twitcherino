@@ -54,7 +54,8 @@ module.exports = ->
 				else if (!user)
 					User.findOne({username: profile.email}).exec( (err, user) ->
 						if (!user)
-							User.create({ twitchtvId: profile.id, username: profile.email }, (err, user) ->
+							console.log(profile.username)
+							User.create({ twitchtvId: profile.id, username: profile.email, twitchtvUsername: profile.username }, (err, user) ->
 								done(null, user) #create account and log in
 							)
 						else
