@@ -45,6 +45,9 @@
     "passport-local": "^1.0.0",
     "passport-twitchtv": "^0.1.4",
     "grunt": "*",
-    "grunt-cli": "*"
+    "grunt-cli": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-watch": "*"
   }
 }
