@@ -43,6 +43,8 @@
     "morgan": "1.5.x",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
-    "passport-twitchtv": "^0.1.4"
+    "passport-twitchtv": "^0.1.4",
+    "grunt": "*",
+    "grunt-cli": "*"
   }
 }
