@@ -13,7 +13,8 @@
     "karma-mocha": "^0.1.10",
     "mocha": "^2.2.1",
     "protractor": "^1.1.1",
-    "shelljs": "^0.2.6"
+    "shelljs": "^0.2.6",
+    "grunt-contrib-watch": "*"
   },
   "scripts": {
     "postinstall": "bower install && grunt sass && grunt coffee",
@@ -47,7 +48,6 @@
     "grunt": "*",
     "grunt-cli": "*",
     "grunt-contrib-sass": "*",
-    "grunt-contrib-coffee": "*",
-    "grunt-contrib-watch": "*"
+    "grunt-contrib-coffee": "*"
   }
 }
