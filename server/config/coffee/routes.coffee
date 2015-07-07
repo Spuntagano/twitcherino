@@ -11,6 +11,12 @@ module.exports = (app) ->
 	app.post('/api/users', users.createUser)
 	app.put('/api/users', users.updateUser)
 
+	###
+	app.options('/api/users', (req, res) ->
+		res.send(200)
+	)
+	###
+
 	app.get('/partials/:partialPath', (req, res) ->
 		res.render('partials/' + req.params.partialPath)
 	)
@@ -35,7 +41,8 @@ module.exports = (app) ->
 
 	app.post('/importtwitchfollows', follow.importTwitchFollows)
 
-	app.all('/api/*', ->
+	app.all('/api/*', (req, res) ->
+		console.log(req)
 		res.send(404)
 	)
 

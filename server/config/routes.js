@@ -16,6 +16,12 @@ module.exports = function(app) {
   app.get('/api/users', auth.requiresRole('admin'), users.getUsers);
   app.post('/api/users', users.createUser);
   app.put('/api/users', users.updateUser);
+
+  /*
+  	app.options('/api/users', (req, res) ->
+  		res.send(200)
+  	)
+   */
   app.get('/partials/:partialPath', function(req, res) {
     return res.render('partials/' + req.params.partialPath);
   });
@@ -33,7 +39,8 @@ module.exports = function(app) {
   app.post('/follow', follow.addFollow);
   app.post('/unfollow', follow.removeFollow);
   app.post('/importtwitchfollows', follow.importTwitchFollows);
-  app.all('/api/*', function() {
+  app.all('/api/*', function(req, res) {
+    console.log(req);
     return res.send(404);
   });
   return app.get('*', function(req, res) {

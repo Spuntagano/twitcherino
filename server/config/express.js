@@ -19,6 +19,15 @@ module.exports = function(app, config) {
   app.use(logger('dev'));
   app.use(cookieParser());
   app.use(bodyParser());
+
+  /*
+  	app.use((req, res, next) ->
+  		res.header("Access-Control-Allow-Origin", "*")
+  		res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
+  		res.header("Access-Control-Allow-Headers", "X-Requested-With,content-type")
+  		next()
+  	)
+   */
   app.use(session({
     secret: 'twitch boys',
     saveUninitialized: true,
