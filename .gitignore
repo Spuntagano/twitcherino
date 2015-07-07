@@ -3,4 +3,7 @@ public/bower_components
 .sass-cache
 *.js
 !karma.conf.js
+!public/vendors/js/*.js
+!test/*.js
+!test/tests/account/*.js
 todo.txt
