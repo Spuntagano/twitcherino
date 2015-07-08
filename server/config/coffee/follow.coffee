@@ -38,7 +38,7 @@ exports.removeFollow = (req, res, next) ->
 			)
 
 exports.importTwitchFollows = (req, res, next) ->
-	if (!req.user)
+	if (!req.user || !req.body.channels)
 		res.send({success: false})
 	else
 		User.update({username: req.user.username}, {$addToSet: {twitchFollows: req.body.channels}}).exec( (err, collection) ->

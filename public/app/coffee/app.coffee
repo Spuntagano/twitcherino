@@ -22,35 +22,35 @@ angular.module('twitcherinoApp', [
 
 		$locationProvider.html5Mode(true)
 		$routeProvider.when('/', {
-			templateUrl: '/partials/channels.html'
+			templateUrl: '/partials/channels/channels'
 			controller: 'ChannelsCtrl'
 		}).when('/channels', {
-			templateUrl: '/partials/channels.html'
+			templateUrl: '/partials/channels/channels'
 			controller: 'ChannelsCtrl'
-		}).when('/following', {
-			templateUrl: '/partials/channels.html'
-			controller: 'FollowingCtrl'
+		}).when('/follow', {
+			templateUrl: '/partials/account/follow'
+			controller: 'FollowCtrl'
 		}).when('/hitbox/:channelUser', {
-			templateUrl: '/partials/channel.html'
+			templateUrl: '/partials/channel/channel'
 			controller: 'HitboxChannelCtrl'
 		}).when('/twitch/:channelUser', {
-			templateUrl: '/partials/channel.html'
+			templateUrl: '/partials/channel/channel'
 			controller: 'TwitchChannelCtrl'
 		}).when('/games', {
-			templateUrl: '/partials/games.html'
+			templateUrl: '/partials/games/games'
 			controller: 'GamesCtrl'
 		}).when('/games/:gameName', {
-			templateUrl: '/partials/channels.html'
+			templateUrl: '/partials/gameschannels/gamesChannels'
 			controller: 'GamesChannelsCtrl'
 		}).when('/admin/users', {
-			templateUrl: '/partials/user-list.html'
+			templateUrl: '/partials/account/user-list'
 			controller: 'UserListCtrl'
 			resolve: routeRoleChecks.admin
 		}).when('/signup', {
-			templateUrl: '/partials/signup.html'
+			templateUrl: '/partials/account/signup'
 			controller: 'SignupCtrl'
 		}).when('/profile', {
-			templateUrl: '/partials/profile.html'
+			templateUrl: '/partials/account/profile'
 			controller: 'ProfileCtrl'
 			resolve: routeRoleChecks.user
 		}).otherwise({

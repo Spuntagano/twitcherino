@@ -11,14 +11,10 @@ module.exports = (app) ->
 	app.post('/api/users', users.createUser)
 	app.put('/api/users', users.updateUser)
 
-	###
-	app.options('/api/users', (req, res) ->
-		res.send(200)
-	)
-	###
+	app.get('/api/user', users.getUser)
 
-	app.get('/partials/:partialPath', (req, res) ->
-		res.render('partials/' + req.params.partialPath)
+	app.get('/partials/*', (req, res) ->
+		res.render('../../public/app/' + req.params[0])
 	)
 
 	app.post('/login', auth.authenticate)

@@ -32,8 +32,6 @@ module.exports = ->
 	}
 	(req, accessToken, refreshToken, profile, done) ->
 
-		console.log(profile)
-
 		if (req.user)
 			User.findOne({username: req.user.username}).exec( (err, user) -> 
 				User.findOne({twitchtvId: profile.id}).exec( (err, user) ->

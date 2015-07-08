@@ -14,3 +14,18 @@ angular.module('twitcherinoDirectives', [])
 			})
 		)
 )
+
+#fix an issue when trying to link to twitch login
+.directive('fixlink', ($timeout) ->
+	(scope, element) ->
+		$timeout( ->
+
+			href = $(element).attr('href')
+
+			$(element).on('click', ->
+				event.preventDefault()
+				window.location.replace(href)
+			)
+
+		)
+)

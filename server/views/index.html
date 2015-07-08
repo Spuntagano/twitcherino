@@ -16,9 +16,15 @@
 	<script src="/bower_components/angular-resource/angular-resource.js"></script>
 	<script src="/app/config.js"></script>
 	<script src="/app/app.js"></script>
-	<script src="/app/controllers.js"></script>
 	<script src="/app/services.js"></script>
 	<script src="/app/directives.js"></script>
+	<script src="/app/controllers.js"></script>
+	<script src="/app/account/mvUserCtrl.js"></script>
+	<script src="/app/account/mvFollowCtrl.js"></script>
+	<script src="/app/channel/mvChannelCtrl.js"></script>
+	<script src="/app/channels/mvChannelsCtrl.js"></script>
+	<script src="/app/games/mvGamesCtrl.js"></script>
+	<script src="/app/gameschannels/mvGamesChannelsCtrl.js"></script>
 	<script src="/app/account/mvUser.js"></script>
 	<script src="/app/account/mvIdentity.js"></script>
 	<script src="/app/account/mvAuth.js"></script>
@@ -54,7 +60,7 @@
 				<ul class="nav navbar-nav">
 					<li ng-class="{ active: isActive('/channels')}"><a href="/channels">Channels</a></li>
 					<li ng-class="{ active: isActive('/games')}"><a href="/games">Games</a></li>
-					<li ng-show="isAuthenticated" ng-class="{ active: isActive('/following')}"><a href="/following">Following</a></li>
+					<li ng-show="identity.isAuthenticated()" ng-class="{ active: isActive('/following')}"><a href="/follow">Following</a></li>
 				</ul>
 				<div class="navbar-right">
 

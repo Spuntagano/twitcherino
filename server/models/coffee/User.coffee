@@ -11,9 +11,12 @@ userSchema = mongoose.Schema({
 	twitchtvId: {
 		type: String
 		unique: true
+		sparse: true
 	}
 	twitchtvUsername: {
 		type: String
+		unique: true
+		sparse: true
 	}
 	salt: {type: String}
 	hashed_pwd: {type: String}

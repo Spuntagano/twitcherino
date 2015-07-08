@@ -1,11 +1,4 @@
 twitch login failure message
-refactoring controllers
-refactoring views
-renaming front end code (mv)
-/auth/twitchtv button fix
-twitch connect dosent show right away
 stream viewers number count
 tests
 twitch sync follow limit
-empty channel list
-update CurrentUser after follow import (example: mvAuth.updateCurrentUser)

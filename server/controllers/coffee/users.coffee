@@ -1,6 +1,15 @@
 User = require('mongoose').model('User')
 encrypt = require('../utilities/encryption')
 
+exports.getUser = (req, res) ->
+	if (!req.user)
+		res.status(400)
+		return res.send(reason: 'Not logged in')
+
+	User.find(username: req.user.username).exec( (err, collection) ->
+		res.send(collection)
+	)
+
 exports.getUsers = (req, res) ->
 	User.find({}).exec( (err, collection) ->
 		res.send(collection)
@@ -8,11 +17,17 @@ exports.getUsers = (req, res) ->
 
 exports.createUser = (req, res, next) ->
 	userData = req.body
+
+	if (!userData.username || !userData.firstName || !userData.lastName || !userData.password)
+		res.status(400)
+		return res.send(reason: 'Missing field')
+
 	userData.username = userData.username.toLowerCase()
 	userData.salt = encrypt.createSalt()
 	userData.hashed_pwd =  encrypt.hashPwd(userData.salt, userData.password)
 	User.create(userData, (err, user) ->
 		if (err)
+			console.log(err)
 			if (err.toString().indexOf('E11000') > -1)
 				err = new Error('Duplicate Username')
 			res.status(400)
@@ -25,11 +40,16 @@ exports.createUser = (req, res, next) ->
 	)
 
 exports.updateUser = (req, res) ->
+
 	userUpdates = req.body
+
+	if (!userUpdates.username || !userUpdates.firstName || !userUpdates.lastName || !userUpdates.password)
+		res.status(400)
+		return res.send(reason: 'Missing field')
 
 	if(parseInt(req.user._id, 10) != parseInt(userUpdates._id, 10) && !req.user.hasRole('admin'))
 		res.status(403)
-		res.end()
+		return res.send(reason: Unauthaurized)
 
 	oldUsername = req.user.username
 

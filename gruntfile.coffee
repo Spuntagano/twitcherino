@@ -43,6 +43,34 @@ module.exports = (grunt) ->
 					},
 					{
 						expand: true
+						cwd: 'public/app/channel/coffee'
+						src: ['**/*.coffee']
+						dest: 'public/app/channel'
+						ext: '.js'
+					},
+					{
+						expand: true
+						cwd: 'public/app/channels/coffee'
+						src: ['**/*.coffee']
+						dest: 'public/app/channels'
+						ext: '.js'
+					},
+					{
+						expand: true
+						cwd: 'public/app/games/coffee'
+						src: ['**/*.coffee']
+						dest: 'public/app/games'
+						ext: '.js'
+					},
+					{
+						expand: true
+						cwd: 'public/app/gameschannels/coffee'
+						src: ['**/*.coffee']
+						dest: 'public/app/gameschannels'
+						ext: '.js'
+					},
+					{
+						expand: true
 						cwd: 'server/config/coffee'
 						src: ['**/*.coffee']
 						dest: 'server/config'
@@ -85,7 +113,7 @@ module.exports = (grunt) ->
 				files: '<%= sass.compile.files[0].src %>'
 				tasks: ['sass']
 			coffee:
-				files: ['<%= coffee.compile.files.src %>', '<%= coffee.compile.files[1].src %>', '<%= coffee.compile.files[2].src %>', '<%= coffee.compile.files[3].src %>', '<%= coffee.compile.files[4].src %>', '<%= coffee.compile.files[5].src %>', '<%= coffee.compile.files[6].src %>']
+				files: ['<%= coffee.compile.files[0].src %>', '<%= coffee.compile.files[1].src %>', '<%= coffee.compile.files[2].src %>', '<%= coffee.compile.files[3].src %>', '<%= coffee.compile.files[4].src %>', '<%= coffee.compile.files[5].src %>', '<%= coffee.compile.files[6].src %>', '<%= coffee.compile.files[7].src %>', '<%= coffee.compile.files[8].src %>', '<%= coffee.compile.files[9].src %>', '<%= coffee.compile.files[10].src %>']
 				tasks: ['coffee']
 			options:
 				livereload: true

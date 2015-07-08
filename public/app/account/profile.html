@@ -24,13 +24,13 @@
 					<div class="form-group">
 						<label class="col-md-2 control-label" for="password">Password</label>
 						<div class="col-md-10">
-							<input id="password" class="form-control" name="password" type="password" placeholder="Password" ng-model="password" />
+							<input id="password" class="form-control" name="password" type="password" placeholder="Password" ng-model="password" required />
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-md-10-offset-2">
 							<div class="pull-right">
-								<button class="btn btn-primary" ng-click="update()" ng-disabled="signupForm.$invalid">Submit</button>
+								<button class="btn btn-primary" ng-click="update()" ng-disabled="profileForm.$invalid">Submit</button>
 								<a href="/" class="btn btn-default">Cancel</a>
 							</div>
 						</div>
@@ -42,7 +42,7 @@
 									Twitch account connected
 								</div>
 								<div ng-hide="isTwitchConnected">
-									<a ng-click="twitchCall()" href="/auth/twitchtv" class="btn-twitch-login">Twitch login</a>
+									<a fixlink href="/auth/twitchtv" class="btn-twitch-login">Twitch login</a>
 								</div>
 							</div>
 						</div>
@@ -51,7 +51,7 @@
 						<div class="col-md-10-offset-2">
 							<div class="pull-right">
 								<div ng-show="isTwitchConnected">
-									<a ng-click="importTwitchFollows()" href="/auth/twitchtv" class="btn btn-primary">Twitch follows import</a>
+									<a ng-click="importTwitchFollows()" href="#" class="btn btn-primary">Twitch follows import</a>
 								</div>
 							</div>
 						</div>
