@@ -20,7 +20,7 @@ exports.createUser = (req, res, next) ->
 
 	if (!userData.username || !userData.firstName || !userData.lastName || !userData.password)
 		res.status(400)
-		return res.send(reason: 'Missing field')
+		res.send({reason: err.toString})
 
 	userData.username = userData.username.toLowerCase()
 	userData.salt = encrypt.createSalt()
@@ -45,7 +45,7 @@ exports.updateUser = (req, res) ->
 
 	if (!userUpdates.username || !userUpdates.firstName || !userUpdates.lastName || !userUpdates.password)
 		res.status(400)
-		return res.send(reason: 'Missing field')
+		res.send({reason: err.toString})
 
 	if(parseInt(req.user._id, 10) != parseInt(userUpdates._id, 10) && !req.user.hasRole('admin'))
 		res.status(403)

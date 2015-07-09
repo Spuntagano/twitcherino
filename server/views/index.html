@@ -35,10 +35,28 @@
 	<script src="/vendors/js/attrchange.js"></script>
 	<script src="/app/scripts.js"></script>
 
-	<% if (!!bootstrappedUser){ %>
-		<script>
-			window.bootstrappedUserObject = <%- JSON.stringify(bootstrappedUser) %>
-		</script>
+	<% if ( typeof bootstrappedUser != 'undefined' ){ %>
+		<% if (!!bootstrappedUser){ %>
+			<script>
+				window.bootstrappedUserObject = <%- JSON.stringify(bootstrappedUser); %>
+			</script>
+		<% } %>
+	<% } %>
+
+	<% if ( typeof errorMessage != 'undefined' ){ %>
+		<% if (!!errorMessage){ %>
+			<script>
+				window.errorMessage = <%- '\'' + errorMessage + '\'' %>
+			</script>
+		<% } %>
+	<% } %>
+
+	<% if ( typeof infoMessage != 'undefined' ){ %>
+		<% if (!!infoMessage){ %>
+			<script>
+				window.infoMessage = <%- '\'' + infoMessage + '\'' %>
+			</script>
+		<% } %>
 	<% } %>
 
 </head>

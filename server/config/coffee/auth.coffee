@@ -4,7 +4,7 @@ exports.authenticate = (req, res, next) ->
 
 	if(!req.body.username || !req.body.username)
 		res.status(400)
-		return res.send(reason: 'Missing field')
+		res.send({reason: err.toString})
 
 	req.body.username = req.body.username.toLowerCase()
 	auth = passport.authenticate('local', (err, user) ->

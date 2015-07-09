@@ -27,9 +27,43 @@ module.exports = (app) ->
 	app.get('/auth/twitchtv', passport.authenticate('twitchtv'))
 
 	app.get('/auth/twitchtv/callback', 
-		passport.authenticate('twitchtv', { failureRedirect: '/' }),
+		passport.authenticate('twitchtv', { failureRedirect: '/login', failureFlash: true }),
 		(req, res) ->
-			res.redirect('/')
+			res.redirect('/profile')
+	)
+
+	app.get('/login', (req, res) ->
+		errorMessage = req.flash('error')
+		bootstrappedUser = false
+		if (req.user)
+			bootstrappedUser = {
+				username: req.user.username
+				twitchtvId: req.user.twitchtvId
+				twitchtvUsername: req.user.twitchtvUsername
+				hitboxFollows: req.user.hitboxFollows
+				twitchFollows: req.user.twitchFollows
+				roles: req.user.roles
+			}
+		res.render('index', {
+			errorMessage: errorMessage,
+			bootstrappedUser: bootstrappedUser
+		})
+	)
+
+	app.get('/profile', (req, res) ->
+		bootstrappedUser = false
+		if (req.user)
+			bootstrappedUser = {
+				username: req.user.username
+				twitchtvId: req.user.twitchtvId
+				twitchtvUsername: req.user.twitchtvUsername
+				hitboxFollows: req.user.hitboxFollows
+				twitchFollows: req.user.twitchFollows
+				roles: req.user.roles
+			}
+		res.render('index', {
+			bootstrappedUser: bootstrappedUser
+		})
 	)
 
 	app.post('/follow', follow.addFollow)
@@ -43,7 +77,17 @@ module.exports = (app) ->
 	)
 
 	app.get('*', (req, res) ->
+		bootstrappedUser = false
+		if (req.user)
+			bootstrappedUser = {
+				username: req.user.username
+				twitchtvId: req.user.twitchtvId
+				twitchtvUsername: req.user.twitchtvUsername
+				hitboxFollows: req.user.hitboxFollows
+				twitchFollows: req.user.twitchFollows
+				roles: req.user.roles
+			}
 		res.render('index', {
-			bootstrappedUser: req.user
+			bootstrappedUser: bootstrappedUser
 		})
 	)

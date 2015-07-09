@@ -3,9 +3,7 @@ passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
 TwitchtvStrategy = require('../../node_modules/passport-twitchtv').Strategy;
 User = mongoose.model('User')
-
-TWITCHTV_CLIENT_ID = '3453206b4coczmz7878sejh31g7221j'
-TWITCHTV_CLIENT_SECRET = '1cst8e1swycb981xzh0hy589yqikmk2'
+config = require('./config')
 
 module.exports = ->
 	passport.use(new LocalStrategy(
@@ -24,8 +22,8 @@ module.exports = ->
 	)
 
 	passport.use(new TwitchtvStrategy({
-		clientID: TWITCHTV_CLIENT_ID
-		clientSecret: TWITCHTV_CLIENT_SECRET
+		clientID: config.TWITCHTV_CLIENT_ID
+		clientSecret: config.TWITCHTV_CLIENT_SECRET
 		callbackURL: "/auth/twitchtv/callback"
 		scope: "user_read"
 		passReqToCallback : true
@@ -36,11 +34,11 @@ module.exports = ->
 			User.findOne({username: req.user.username}).exec( (err, user) -> 
 				User.findOne({twitchtvId: profile.id}).exec( (err, user) ->
 					if (!user)
-						User.update({username: req.user.username}, {twitchtvId: profile.id}, (err, user) ->
-							done(null, false) #connect account
+						User.update({username: req.user.username}, {twitchtvId: profile.id, twitchtvUsername: profile.username}, (err, user) ->
+							done(null, req.user) #connect account // you dont log in a created user here, you just add the twitchid to the existing account
 						)
 					else
-						done(null, false) #account linked to another account
+						done(null, false, {message: 'Your twitch account is already linked to another account'}) #account linked to another account
 				)
 			)
 		else
@@ -48,19 +46,18 @@ module.exports = ->
 				if (user)
 					done(null, user) #log in user
 				else if (!profile.email)
-					done(null, false) #twitch email not validated
+					done(null, false, {message: 'Please validate your twitch email'}) #twitch email not validated
 				else if (!user)
 					User.findOne({username: profile.email}).exec( (err, user) ->
 						if (!user)
-							console.log(profile.username)
 							User.create({ twitchtvId: profile.id, username: profile.email, twitchtvUsername: profile.username }, (err, user) ->
 								done(null, user) #create account and log in
 							)
 						else
-							done(null, false) #a user already exist with the twitch account email
+							done(null, false, {message: 'A user already exist with this twitch account email'}) #a user already exist with the twitch account email
 					)
 				else
-					done(null, false) #error
+					done(null, false, {message: 'Something went wrong'}) #error
 			)
 		)
 	)

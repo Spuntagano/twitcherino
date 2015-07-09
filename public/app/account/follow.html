@@ -1,6 +1,5 @@
 <div class="container-fluid margin-top">
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
-		<h2 class="searching" ng-show="{{game_search}}">Searching for: {{game_name}}</h2>
 		<h2 ng-show="isNotAuthenticated">Please login to see your followed channels</h2>
 		<div id="item-container" class="item-container">
 			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container">

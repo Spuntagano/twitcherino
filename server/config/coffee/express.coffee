@@ -1,3 +1,4 @@
+flash = require('connect-flash')
 express = require('express')
 logger = require('morgan')
 bodyParser = require('body-parser')
@@ -13,10 +14,12 @@ module.exports = (app, config) ->
 	app.use(logger('dev'))
 	app.use(cookieParser())
 	app.use(bodyParser())
-	
+
+	app.use(flash())
 
 	app.use(session({secret: 'twitch boys', saveUninitialized: true, resave: true}))
 	app.use(passport.initialize())
 	app.use(passport.session())
 
 	app.use(express.static(config.rootPath + '/public'))
+

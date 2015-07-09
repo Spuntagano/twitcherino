@@ -1,4 +1,2 @@
-twitch login failure message
-stream viewers number count
+login page
 tests
-twitch sync follow limit
