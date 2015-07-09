@@ -7,4 +7,4 @@ public/bower_components
 !test/*.js
 !test/tests/account/*.js
 todo.txt
-server/config/config.coffee
+server/config/coffee/config.coffee
