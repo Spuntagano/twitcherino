@@ -1,10 +1,12 @@
 # Twitcherino
 (Name not final)
 
-Source code for an upcoming website that will combine all livegaming webservice in one!
+Source code for an upcoming web application that will combine all livegaming webservice in one!
 This is a work in progress!
 
-You create an account if you like, but it will most likely be deleted at some point
+It is currently hosted [here](http://warm-mountain-7865.herokuapp.com/)
+
+You can create an account if you like, but it will most likely be deleted at some point
 
 ## License
 
