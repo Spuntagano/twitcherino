@@ -3,7 +3,6 @@ passport = require('passport')
 LocalStrategy = require('passport-local').Strategy
 TwitchtvStrategy = require('../../node_modules/passport-twitchtv').Strategy;
 User = mongoose.model('User')
-config = require('./config')
 
 module.exports = ->
 	passport.use(new LocalStrategy(
