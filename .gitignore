@@ -8,3 +8,4 @@ public/bower_components
 !test/tests/account/*.js
 !public/app/scripts.js
 todo.txt
+server/coffee/config.coffee
