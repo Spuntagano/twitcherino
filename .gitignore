@@ -6,4 +6,5 @@ public/bower_components
 !public/vendors/js/*.js
 !test/*.js
 !test/tests/account/*.js
+!public/app/scripts.js
 todo.txt
