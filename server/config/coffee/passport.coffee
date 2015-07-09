@@ -4,7 +4,7 @@ LocalStrategy = require('passport-local').Strategy
 TwitchtvStrategy = require('../../node_modules/passport-twitchtv').Strategy;
 User = mongoose.model('User')
 
-module.exports = ->
+module.exports = (config) ->
 	passport.use(new LocalStrategy(
 		{
 			usernameField: 'username',
