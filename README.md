@@ -10,7 +10,7 @@ You can create an account if you like, but it will most likely be deleted at som
 
 ## License
 
-This project is licensed under a  Attribution-NonCommercial-ShareAlike 4.0 International.
+This project is licensed under Attribution-NonCommercial-ShareAlike 4.0 International.
 http://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
