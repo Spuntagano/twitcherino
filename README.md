@@ -4,7 +4,7 @@
 Source code for an upcoming website that will combine all livegaming webservice in one!
 This is a work in progress!
 
-You create an account if you like, but it will most likely be deleted at some point
+You can create an account if you like, but it will most likely be deleted at some point
 
 ## License
 
