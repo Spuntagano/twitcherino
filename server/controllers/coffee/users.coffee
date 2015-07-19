@@ -51,7 +51,6 @@ exports.updateUser = (req, res) ->
 		return res.send(reason: Unauthaurized)
 
 	oldUsername = req.user.username
-
 	req.user.username = sanitizeHtml(userUpdates.username)
 
 	if (userUpdates.password && userUpdates.password.length > 0)
