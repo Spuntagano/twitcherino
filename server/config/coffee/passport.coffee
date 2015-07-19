@@ -34,7 +34,7 @@ module.exports = (config) ->
 				User.findOne({twitchtvId: profile.id}).exec( (err, user) ->
 					if (!user)
 						User.update({username: req.user.username}, {twitchtvId: profile.id, twitchtvUsername: profile.username}, (err, user) ->
-							done(null, req.user) #connect account // you dont log in a created user here, you just add the twitchid to the existing account
+							done(null, false) #connect account // you dont log in a created user here, you just add the twitchid to the existing account
 						)
 					else
 						done(null, false, {message: 'Your twitch account is already linked to another account'}) #account linked to another account
