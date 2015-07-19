@@ -52,13 +52,17 @@ exports.removeFollow = (req, res, next) ->
 			)
 
 exports.importTwitchFollows = (req, res, next) ->
+	console.log(req.user)
+	console.log(req.body.channels)
 	if (!req.user || !req.body.channels)
 		res.status(400)
-		res.send({reason: err.toString})
+		res.send({reason: 'Missing arguments'})
+		res.end()
 	else
 		User.update({username: req.user.username}, {$addToSet: {twitchFollows: { $each: req.body.channels } }}).exec( (err, collection) ->
 			if (err)
 				res.status(400)
-				res.send({reason: err.toString})
+				res.send({reason: 'Database error'})
+				res.end()
 			res.send({success: true})
 		)
