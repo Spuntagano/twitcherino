@@ -44,6 +44,12 @@
 		</script>
 	<% } %>
 
+	<% if ( typeof urls != 'undefined' && !!urls ){ %>
+		<script>
+			window.urls = <%- JSON.stringify(urls); %>
+		</script>
+	<% } %>
+
 	<% if ( typeof errorMessage != 'undefined' && !!errorMessage ){ %>
 		<script>
 			window.errorMessage = <%- '\'' + errorMessage + '\'' %>

@@ -6,4 +6,3 @@ OPTIONS =
 	gamesInitial: 16 #how many game to load first
 
 	refreshInterval: 60*1000 #interval of time between api call refresh while viewing a stream
-

@@ -24,7 +24,6 @@ nav.nav-style {
   display: block;
   /* Fallback for non-webkit */
   display: -webkit-box;
-  max-width: 438px;
   height: 21px;
   /* Fallback for non-webkit */
   margin: 0 auto;

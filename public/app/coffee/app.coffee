@@ -1,6 +1,5 @@
 angular.module('twitcherinoApp', [
 	'ngRoute',
-	'ngSanitize',
 	'twitcherinoDirectives',
 	'twitcherinoControllers',
 	'twitcherinoServices',

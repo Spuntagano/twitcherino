@@ -5,7 +5,7 @@ mongoose = require('mongoose')
 passport = require('passport')
 User = mongoose.model('User')
 
-module.exports = (app) ->
+module.exports = (app, config) ->
 
 	app.get('/api/users', auth.requiresRole('admin'), users.getUsers)
 	app.post('/api/users', users.createUser)
@@ -36,12 +36,14 @@ module.exports = (app) ->
 		errorMessage = req.flash('error')
 		res.render('index', {
 			errorMessage: errorMessage,
+			urls: urlFunc(config)
 			bootstrappedUser: bootstrappedUserFunc(req)
 		})
 	)
 
 	app.get('/profile', (req, res) ->
 		res.render('index', {
+			urls: urlFunc(config)
 			bootstrappedUser: bootstrappedUserFunc(req)
 		})
 	)
@@ -58,14 +60,21 @@ module.exports = (app) ->
 
 	app.get('*', (req, res) ->
 		res.render('index', {
+			urls: urlFunc(config)
 			bootstrappedUser: bootstrappedUserFunc(req)
 		})
 	)
 
+
+urlFunc = (config) ->
+	urls =
+		httpBaseUrl: config.HTTP_BASE_URL
+		httpsBaseUrl: config.HTTPS_BASE_URL
+
 bootstrappedUserFunc = (req) ->
 	bootstrappedUser = false
 	if (req.user)
-		bootstrappedUser = {
+		bootstrappedUser =
 			username: req.user.username
 			firstname: req.user.firstName
 			lastName: req.user.lastName
@@ -75,4 +84,4 @@ bootstrappedUserFunc = (req) ->
 			twitchFollows: req.user.twitchFollows
 			azubuFollows: req.user.azubuFollows
 			roles: req.user.roles
-		}
+
