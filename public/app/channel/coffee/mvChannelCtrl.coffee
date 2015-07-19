@@ -3,10 +3,8 @@ angular.module('twitcherinoControllers', [])
 .controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
 	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location) ->
 
-		console.log($location.protocol())
 		if ($location.protocol() == 'https')
-			console.log("http://#{$location.host()}#{$location.path()}")
-			$location.path("http://#{$location.host()}#{$location.path()}")
+			window.location.replace("http://#{$location.host()}#{$location.path()}")
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed?auto_play=true")
@@ -69,6 +67,9 @@ angular.module('twitcherinoControllers', [])
 .controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier'
 	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) ->
 
+		if ($location.protocol() == 'https')
+			window.location.replace("http://#{$location.host()}#{$location.path()}")
+
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}?autoplay=true")
 
@@ -121,6 +122,9 @@ angular.module('twitcherinoControllers', [])
 
 .controller('AzubuChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier'
 	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) ->
+
+		if ($location.protocol() == 'https')
+			window.location.replace("http://#{$location.host()}#{$location.path()}")
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.azubu.tv/azubulink/embed=#{$routeParams.channelUser}")
