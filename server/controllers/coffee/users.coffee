@@ -23,7 +23,6 @@ exports.createUser = (req, res, next) ->
 	validateInput(res, userData)
 
 	userData.username = sanitizeHtml(userData.username.toLowerCase())
-	userData.password = sanitizeHtml(userData.password)
 
 	userData.salt = encrypt.createSalt()
 	userData.hashed_pwd =  encrypt.hashPwd(userData.salt, userData.password)
@@ -56,7 +55,6 @@ exports.updateUser = (req, res) ->
 	req.user.username = sanitizeHtml(userUpdates.username)
 
 	if (userUpdates.password && userUpdates.password.length > 0)
-		req.user.password = sanitizeHtml(req.user.password)
 		req.user.salt = encrypt.createSalt()
 		req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password)
 

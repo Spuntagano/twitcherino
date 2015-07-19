@@ -41,7 +41,7 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 
 	importTwitchFollows: (channels) ->
 		dfd = $q.defer()
-		$http.post("#{window.urls.httpsBaseUrl}/importtwitchfollows", {channels: channels, user: mvIdentity.currentUser}).then( (response) ->
+		$http.post("#{window.urls.httpsBaseUrl}/importtwitchfollows", {channels: channels}).then( (response) ->
 			if (response.data.success)
 				mvIdentity.currentUser.twitchFollows = mvIdentity.currentUser.twitchFollows.concat(channels).unique()
 				dfd.resolve(true)
