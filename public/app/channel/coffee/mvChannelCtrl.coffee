@@ -64,8 +64,8 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) ->
+.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, location) ->
 
 		if ($location.protocol() == 'https')
 			window.location.replace("http://#{$location.host()}#{$location.path()}")
@@ -120,8 +120,8 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('AzubuChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) ->
+.controller('AzubuChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, location) ->
 
 		if ($location.protocol() == 'https')
 			window.location.replace("http://#{$location.host()}#{$location.path()}")
