@@ -39,5 +39,5 @@ angular.module('twitcherinoDirectives', [])
 .directive('navbar', ->
 	restrict: 'E'
 	replace: 'true'
-	templateUrl: '/partials/common/navbar'
+	templateUrl: '/partials/navbar/navbar'
 )

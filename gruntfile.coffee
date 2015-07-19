@@ -36,6 +36,13 @@ module.exports = (grunt) ->
 					},
 					{
 						expand: true
+						cwd: 'public/app/navbar/coffee'
+						src: ['**/*.coffee']
+						dest: 'public/app/navbar'
+						ext: '.js'
+					},
+					{
+						expand: true
 						cwd: 'public/app/account/coffee'
 						src: ['**/*.coffee']
 						dest: 'public/app/account'
@@ -113,7 +120,7 @@ module.exports = (grunt) ->
 				files: '<%= sass.compile.files[0].src %>'
 				tasks: ['sass']
 			coffee:
-				files: ['<%= coffee.compile.files[0].src %>', '<%= coffee.compile.files[1].src %>', '<%= coffee.compile.files[2].src %>', '<%= coffee.compile.files[3].src %>', '<%= coffee.compile.files[4].src %>', '<%= coffee.compile.files[5].src %>', '<%= coffee.compile.files[6].src %>', '<%= coffee.compile.files[7].src %>', '<%= coffee.compile.files[8].src %>', '<%= coffee.compile.files[9].src %>', '<%= coffee.compile.files[10].src %>']
+				files: ['<%= coffee.compile.files[0].src %>', '<%= coffee.compile.files[1].src %>', '<%= coffee.compile.files[2].src %>', '<%= coffee.compile.files[3].src %>', '<%= coffee.compile.files[4].src %>', '<%= coffee.compile.files[5].src %>', '<%= coffee.compile.files[6].src %>', '<%= coffee.compile.files[7].src %>', '<%= coffee.compile.files[8].src %>', '<%= coffee.compile.files[9].src %>', '<%= coffee.compile.files[10].src %>', '<%= coffee.compile.files[11].src %>']
 				tasks: ['coffee']
 			options:
 				livereload: true
