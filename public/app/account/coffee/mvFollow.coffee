@@ -7,7 +7,7 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 				when 'azubu' then mvIdentity.currentUser.azubuFollows.indexOf(channelTitle) > -1
 	addFollow: (channelTitle, platform) ->
 		dfd = $q.defer()
-		$http.post("#{window.urls.httpsBaseUrl}/follow", {channelTitle: channelTitle, platform: platform, user: mvIdentity.currentUser}).then( (response) ->
+		$http.post("#{window.urls.httpBaseUrl}/follow", {channelTitle: channelTitle, platform: platform, user: mvIdentity.currentUser}).then( (response) ->
 			if (response.data.success)
 				switch (platform)
 					when 'twitch' then mvIdentity.currentUser.twitchFollows.push(channelTitle)
@@ -21,7 +21,7 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 
 	removeFollow: (channelTitle, platform) ->
 		dfd = $q.defer()
-		$http.post("#{window.urls.httpsBaseUrl}/unfollow", {channelTitle: channelTitle, platform: platform, user: mvIdentity.currentUser}).then( (response) ->
+		$http.post("#{window.urls.httpBaseUrl}/unfollow", {channelTitle: channelTitle, platform: platform, user: mvIdentity.currentUser}).then( (response) ->
 			if (response.data.success)
 				switch (platform)
 					when 'twitch' then for i in [0...mvIdentity.currentUser.twitchFollows.length]
@@ -41,7 +41,7 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 
 	importTwitchFollows: (channels) ->
 		dfd = $q.defer()
-		$http.post("#{window.urls.httpsBaseUrl}/importtwitchfollows", {channels: channels}).then( (response) ->
+		$http.post("#{window.urls.httpBaseUrl}/importtwitchfollows", {channels: channels}).then( (response) ->
 			if (response.data.success)
 				mvIdentity.currentUser.twitchFollows = mvIdentity.currentUser.twitchFollows.concat(channels).unique()
 				dfd.resolve(true)
