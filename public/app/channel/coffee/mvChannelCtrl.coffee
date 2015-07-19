@@ -6,7 +6,7 @@ angular.module('twitcherinoControllers', [])
 		console.log($location.protocol())
 		if ($location.protocol() == 'https')
 			console.log("http://#{$location.host()}#{$location.path()}")
-			$location.absUrl("http://#{$location.host()}#{$location.path()}")
+			$location.path("http://#{$location.host()}#{$location.path()}")
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed?auto_play=true")
