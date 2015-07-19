@@ -1,4 +1,5 @@
-HTTP/HTTPS  // remove local registration
+remove local registration
+remove cors
 error messages // res.end()
 tests
 branding
