@@ -1,4 +1,4 @@
-username instead of fname/lastname
 HTTP/HTTPS ??
+error messages // res.end()
 tests
 branding

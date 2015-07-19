@@ -9,8 +9,6 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 			newUserData =
 				username: $scope.email
 				password: $scope.password
-				firstName: $scope.fname
-				lastName: $scope.lname
 
 			mvAuth.createUser(newUserData).then( ->
 				mvNotifier.notify('User account created!')
@@ -23,8 +21,6 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 
 angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow) ->
 	$scope.email = mvIdentity.currentUser.username
-	$scope.fname = mvIdentity.currentUser.firstName
-	$scope.lname = mvIdentity.currentUser.lastName
 
 	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
 
@@ -44,8 +40,6 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 	$scope.update = ->
 		newUserData =
 			username: $scope.email
-			firstName: $scope.fname
-			lastName: $scope.lname
 
 		if ($scope.password && $scope.password.length > 0)
 			newUserData.password = $scope.password

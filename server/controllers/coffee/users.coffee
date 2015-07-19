@@ -20,11 +20,9 @@ exports.getUsers = (req, res) ->
 exports.createUser = (req, res, next) ->
 	userData = req.body
 
-	validateInput(userData)
+	validateInput(res, userData)
 
 	userData.username = sanitizeHtml(userData.username.toLowerCase())
-	userData.firstName = sanitizeHtml(userData.firstName)
-	userData.lastName = sanitizeHtml(userData.lastName)
 	userData.password = sanitizeHtml(userData.password)
 
 	userData.salt = encrypt.createSalt()
@@ -47,7 +45,7 @@ exports.updateUser = (req, res) ->
 
 	userUpdates = req.body
 
-	validateInput(userUpdates)
+	validateInput(res, userUpdates)
 
 	if(parseInt(req.user._id, 10) != parseInt(userUpdates._id, 10) && !req.user.hasRole('admin'))
 		res.status(403)
@@ -55,8 +53,6 @@ exports.updateUser = (req, res) ->
 
 	oldUsername = req.user.username
 
-	req.user.firstName = sanitizeHtml(userUpdates.firstName)
-	req.user.lastName = sanitizeHtml(userUpdates.lastName)
 	req.user.username = sanitizeHtml(userUpdates.username)
 
 	if (userUpdates.password && userUpdates.password.length > 0)
@@ -72,15 +68,18 @@ exports.updateUser = (req, res) ->
 	)
 
 
-validateInput = (userData) ->
-	if (!userData.username || !userData.firstName || !userData.lastName || !userData.password)
+validateInput = (res, userData) ->
+	if (!userData.username || !userData.password)
 		res.status(400)
-		res.send({reason: err.toString})
+		res.send({reason: 'validation error'})
+		res.end()
 
-	if (!validator.isEmail(userData.username) || !validator.isAlpha(userData.firstName) || !validator.isAlpha(userData.lastName))
+	if (!validator.isEmail(userData.username))
 		res.status(400)
-		res.send({reason: err.toString})
+		res.send({reason: 'validation error'})
+		res.end()
 
-	if (!validator.isLength(userData.username, 1, 50) || !validator.isLength(userData.firstName, 2, 20) || !validator.isLength(userData.lastName, 2, 20) || !validator.isLength(userData.password, 6, 20))
+	if (!validator.isLength(userData.username, 1, 50) || !validator.isLength(userData.password, 6, 20))
 		res.status(400)
-		res.send({reason: err.toString})
+		res.send({reason: 'validation error'})
+		res.end()

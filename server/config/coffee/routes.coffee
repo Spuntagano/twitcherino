@@ -75,6 +75,7 @@ bootstrappedUserFunc = (req) ->
 	bootstrappedUser = false
 	if (req.user)
 		bootstrappedUser =
+			_id: req.user._id
 			username: req.user.username
 			firstname: req.user.firstName
 			lastName: req.user.lastName

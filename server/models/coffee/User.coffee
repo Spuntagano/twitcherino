@@ -2,8 +2,6 @@ mongoose = require('mongoose')
 encrypt = require('../utilities/encryption')
 
 userSchema = mongoose.Schema({
-	firstName: {type: String}
-	lastName: {type: String}
 	username: {
 		type: String
 		unique: true
