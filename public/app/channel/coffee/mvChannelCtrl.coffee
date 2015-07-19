@@ -3,7 +3,9 @@ angular.module('twitcherinoControllers', [])
 .controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
 	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location) ->
 
+		console.log($location.protocol())
 		if ($location.protocol() == 'https')
+			console.log("http://#{$location.host()}#{$location.path()}")
 			$location.absUrl("http://#{$location.host()}#{$location.path()}")
 
 		$scope.videoUrl = () ->
