@@ -128,7 +128,7 @@ angular.module('twitcherinoControllers', [])
 		azubucallfunc = ->
 			azubucall = $http({
 				method: 'GET'
-				url: "http://api.azubu.tv/public/channel/#{$routeParams.channelUser}"
+				url: "https://api.azubu.tv/public/channel/#{$routeParams.channelUser}"
 			}).success( (data, status, headers, config) ->
 				channel =
 					username: data.data.user.username

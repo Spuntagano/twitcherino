@@ -63,7 +63,7 @@ angular.module('twitcherinoApp').controller('GamesChannelsCtrl', ['$http', '$sco
 
 			azubucall = $http({
 				method: 'GET'
-				url: "http://api.azubu.tv/public/channel/live/list/game/#{$routeParams.gameName.replace(/\s+/g, '-').toLowerCase()}"
+				url: "https://api.azubu.tv/public/channel/live/list/game/#{$routeParams.gameName.replace(/\s+/g, '-').toLowerCase()}"
 				params: {
 					limit: OPTIONS.gamesInitial
 					offset: $scope.offset

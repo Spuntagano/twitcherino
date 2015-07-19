@@ -61,7 +61,7 @@ angular.module('twitcherinoApp').controller('ChannelsCtrl', ['$http', '$scope', 
 
 			azubucall = $http({
 				method: 'GET'
-				url: "http://api.azubu.tv/public/channel/live/list"
+				url: "https://api.azubu.tv/public/channel/live/list"
 				params: {
 					limit: OPTIONS.channelsInitial
 					offset: $scope.offset
