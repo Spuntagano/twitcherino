@@ -19,5 +19,5 @@ module.exports =
 		TWITCHTV_CLIENT_SECRET: '7v285paa48xlpr4pzrjgcvmkhkzltfx',
 		SESSION_SECRET: '3PuzB3MJjKCq8axk3Ze6KpZ4yEx5PJ',
 		HTTP_BASE_URL : 'http://warm-mountain-7865.herokuapp.com'
-		HTTPS_BASE_URL : 'https://warm-mountain-7865.herokuapp.com'
+		HTTPS_BASE_URL : 'http://warm-mountain-7865.herokuapp.com'
 	}
