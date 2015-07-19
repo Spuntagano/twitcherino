@@ -2,7 +2,7 @@
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<h2 ng-show="isNotAuthenticated">Please login to see your followed channels</h2>
 		<div id="item-container" class="item-container">
-			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container">
+			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
 				<div class="channel">
 					<div class="channel-image-container">
 						<a ng-href="{{stream.link}}" title="{{stream.display_name}}" class="channels-overlay">

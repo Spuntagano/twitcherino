@@ -29,3 +29,15 @@ angular.module('twitcherinoDirectives', [])
 
 		)
 )
+
+.directive('profileForm', ->
+	restrict: 'E'
+	replace: 'true'
+	templateUrl: '/partials/account/profile-form'
+)
+
+.directive('navbar', ->
+	restrict: 'E'
+	replace: 'true'
+	templateUrl: '/partials/common/navbar'
+)

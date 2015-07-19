@@ -2,7 +2,7 @@
 	<div class="row" infinite-scroll="loadMore()" infinite-scroll-distance="0">
 		<h2 class="searching" ng-show="{{game_search}}">Searching for: {{game_name}}</h2>
 		<div id="item-container" class="item-container">
-			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container">
+			<div ng-repeat="stream in channels.streams | orderBy : 'viewers_number':true | limitTo : offset track by $index" class="channel-container col-lg-3 col-md-4 col-sm-6 col-xs-12">
 				<div class="channel">
 					<div class="channel-image-container">
 						<a ng-href="{{stream.link}}" title="{{stream.display_name}}" class="channels-overlay">
@@ -11,11 +11,6 @@
 						</a>
 						<div class="platform-logo-container">
 							<img ng-src="{{stream.platform_logo}}" alt="{{stream.platform}}" />
-						</div>
-						<div class="game-boxart-container">
-							<a ng-href="{{stream.game_link}}" title="{{stream.game_name}}">
-								<img ng-src="{{stream.game_thumbnail_url}}" alt="{{stream.game_name}}" />
-							</a>
 						</div>
 						<img class="stream-preview" ng-src="{{stream.thumbnail_url}}" alt="{{stream.display_name}}" width="320" height="180" />
 					</div>

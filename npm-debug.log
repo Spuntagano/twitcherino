@@ -1,0 +1,138 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose node symlink C:\Program Files (x86)\nodejs\\node.exe
+5 verbose readDependencies using package.json deps
+6 verbose install where, deps [ 'D:\\www\\twitcherino',
+6 verbose install   [ 'body-parser',
+6 verbose install     'bower',
+6 verbose install     'cookie-parser',
+6 verbose install     'ejs',
+6 verbose install     'express',
+6 verbose install     'express-session',
+6 verbose install     'mongoose',
+6 verbose install     'morgan',
+6 verbose install     'passport',
+6 verbose install     'passport-local',
+6 verbose install     'passport-twitchtv',
+6 verbose install     'connect-flash',
+6 verbose install     'grunt',
+6 verbose install     'grunt-cli',
+6 verbose install     'grunt-contrib-sass',
+6 verbose install     'grunt-contrib-coffee',
+6 verbose install     'grunt-contrib-watch',
+6 verbose install     'sanitize',
+6 verbose install     'http-server',
+6 verbose install     'karma',
+6 verbose install     'karma-chai-plugins',
+6 verbose install     'karma-junit-reporter',
+6 verbose install     'karma-mocha',
+6 verbose install     'mocha',
+6 verbose install     'protractor',
+6 verbose install     'shelljs',
+6 verbose install     'nodemon' ] ]
+7 info preinstall twitcherino@0.0.0
+8 warn package.json karma-chai-plugins@0.4.0 No README data
+9 warn package.json karma-mocha@0.1.10 No README data
+10 verbose readDependencies using package.json deps
+11 verbose already installed skipping body-parser@1.12.x D:\www\twitcherino
+12 verbose already installed skipping bower@1.3.x D:\www\twitcherino
+13 verbose already installed skipping cookie-parser@^1.3.4 D:\www\twitcherino
+14 verbose already installed skipping ejs@^2.3.1 D:\www\twitcherino
+15 verbose already installed skipping express@^4.12.2 D:\www\twitcherino
+16 verbose already installed skipping express-session@^1.10.4 D:\www\twitcherino
+17 verbose already installed skipping mongoose@3.8.x D:\www\twitcherino
+18 verbose already installed skipping morgan@1.5.x D:\www\twitcherino
+19 verbose already installed skipping passport@^0.2.1 D:\www\twitcherino
+20 verbose already installed skipping passport-local@^1.0.0 D:\www\twitcherino
+21 verbose already installed skipping passport-twitchtv@^0.1.4 D:\www\twitcherino
+22 verbose already installed skipping connect-flash@^0.1.1 D:\www\twitcherino
+23 verbose already installed skipping grunt@* D:\www\twitcherino
+24 verbose already installed skipping grunt-cli@* D:\www\twitcherino
+25 verbose already installed skipping grunt-contrib-sass@* D:\www\twitcherino
+26 verbose already installed skipping grunt-contrib-coffee@* D:\www\twitcherino
+27 verbose already installed skipping grunt-contrib-watch@* D:\www\twitcherino
+28 verbose cache add [ 'sanitize@2.0.0^', null ]
+29 verbose cache add name=undefined spec="sanitize@2.0.0^" args=["sanitize@2.0.0^",null]
+30 verbose parsed url { protocol: null,
+30 verbose parsed url   slashes: null,
+30 verbose parsed url   auth: null,
+30 verbose parsed url   host: null,
+30 verbose parsed url   port: null,
+30 verbose parsed url   hostname: null,
+30 verbose parsed url   hash: null,
+30 verbose parsed url   search: null,
+30 verbose parsed url   query: null,
+30 verbose parsed url   pathname: 'sanitize@2.0.0^',
+30 verbose parsed url   path: 'sanitize@2.0.0^',
+30 verbose parsed url   href: 'sanitize@2.0.0^' }
+31 verbose already installed skipping http-server@^0.6.1 D:\www\twitcherino
+32 verbose already installed skipping karma@^0.12.31 D:\www\twitcherino
+33 verbose already installed skipping karma-chai-plugins@^0.4.0 D:\www\twitcherino
+34 verbose already installed skipping karma-junit-reporter@^0.2.2 D:\www\twitcherino
+35 verbose already installed skipping karma-mocha@^0.1.10 D:\www\twitcherino
+36 verbose already installed skipping mocha@^2.2.1 D:\www\twitcherino
+37 verbose already installed skipping protractor@^1.1.1 D:\www\twitcherino
+38 verbose already installed skipping shelljs@^0.2.6 D:\www\twitcherino
+39 verbose already installed skipping nodemon@* D:\www\twitcherino
+40 verbose cache add name="sanitize" spec="2.0.0^" args=["sanitize","2.0.0^"]
+41 verbose parsed url { protocol: null,
+41 verbose parsed url   slashes: null,
+41 verbose parsed url   auth: null,
+41 verbose parsed url   host: null,
+41 verbose parsed url   port: null,
+41 verbose parsed url   hostname: null,
+41 verbose parsed url   hash: null,
+41 verbose parsed url   search: null,
+41 verbose parsed url   query: null,
+41 verbose parsed url   pathname: '2.0.0^',
+41 verbose parsed url   path: '2.0.0^',
+41 verbose parsed url   href: '2.0.0^' }
+42 verbose addNamed [ 'sanitize', '2.0.0^' ]
+43 verbose addNamed [ null, null ]
+44 silly lockFile 73a01a92-sanitize-2-0-0 sanitize@2.0.0^
+45 verbose lock sanitize@2.0.0^ C:\Users\Pierre-Luc\AppData\Roaming\npm-cache\73a01a92-sanitize-2-0-0.lock
+46 info addNameTag [ 'sanitize', '2.0.0^' ]
+47 verbose request where is /sanitize
+48 verbose request registry https://registry.npmjs.org/
+49 verbose request id 0af44da2539cc829
+50 verbose url raw /sanitize
+51 verbose url resolving [ 'https://registry.npmjs.org/', './sanitize' ]
+52 verbose url resolved https://registry.npmjs.org/sanitize
+53 verbose request where is https://registry.npmjs.org/sanitize
+54 info trying registry request attempt 1 at 10:26:02
+55 verbose etag "6160FQFKHI2JTPT812QUXPXA1"
+56 http GET https://registry.npmjs.org/sanitize
+57 http 304 https://registry.npmjs.org/sanitize
+58 silly registry.get cb [ 304,
+58 silly registry.get   { date: 'Sat, 18 Jul 2015 14:26:02 GMT',
+58 silly registry.get     via: '1.1 varnish',
+58 silly registry.get     'cache-control': 'max-age=60',
+58 silly registry.get     etag: '"6160FQFKHI2JTPT812QUXPXA1"',
+58 silly registry.get     age: '0',
+58 silly registry.get     connection: 'keep-alive',
+58 silly registry.get     'x-served-by': 'cache-jfk1021-JFK',
+58 silly registry.get     'x-cache': 'MISS',
+58 silly registry.get     'x-cache-hits': '0',
+58 silly registry.get     'x-timer': 'S1437229562.320432,VS0,VE161',
+58 silly registry.get     vary: 'Accept' } ]
+59 verbose etag https://registry.npmjs.org/sanitize from cache
+60 silly lockFile 73a01a92-sanitize-2-0-0 sanitize@2.0.0^
+61 silly lockFile 73a01a92-sanitize-2-0-0 sanitize@2.0.0^
+62 error notarget No compatible version found: sanitize@'2.0.0^'
+62 error notarget Valid install targets:
+62 error notarget ["0.0.1","0.0.2","0.0.3","0.0.4","0.0.5","0.0.6","0.0.7","0.0.8","0.0.9","0.0.10","1.0.0","1.0.1","1.0.2","2.0.0"]
+62 error notarget
+62 error notarget This is most likely not a problem with npm itself.
+62 error notarget In most cases you or one of your dependencies are requesting
+62 error notarget a package version that doesn't exist.
+63 error System Windows_NT 6.2.9200
+64 error command "C:\\Program Files (x86)\\nodejs\\\\node.exe" "C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+65 error cwd D:\www\twitcherino
+66 error node -v v0.10.35
+67 error npm -v 1.4.28
+68 error code ETARGET
+69 verbose exit [ 1, true ]

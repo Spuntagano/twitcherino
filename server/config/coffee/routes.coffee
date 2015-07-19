@@ -34,35 +34,15 @@ module.exports = (app) ->
 
 	app.get('/login', (req, res) ->
 		errorMessage = req.flash('error')
-		bootstrappedUser = false
-		if (req.user)
-			bootstrappedUser = {
-				username: req.user.username
-				twitchtvId: req.user.twitchtvId
-				twitchtvUsername: req.user.twitchtvUsername
-				hitboxFollows: req.user.hitboxFollows
-				twitchFollows: req.user.twitchFollows
-				roles: req.user.roles
-			}
 		res.render('index', {
 			errorMessage: errorMessage,
-			bootstrappedUser: bootstrappedUser
+			bootstrappedUser: bootstrappedUserFunc(req)
 		})
 	)
 
 	app.get('/profile', (req, res) ->
-		bootstrappedUser = false
-		if (req.user)
-			bootstrappedUser = {
-				username: req.user.username
-				twitchtvId: req.user.twitchtvId
-				twitchtvUsername: req.user.twitchtvUsername
-				hitboxFollows: req.user.hitboxFollows
-				twitchFollows: req.user.twitchFollows
-				roles: req.user.roles
-			}
 		res.render('index', {
-			bootstrappedUser: bootstrappedUser
+			bootstrappedUser: bootstrappedUserFunc(req)
 		})
 	)
 
@@ -77,17 +57,22 @@ module.exports = (app) ->
 	)
 
 	app.get('*', (req, res) ->
-		bootstrappedUser = false
-		if (req.user)
-			bootstrappedUser = {
-				username: req.user.username
-				twitchtvId: req.user.twitchtvId
-				twitchtvUsername: req.user.twitchtvUsername
-				hitboxFollows: req.user.hitboxFollows
-				twitchFollows: req.user.twitchFollows
-				roles: req.user.roles
-			}
 		res.render('index', {
-			bootstrappedUser: bootstrappedUser
+			bootstrappedUser: bootstrappedUserFunc(req)
 		})
 	)
+
+bootstrappedUserFunc = (req) ->
+	bootstrappedUser = false
+	if (req.user)
+		bootstrappedUser = {
+			username: req.user.username
+			firstname: req.user.firstName
+			lastName: req.user.lastName
+			twitchtvId: req.user.twitchtvId
+			twitchtvUsername: req.user.twitchtvUsername
+			hitboxFollows: req.user.hitboxFollows
+			twitchFollows: req.user.twitchFollows
+			azubuFollows: req.user.azubuFollows
+			roles: req.user.roles
+		}

@@ -50,6 +50,8 @@
     "grunt-cli": "*",
     "grunt-contrib-sass": "*",
     "grunt-contrib-coffee": "*",
-    "grunt-contrib-watch": "*"
+    "grunt-contrib-watch": "*",
+    "sanitize-html": "^1.7.x",
+    "validator": "^3.41.x"
   }
 }

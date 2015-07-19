@@ -23,6 +23,7 @@ userSchema = mongoose.Schema({
 	roles: [String]
 	twitchFollows: [String]
 	hitboxFollows: [String]
+	azubuFollows: [String]
 })
 
 userSchema.methods = {

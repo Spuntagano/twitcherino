@@ -19,6 +19,12 @@ exports.addFollow = (req, res, next) ->
 					res.send({reason: err.toString})
 				res.send({success: true})
 			)
+			when 'azubu' then User.update({username: req.user.username}, {$addToSet: {azubuFollows: req.body.channelTitle}}).exec( (err, collection) ->
+				if (err)
+					res.status(400)
+					res.send({reason: err.toString})
+				res.send({success: true})
+			)
 
 exports.removeFollow = (req, res, next) ->
 	if (!req.user)
@@ -33,6 +39,12 @@ exports.removeFollow = (req, res, next) ->
 				res.send({success: true})
 			)
 			when 'hitbox' then User.update({username: req.user.username}, {$pull: {hitboxFollows: req.body.channelTitle}}).exec( (err, collection) ->
+				if (err)
+					res.status(400)
+					res.send({reason: err.toString})
+				res.send({success: true})
+			)
+			when 'azubu' then User.update({username: req.user.username}, {$pull: {azubuFollows: req.body.channelTitle}}).exec( (err, collection) ->
 				if (err)
 					res.status(400)
 					res.send({reason: err.toString})

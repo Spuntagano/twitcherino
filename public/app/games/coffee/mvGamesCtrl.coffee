@@ -1,4 +1,4 @@
-angular.module('twitcherinoControllers').controller('GamesCtrl', ['$http', '$scope', '$routeParams',
+angular.module('twitcherinoApp').controller('GamesCtrl', ['$http', '$scope', '$routeParams',
 	($http, $scope, $routeParams) ->
 
 		$scope.offset = 0
@@ -24,13 +24,13 @@ angular.module('twitcherinoControllers').controller('GamesCtrl', ['$http', '$sco
 					for j in [0...$scope.cats.categories.length]
 						if ($scope.cats.categories[j].category_name == data.top[i].game.name)
 							$scope.cats.categories[j].viewers_number += parseInt(data.top[i].viewers, 10)
-							$scope.cats.categories[j].thumbnail_url == "https://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-327x457.jpg"
+							$scope.cats.categories[j].thumbnail_url == "https://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-438x614.jpg"
 							skip = true
 					if (!skip)
 						category =
 							category_name: data.top[i].game.name
 							viewers_number: parseInt(data.top[i].viewers, 10)
-							thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-327x457.jpg"
+							thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-438x614.jpg"
 							link: "/twitch/#{data.top[i].game.name}"
 						$scope.cats.categories.push(category)
 			)
@@ -58,6 +58,8 @@ angular.module('twitcherinoControllers').controller('GamesCtrl', ['$http', '$sco
 								link: "/hitbox/#{data.categories[i].category_name}"
 							$scope.cats.categories.push(category)
 				)
+
+				#azubu api dosen't support listing of all games... RIP
 
 				$scope.offset += OPTIONS.gamesIncrement
 			, 100)

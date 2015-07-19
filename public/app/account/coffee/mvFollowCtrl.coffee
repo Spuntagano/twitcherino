@@ -1,4 +1,3 @@
-#binded on the main app because its called in the base model
 angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$routeParams', 'mvIdentity'
 	($http, $scope, $routeParams, mvIdentity) ->
 
@@ -7,6 +6,7 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 		$scope.channels.streams = []
 		hitboxChannels = ""
 		twitchChannels = ""
+		azubuChannels = ""
 
 		if (mvIdentity.isAuthenticated())
 			for i in [0...mvIdentity.currentUser.twitchFollows.length]
@@ -34,7 +34,7 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 								title: data.streams[i].channel.status
 								display_name: data.streams[i].channel.display_name
 								viewers_number: parseInt(data.streams[i].viewers, 10)
-								thumbnail_url: data.streams[i].preview.medium
+								thumbnail_url: data.streams[i].preview.large
 								game_thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/#{data.streams[i].channel.game}-73x100.jpg"
 								game_link: "/games/#{data.streams[i].channel.game}"
 								game_name: data.streams[i].channel.game
@@ -43,6 +43,9 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 								profile_url: data.streams[i].channel.logo
 							$scope.channels.streams.push(channel)
 				)
+
+
+
 
 				for i in [0...mvIdentity.currentUser.hitboxFollows.length]
 					hitboxChannels += "#{mvIdentity.currentUser.hitboxFollows[i]},"
@@ -69,6 +72,37 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 								link: "/hitbox/#{data.livestream[i].media_user_name}"
 								platform_logo: '/img/hitbox_logo.png'
 								profile_url: "https://edge.sf.hitbox.tv#{data.livestream[i].channel.user_logo}"
+							$scope.channels.streams.push(channel)
+				)
+
+
+
+				for i in [0...mvIdentity.currentUser.azubuFollows.length]
+					azubuChannels += "#{mvIdentity.currentUser.azubuFollows[i]},"
+
+				azubucall = $http({
+					method: 'GET'
+					url: "http://api.azubu.tv/public/channel/list"
+					params: {
+						limit: OPTIONS.channelsInitial
+						offset: $scope.offset
+						channels: azubuChannels
+					}
+				}).success( (data, status, headers, config) ->
+					if (mvIdentity.currentUser.azubuFollows.length > 0)
+						for i in [0...data.data.length]
+							channel =
+								username: data.data[i].user.username
+								display_name: data.data[i].user.display_name
+								title: data.data[i].title
+								viewers_number: parseInt(data.data[i].view_count, 10)
+								thumbnail_url: data.data[i].url_thumbnail
+								game_thumbnail_url: '/img/azubu_game.png'
+								game_link: "/games/#{data.data[i].category.title}"
+								game_name: data.data[i].category.title
+								link: "/azubu/#{data.data[i].user.username}"
+								platform_logo: '/img/azubu_logo.png'
+								profile_url: '/img/azubu_profile.png'
 							$scope.channels.streams.push(channel)
 				)
 

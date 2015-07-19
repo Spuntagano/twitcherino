@@ -1,5 +1,6 @@
 angular.module('twitcherinoApp', [
 	'ngRoute',
+	'ngSanitize',
 	'twitcherinoDirectives',
 	'twitcherinoControllers',
 	'twitcherinoServices',
@@ -33,6 +34,9 @@ angular.module('twitcherinoApp', [
 		}).when('/follow', {
 			templateUrl: '/partials/account/follow'
 			controller: 'FollowCtrl'
+		}).when('/azubu/:channelUser', {
+			templateUrl: '/partials/channel/channel'
+			controller: 'AzubuChannelCtrl'
 		}).when('/hitbox/:channelUser', {
 			templateUrl: '/partials/channel/channel'
 			controller: 'HitboxChannelCtrl'

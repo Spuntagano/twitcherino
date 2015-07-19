@@ -1,5 +1,7 @@
 User = require('mongoose').model('User')
 encrypt = require('../utilities/encryption')
+sanitizeHtml = require('sanitize-html')
+validator = require('validator')
 
 exports.getUser = (req, res) ->
 	if (!req.user)
@@ -18,11 +20,13 @@ exports.getUsers = (req, res) ->
 exports.createUser = (req, res, next) ->
 	userData = req.body
 
-	if (!userData.username || !userData.firstName || !userData.lastName || !userData.password)
-		res.status(400)
-		res.send({reason: err.toString})
+	validateInput(userData)
 
-	userData.username = userData.username.toLowerCase()
+	userData.username = sanitizeHtml(userData.username.toLowerCase())
+	userData.firstName = sanitizeHtml(userData.firstName)
+	userData.lastName = sanitizeHtml(userData.lastName)
+	userData.password = sanitizeHtml(userData.password)
+
 	userData.salt = encrypt.createSalt()
 	userData.hashed_pwd =  encrypt.hashPwd(userData.salt, userData.password)
 	User.create(userData, (err, user) ->
@@ -43,9 +47,7 @@ exports.updateUser = (req, res) ->
 
 	userUpdates = req.body
 
-	if (!userUpdates.username || !userUpdates.firstName || !userUpdates.lastName || !userUpdates.password)
-		res.status(400)
-		res.send({reason: err.toString})
+	validateInput(userUpdates)
 
 	if(parseInt(req.user._id, 10) != parseInt(userUpdates._id, 10) && !req.user.hasRole('admin'))
 		res.status(403)
@@ -53,11 +55,12 @@ exports.updateUser = (req, res) ->
 
 	oldUsername = req.user.username
 
-	req.user.firstName = userUpdates.firstName
-	req.user.lastName = userUpdates.lastName
-	req.user.username = userUpdates.username
+	req.user.firstName = sanitizeHtml(userUpdates.firstName)
+	req.user.lastName = sanitizeHtml(userUpdates.lastName)
+	req.user.username = sanitizeHtml(userUpdates.username)
 
 	if (userUpdates.password && userUpdates.password.length > 0)
+		req.user.password = sanitizeHtml(req.user.password)
 		req.user.salt = encrypt.createSalt()
 		req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password)
 
@@ -67,3 +70,17 @@ exports.updateUser = (req, res) ->
 			res.send({reason: err.toString})
 		res.send(req.user)
 	)
+
+
+validateInput = (userData) ->
+	if (!userData.username || !userData.firstName || !userData.lastName || !userData.password)
+		res.status(400)
+		res.send({reason: err.toString})
+
+	if (!validator.isEmail(userData.username) || !validator.isAlpha(userData.firstName) || !validator.isAlpha(userData.lastName))
+		res.status(400)
+		res.send({reason: err.toString})
+
+	if (!validator.isLength(userData.username, 1, 50) || !validator.isLength(userData.firstName, 2, 20) || !validator.isLength(userData.lastName, 2, 20) || !validator.isLength(userData.password, 6, 20))
+		res.status(400)
+		res.send({reason: err.toString})

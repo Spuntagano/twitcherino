@@ -2,7 +2,6 @@ angular.module('twitcherinoControllers').controller('UserListCtrl', ['$scope', '
 	$scope.users = mvUser.query()
 ])
 
-#binded on the main app because its called in the base model
 angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser'
 	($scope, $location, mvNotifier, mvAuth, mvUser) ->
 
@@ -22,7 +21,6 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 
 ])
 
-#binded on the main app because its called in the base model
 angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow) ->
 	$scope.email = mvIdentity.currentUser.username
 	$scope.fname = mvIdentity.currentUser.firstName
@@ -110,41 +108,5 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 					mvNotifier.error(reason)
 				)
 			)
-
-])
-
-#binded on the main app because its called in the base model
-angular.module('twitcherinoApp').controller('NavigationCtrl', ['$scope', '$location', '$http', 'mvIdentity', 'mvNotifier', 'mvAuth', 'mvUser'
-	($scope, $location, $http, mvIdentity, mvNotifier, mvAuth, mvUser) ->
-
-		$scope.identity = mvIdentity
-
-		$scope.isActive = (viewLocation) ->
-			$location.path().startsWith(viewLocation)
-
-		$scope.signin = (username, password) ->
-			mvAuth.authenticateUser(username, password).then( (success) ->
-				if (success)
-					mvNotifier.notify('Welcome')
-					$location.path('/profile')
-				else
-					mvNotifier.error('Invalid login')
-			)
-
-		$scope.signout = ->
-			mvAuth.logoutUser().then( ->
-				$scope.username = ""
-				$scope.password = ""
-				mvNotifier.notify('Bye')
-				$location.path('/')
-			)
-
-		$scope.isAuthenticated = mvIdentity.isAuthenticated()
-
-		if (errorMessage? && errorMessage)
-			mvNotifier.error(errorMessage)
-
-		if (infoMessage? && infoMessage)
-			mvNotifier.notify(infoMessage)
 
 ])

@@ -24,7 +24,7 @@ nav.nav-style {
   display: block;
   /* Fallback for non-webkit */
   display: -webkit-box;
-  max-width: 400px;
+  max-width: 438px;
   height: 21px;
   /* Fallback for non-webkit */
   margin: 0 auto;
@@ -44,8 +44,6 @@ h2.searching {
 
 .channel-container {
   margin-bottom: 10px;
-  width: 20%;
-  float: left;
 }
 
 .channels-overlay {
@@ -83,12 +81,10 @@ h2.searching {
   display: block;
 }
 
-.channel {
-  padding: 0 20px;
-}
 .channel img.stream-preview {
+  object-fit: cover;
   width: 100%;
-  height: auto;
+  min-height: 246px;
 }
 .channel .channel-image-container {
   position: relative;
@@ -126,12 +122,8 @@ h2.searching {
 .game-container {
   margin-bottom: 10px;
   float: left;
-  width: 20%;
 }
 
-.game {
-  padding: 0 24px;
-}
 .game a {
   display: block;
   width: 100%;
@@ -181,6 +173,10 @@ iframe {
 }
 
 .stream-overlay.hitbox {
+  height: calc(100% - 90px);
+}
+
+.stream-overlay.azubu {
   height: calc(100% - 90px);
 }
 
@@ -242,26 +238,31 @@ iframe {
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
-  .game-container, .channel-container {
-    width: 25%;
-  }
+/*
+@media (max-width: 1500px) {
+	.game-container, .channel-container{
+    	width: 25%;
+	}
 }
-@media (max-width: 992px) {
-  .game-container, .channel-container {
-    width: 33.33333333333%;
-  }
+
+@media (max-width: 1125px) {
+	.game-container, .channel-container {
+    	width: 33.33333333333%;
+	}
 }
-@media (max-width: 768px) {
-  .game-container, .channel-container {
-    width: 50%;
-  }
+
+@media (max-width: 750px) {
+	.game-container, .channel-container{
+    	width: 50%;
+	}
 }
+
 @media (max-width: 480px) {
-  .game-container, .channel-container {
-    width: 100%;
-  }
+	.game-container, .channel-container{
+    	width: 100%;
+	}
 }
+*/
 /*Menu*/
 .btn-twitch-login {
   width: 170px;

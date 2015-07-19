@@ -113,3 +113,56 @@ angular.module('twitcherinoControllers', [])
 		$scope.isAuthenticated = mvIdentity.isAuthenticated()
 
 ])
+
+.controller('AzubuChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier) ->
+
+		$scope.videoUrl = () ->
+			 $sce.trustAsResourceUrl("http://www.azubu.tv/azubulink/embed=#{$routeParams.channelUser}")
+
+		$scope.chatUrl = () ->
+			 $sce.trustAsResourceUrl("http://www.azubu.tv/#{$routeParams.channelUser}/chatpopup")
+
+		$scope.channel = {}
+
+		azubucallfunc = ->
+			azubucall = $http({
+				method: 'GET'
+				url: "http://api.azubu.tv/public/channel/#{$routeParams.channelUser}"
+			}).success( (data, status, headers, config) ->
+				channel =
+					username: data.data.user.username
+					title: data.data.title
+					display_name: data.data.user.display_name
+					viewers_number: parseInt(data.data.view_count, 10)
+					profile_url: '/img/azubu_profile.png'
+					platform: 'azubu'
+				$scope.channel = channel
+				$scope.isFollowed = mvFollow.isFollowed(channel.username, channel.platform)
+
+				$scope.addFollow = () ->
+					mvFollow.addFollow(channel.username, channel.platform).then( ->
+						mvNotifier.notify('Channel followed')
+						$scope.isFollowed = true
+					(reason) ->
+						mvNotifier.error(reason)
+					)
+
+				$scope.removeFollow = () ->
+					mvFollow.removeFollow(channel.username, channel.platform).then( ->
+						mvNotifier.notify('Channel unfollowed')
+						$scope.isFollowed = false
+					(reason) ->
+						mvNotifier.error(reason)
+					)
+			)
+		azubucallfunc()
+		azubuInterval = setInterval(azubucallfunc, OPTIONS.refreshInterval)
+
+		$scope.$on('$destroy', (next, current) ->
+			clearInterval(azubuInterval);
+		)
+
+		$scope.isAuthenticated = mvIdentity.isAuthenticated()
+
+])

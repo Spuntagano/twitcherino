@@ -17,7 +17,7 @@ module.exports = (app, config) ->
 
 	app.use(flash())
 
-	app.use(session({secret: 'twitch boys', saveUninitialized: true, resave: true}))
+	app.use(session({secret: config.SESSION_SECRET, saveUninitialized: true, resave: true}))
 	app.use(passport.initialize())
 	app.use(passport.session())
 
