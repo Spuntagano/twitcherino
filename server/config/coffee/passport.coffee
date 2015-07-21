@@ -22,7 +22,7 @@ module.exports = (config) ->
 	passport.use(new TwitchtvStrategy({
 		clientID: config.TWITCHTV_CLIENT_ID
 		clientSecret: config.TWITCHTV_CLIENT_SECRET
-		callbackURL: "/auth/twitchtv/callback"
+		callbackURL: config.TWITCHTV_CALLBACK
 		scope: "user_read"
 		passReqToCallback : true
 	}

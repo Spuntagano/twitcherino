@@ -6,7 +6,6 @@ angular.module('twitcherinoApp').controller('NavigationCtrl', ['$scope', '$locat
 		$scope.isActive = (viewLocation) ->
 			$location.path().startsWith(viewLocation)
 
-		###
 		$scope.signin = (username, password) ->
 			mvAuth.authenticateUser(username, password).then( (success) ->
 				if (success)
@@ -15,7 +14,6 @@ angular.module('twitcherinoApp').controller('NavigationCtrl', ['$scope', '$locat
 				else
 					mvNotifier.error('Invalid login')
 			)
-		###
 
 		$scope.signout = ->
 			mvAuth.logoutUser().then( ->

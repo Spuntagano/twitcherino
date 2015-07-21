@@ -1,10 +1,16 @@
-angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdentity', '$q', ($http, mvUser, mvIdentity, $q) ->
+angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdentity', '$q', '$location', ($http, mvUser, mvIdentity, $q, $location) ->
 
 	authenticateUser: (username, password) ->
 
 		dfd = $q.defer()
 
-		$http.post("/login", {username: username, password: password}).then( (response) ->
+		#make a factory
+		if (window.env == 'developement')
+			postUrl = '/login'
+		else 
+			postUrl = "https://#{$location.host()}/login"
+
+		$http.post(postUrl, {username: username, password: password}).then( (response) ->
 			if (response.data.success)
 				user = new mvUser()
 				angular.extend(user, response.data.user)
