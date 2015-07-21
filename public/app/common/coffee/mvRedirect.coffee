@@ -1,4 +1,4 @@
-angular.module('twitcherinoApp').factory('mvRedirect', (mvToastr) ->
+angular.module('twitcherinoApp').factory('mvRedirect', ($location) ->
 	{
 		toHTTP: (msg) ->
 			console.log('toHTTP')
