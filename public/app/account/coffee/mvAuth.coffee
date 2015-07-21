@@ -1,7 +1,5 @@
 angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdentity', '$q', ($http, mvUser, mvIdentity, $q) ->
 
-	#local registration
-	###
 	authenticateUser: (username, password) ->
 
 		dfd = $q.defer()
@@ -30,7 +28,6 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		)
 
 		dfd.promise
-	###
 
 	updateCurrentUser: (newUserData) ->
 		dfd = $q.defer()

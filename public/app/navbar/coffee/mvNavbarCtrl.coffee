@@ -4,10 +4,8 @@ angular.module('twitcherinoApp').controller('NavigationCtrl', ['$scope', '$locat
 		$scope.identity = mvIdentity
 
 		$scope.isActive = (viewLocation) ->
-			
 			$location.path().startsWith(viewLocation)
 
-		#local registration
 		###
 		$scope.signin = (username, password) ->
 			mvAuth.authenticateUser(username, password).then( (success) ->

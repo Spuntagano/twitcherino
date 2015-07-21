@@ -3,8 +3,6 @@ encrypt = require('../utilities/encryption')
 sanitizeHtml = require('sanitize-html')
 validator = require('validator')
 
-# local registration
-###
 exports.getUser = (req, res) ->
 	if (!req.user)
 		res.status(400)
@@ -13,15 +11,12 @@ exports.getUser = (req, res) ->
 	User.find(username: req.user.username).exec( (err, collection) ->
 		res.send(collection)
 	)
-###
 
 exports.getUsers = (req, res) ->
 	User.find({}).exec( (err, collection) ->
 		res.send(collection)
 	)
 	
-# local registration
-###
 exports.createUser = (req, res, next) ->
 	userData = req.body
 
@@ -44,7 +39,6 @@ exports.createUser = (req, res, next) ->
 			res.send(user)
 		)
 	)
-###
 
 exports.updateUser = (req, res) ->
 

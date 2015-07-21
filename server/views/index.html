@@ -31,6 +31,7 @@
 	<script src="/app/account/mvAuth.js"></script>
 	<script src="/app/account/mvFollow.js"></script>
 	<script src="/app/common/mvNotifier.js"></script>
+	<script src="/app/common/mvRedirect.js"></script>
 	<script src="/app/navbar/mvNavbarCtrl.js"></script>
 	<script src="/bower_components/nginfinitescroll/build/ng-infinite-scroll.js"></script>
 	<script src="/bower_components/numeral/numeral.js"></script>
@@ -43,9 +44,9 @@
 		</script>
 	<% } %>
 
-	<% if ( typeof urls != 'undefined' && !!urls ){ %>
+	<% if ( typeof env != 'undefined' && !!env ){ %>
 		<script>
-			window.urls = <%- JSON.stringify(urls); %>
+			window.env = <%- JSON.stringify(env); %>
 		</script>
 	<% } %>
 

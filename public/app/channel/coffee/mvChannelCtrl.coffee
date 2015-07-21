@@ -1,10 +1,9 @@
 angular.module('twitcherinoControllers', [])
 
-.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location) ->
+.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location', 'mvRedirect'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location, mvRedirect) ->
 
-		if ($location.protocol() == 'https')
-			window.location.replace("http://#{$location.host()}#{$location.path()}")
+		mvRedirect.toHTTP()
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed?auto_play=true")
@@ -64,11 +63,10 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location) ->
+.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location', 'mvRedirect'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location, mvRedirect) ->
 
-		if ($location.protocol() == 'https')
-			window.location.replace("http://#{$location.host()}#{$location.path()}")
+		mvRedirect.toHTTP()
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}?autoplay=true")
@@ -120,11 +118,10 @@ angular.module('twitcherinoControllers', [])
 
 ])
 
-.controller('AzubuChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location) ->
+.controller('AzubuChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location', 'mvRedirect'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location, mvRedirect) ->
 
-		if ($location.protocol() == 'https')
-			window.location.replace("http://#{$location.host()}#{$location.path()}")
+		mvRedirect.toHTTP()
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.azubu.tv/azubulink/embed=#{$routeParams.channelUser}")

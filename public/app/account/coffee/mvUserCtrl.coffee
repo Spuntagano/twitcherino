@@ -2,10 +2,10 @@ angular.module('twitcherinoControllers').controller('UserListCtrl', ['$scope', '
 	$scope.users = mvUser.query()
 ])
 
-# local registration
-###
-angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser'
-	($scope, $location, mvNotifier, mvAuth, mvUser) ->
+angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser', 'mvRedirect'
+	($scope, $location, mvNotifier, mvAuth, mvUser, mvRedirect) ->
+
+		mvRedirect.toHTTPS()
 
 		$scope.signup = ->
 			newUserData =
@@ -20,11 +20,12 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 			)
 
 ])
-###
 
-angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow) ->
+angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', 'mvRedirect', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow, mvRedirect) ->
+	
+	mvRedirect.toHTTPS()
+
 	$scope.email = mvIdentity.currentUser.username
-
 	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
 
 	#call the server to see if its been connected after first login
