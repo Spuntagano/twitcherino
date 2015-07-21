@@ -5,6 +5,8 @@ TwitchtvStrategy = require('../../node_modules/passport-twitchtv').Strategy;
 User = mongoose.model('User')
 
 module.exports = (config) ->
+	# local registration
+	###
 	passport.use(new LocalStrategy(
 		{
 			usernameField: 'username',
@@ -19,7 +21,7 @@ module.exports = (config) ->
 			)
 		)
 	)
-
+	###
 	passport.use(new TwitchtvStrategy({
 		clientID: config.TWITCHTV_CLIENT_ID
 		clientSecret: config.TWITCHTV_CLIENT_SECRET

@@ -1,9 +1,12 @@
 angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdentity', '$q', ($http, mvUser, mvIdentity, $q) ->
+
+	#local registration
+	###
 	authenticateUser: (username, password) ->
 
 		dfd = $q.defer()
 
-		$http.post("#{window.urls.httpsBaseUrl}/login", {username: username, password: password}).then( (response) ->
+		$http.post("/login", {username: username, password: password}).then( (response) ->
 			if (response.data.success)
 				user = new mvUser()
 				angular.extend(user, response.data.user)
@@ -27,6 +30,7 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		)
 
 		dfd.promise
+	###
 
 	updateCurrentUser: (newUserData) ->
 		dfd = $q.defer()
@@ -43,7 +47,7 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 
 	logoutUser: ->
 		dfd = $q.defer()
-		$http.post("#{window.urls.httpsBaseUrl}/logout", {logout: true}).then( -> 
+		$http.post("/logout", {logout: true}).then( -> 
 			mvIdentity.currentUser = undefined
 			dfd.resolve()
 		)

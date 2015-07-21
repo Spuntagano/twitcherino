@@ -15,8 +15,6 @@ module.exports = (app, config) ->
 	app.use(cookieParser())
 	app.use(bodyParser())
 
-	app.use(permitCrossDomainRequests)
-
 	app.use(flash())
 
 	app.use(session({secret: config.SESSION_SECRET, saveUninitialized: true, resave: true}))
@@ -24,15 +22,4 @@ module.exports = (app, config) ->
 	app.use(passport.session())
 
 	app.use(express.static(config.rootPath + '/public'))
-
-permitCrossDomainRequests = (req, res, next) ->
-	res.header('Access-Control-Allow-Origin', 'http://warm-mountain-7865.herokuapp.com')
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-	res.header('Access-Control-Allow-Headers', 'Content-Type')
-
-	if ('OPTIONS' == req.method)
-	  res.send(200)
-	else
-	  next()
-
 

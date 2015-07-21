@@ -2,10 +2,12 @@ mongoose = require('mongoose')
 encrypt = require('../utilities/encryption')
 
 userSchema = mongoose.Schema({
+	###
 	username: {
 		type: String
 		unique: true
 	}
+	###
 	twitchtvId: {
 		type: String
 		unique: true
@@ -16,8 +18,8 @@ userSchema = mongoose.Schema({
 		unique: true
 		sparse: true
 	}
-	salt: {type: String}
-	hashed_pwd: {type: String}
+	#salt: {type: String}
+	#hashed_pwd: {type: String}
 	roles: [String]
 	twitchFollows: [String]
 	hitboxFollows: [String]

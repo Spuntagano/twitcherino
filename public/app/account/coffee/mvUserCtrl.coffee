@@ -2,6 +2,8 @@ angular.module('twitcherinoControllers').controller('UserListCtrl', ['$scope', '
 	$scope.users = mvUser.query()
 ])
 
+# local registration
+###
 angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser'
 	($scope, $location, mvNotifier, mvAuth, mvUser) ->
 
@@ -18,6 +20,7 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 			)
 
 ])
+###
 
 angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow) ->
 	$scope.email = mvIdentity.currentUser.username

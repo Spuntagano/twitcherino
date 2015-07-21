@@ -1,5 +1,4 @@
-remove local registration
-remove cors
-error messages // res.end()
+hitbox importation
+local registration
 tests
 branding
