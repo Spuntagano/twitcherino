@@ -22,7 +22,7 @@ module.exports = (config) ->
 	passport.use(new TwitchtvStrategy({
 		clientID: config.TWITCHTV_CLIENT_ID
 		clientSecret: config.TWITCHTV_CLIENT_SECRET
-		callbackURL: "/auth/twitchtv/callback"
+		callbackURL: "https://warm-mountain-7865.herokuapp.com/auth/twitchtv/callback"
 		scope: "user_read"
 		passReqToCallback : true
 	}
