@@ -1,4 +1,4 @@
 hitbox importation
-local registration
+https auth callback
 tests
 branding
