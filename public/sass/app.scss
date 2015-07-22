@@ -326,3 +326,22 @@ iframe{
 		margin-bottom: 10px;
 	}
 }
+
+.loading-overlay {
+	display: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.loading{
+	position: absolute;
+	top: calc(50% - 50px);
+	left: calc(50% - 50px);
+	width: 100px;
+	height: 100px;
+	background: url(../img/loading.gif) no-repeat;
+}
