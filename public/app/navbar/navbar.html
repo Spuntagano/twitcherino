@@ -20,7 +20,12 @@
 
 				<form class="navbar-form" ng-hide="identity.isAuthenticated()">
 					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a ng-href="/login">Login</a>
+						</li>
+						<!--
 						<li class="dropdown">
+							<a class="dropdown-toggle" href="" data-toggle="dropdown">
 							<a class="dropdown-toggle" href="" data-toggle="dropdown">
 								Login
 							</a>
@@ -35,17 +40,16 @@
 									<button class="btn btn-primary" ng-click="signin(username, password)">Sign in</button>
 									<a class="btn btn-primary" ng-href="/signup">Sign up</a>
 								</div>
-								<!--
 								<div>
 									<a class="btn btn-primary" ng-href="/login">Login</a>
 									<a class="btn btn-primary" ng-href="/signup">Signup</a>
 								</div>
-								-->
 								<div>
 									<a fixlink class="btn-twitch-login" href="/auth/twitchtv" ng-href="/auth/twitchtv">Twitch login</a>
 								</div>
 							</div>
 						</li>
+						-->
 					</ul>
 				</form>
 
