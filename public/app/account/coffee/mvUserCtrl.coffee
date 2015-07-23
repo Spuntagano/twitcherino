@@ -35,8 +35,7 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 			url: '/api/user'
 		}).success( (data, status, headers, config) ->
 			if (data[0])
-				if (data[0].twitchtvId)
-					mvIdentity.currentUser.twitchtvId = data[0].twitchtvId
+				if (data[0].twitchtvUsername)
 					mvIdentity.currentUser.twitchtvUsername = data[0].twitchtvUsername
 					$scope.isTwitchConnected = true
 		)
@@ -54,11 +53,19 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 			mvNotifier.error(reason)
 		)
 
+	$scope.deleteUser = ->
+		if (window.confirm("Are you sure you want to delete your account? There is no turning back"))
+			mvAuth.deleteUser(mvIdentity.currentUser.username).then( ->
+				mvNotifier.notify('Your account has been deleted')
+			(reason) ->
+				mvNotifier.error(reason)
+			)
+
 	$scope.importTwitchFollows = ->
 
 		channels = []
 
-		if (mvIdentity.currentUser.twitchtvId && mvIdentity.currentUser.twitchtvUsername)
+		if (mvIdentity.currentUser.twitchtvUsername)
 			twitchcall = $http({
 				method: 'JSONP'
 				url: "https://api.twitch.tv/kraken/users/#{mvIdentity.currentUser.twitchtvUsername}/follows/channels"

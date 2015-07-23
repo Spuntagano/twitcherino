@@ -8,9 +8,10 @@ User = mongoose.model('User')
 module.exports = (app, config) ->
 
 	app.get('/api/users', auth.requiresRole('admin'), users.getUsers)
-	app.post('/api/users', users.createUser)
-	app.put('/api/users', users.updateUser)
 
+	app.post('/api/user', users.createUser)
+	app.put('/api/user', users.updateUser)
+	app.delete('/api/user/:username', users.deleteUser)
 	app.get('/api/user', users.getUser)
 
 	app.get('/partials/*', (req, res) ->
@@ -69,11 +70,9 @@ bootstrappedUserFunc = (req) ->
 	bootstrappedUser = false
 	if (req.user)
 		bootstrappedUser =
-			_id: req.user._id
 			username: req.user.username
 			firstname: req.user.firstName
 			lastName: req.user.lastName
-			twitchtvId: req.user.twitchtvId
 			twitchtvUsername: req.user.twitchtvUsername
 			hitboxFollows: req.user.hitboxFollows
 			twitchFollows: req.user.twitchFollows

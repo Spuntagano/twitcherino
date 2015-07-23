@@ -30,39 +30,32 @@ module.exports = (config) ->
 
 		if (req.user)
 			User.findOne({username: req.user.username}).exec( (err, user) -> 
-				User.findOne({twitchtvId: profile.id}).exec( (err, user) ->
+				User.findOne({twitchtvUsername: profile.username}).exec( (err, user) ->
 					if (!user)
-						User.update({username: req.user.username}, {twitchtvId: profile.id, twitchtvUsername: profile.username}, (err, user) ->
+						User.update({username: req.user.username}, {twitchtvUsername: profile.username, twitchtvAccessToken: accessToken, twitchtvRefreshToken: refreshToken}, (err, user) ->
 							done(null, req.user) #connect account // you dont log in a created user here, you just add the twitchid to the existing account
-							console.log('g')
 						)
 					else
 						done(null, false, {message: 'Your twitch account is already linked to another account'}) #account linked to another account
-						console.log('f')
 				)
 			)
 		else
-			User.findOne({twitchtvId: profile.id}).exec( (err, user) ->
+			User.findOne({twitchtvUsername: profile.username}).exec( (err, user) ->
 				if (user)
 					done(null, user) #log in user
-					console.log('e')
 				else if (!profile.email)
 					done(null, false, {message: 'Please validate your twitch email'}) #twitch email not validated
-					console.log('d')
 				else if (!user)
 					User.findOne({username: profile.email}).exec( (err, user) ->
 						if (!user)
-							User.create({ twitchtvId: profile.id, username: profile.email, twitchtvUsername: profile.username }, (err, user) ->
+							User.create({username: profile.email, twitchtvUsername: profile.username, twitchtvAccessToken: accessToken, twitchtvRefreshToken: refreshToken}, (err, user) ->
 								done(null, user) #create account and log in
-								console.log('c')
 							)
 						else
 							done(null, false, {message: 'A user already exist with this twitch account email'}) #a user already exist with the twitch account email
-							console.log('b')
 					)
 				else
 					done(null, false, {message: 'Something went wrong'}) #error
-					console.log('a')
 			)
 		)
 	)

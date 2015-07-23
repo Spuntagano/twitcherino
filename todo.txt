@@ -1,8 +1,4 @@
-delete account
 disconect account
 profile edit password
-bootstrapped user remove id
-twitch html 5
-remove stream overlays
 tests
 branding

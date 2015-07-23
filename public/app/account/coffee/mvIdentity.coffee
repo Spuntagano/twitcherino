@@ -11,7 +11,7 @@ angular.module('twitcherinoApp').factory('mvIdentity', ['$window', 'mvUser', ($w
 			!!this.currentUser && this.currentUser.roles.indexOf('admin') > -1
 		isTwitchConnected: ->
 			if (!!this.currentUser)
-				return !!this.currentUser.twitchtvId
+				return !!this.currentUser.twitchtvUsername
 			else
 				return false
 	}

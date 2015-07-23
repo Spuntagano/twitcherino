@@ -29,6 +29,13 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 
 		dfd.promise
 
+	deleteUser: (username) ->
+		dfd = $q.defer()
+		$http.delete("/api/user/#{username}").then( -> 
+			mvIdentity.currentUser = undefined
+			dfd.resolve()
+		)
+
 	updateCurrentUser: (newUserData) ->
 		dfd = $q.defer()
 		clone = angular.copy(mvIdentity.currentUser)

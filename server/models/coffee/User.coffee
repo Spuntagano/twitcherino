@@ -6,16 +6,13 @@ userSchema = mongoose.Schema({
 		type: String
 		unique: true
 	}
-	twitchtvId: {
-		type: String
-		unique: true
-		sparse: true
-	}
 	twitchtvUsername: {
 		type: String
 		unique: true
 		sparse: true
 	}
+	twitchtvAccessToken: {type: String}
+	twitchtvRefreshToken: {type: String}
 	salt: {type: String}
 	hashed_pwd: {type: String}
 	roles: [String]
