@@ -1,4 +1,6 @@
 delete account
+remove twitch id from bootstrap user
+log auth token
 disconect account
 profile edit password
 bootstrapped user remove id
