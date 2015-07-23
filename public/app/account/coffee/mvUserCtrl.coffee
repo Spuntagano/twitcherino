@@ -107,4 +107,54 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 				)
 			)
 
+	$scope.importHitboxShowFunc = ->
+		$scope.importHitboxShow = !$scope.importHitboxShow
+
+	$scope.importHitboxFollows = ->
+
+		channels = []
+
+		hitboxcall = $http({
+			method: 'GET'
+			url: 'https://api.hitbox.tv/following/user'
+			params: {
+				user_name: $scope.hitboxUser
+			}
+		}).success( (data, status, headers, config) ->
+			if (data.message == 'user_not_found')
+				mvNotifier.error("Invalid username")
+			else
+				totalFollows = data.max_results
+				followPageCount = Math.ceil(totalFollows / 100)
+				for i in [0...data.following.length]
+					channels.push(data.following[i].user_name)
+
+				#hitbox api only allow 100 channels to be returned at once
+				if (followPageCount > 1)
+					for j in [1...followPageCount]
+						$http({
+							method: 'GET'
+							url: "https://api.hitbox.tv/following/user"
+							params: {
+								user_name: $scope.hitboxUser
+								offset: j * 100
+								limit: 100
+							}
+						}).success( (data, status, headers, config) ->
+							for k in [0...data.following.length]
+								channels.push(data.following[k].user_name)
+
+							mvFollow.importHitboxFollows(channels).then( ->
+								mvNotifier.notify("#{data.following.length} Channels imported")
+							(reason) ->
+								mvNotifier.error(reason)
+							)
+						)
+
+				mvFollow.importHitboxFollows(channels).then( ->
+					mvNotifier.notify("#{data.following.length} Channels imported")
+				(reason) ->
+					mvNotifier.error(reason)
+				)
+		)
 ])

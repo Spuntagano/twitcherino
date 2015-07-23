@@ -22,7 +22,7 @@ angular.module('twitcherinoDirectives', [])
 
 			href = $(element).attr('href')
 
-			$(element).on('click', ->
+			$(element).on('click', (event) ->
 				event.preventDefault()
 				window.location.replace(href)
 			)

@@ -52,6 +52,7 @@ module.exports = (app, config) ->
 	app.post('/unfollow', follow.removeFollow)
 
 	app.post('/importtwitchfollows', follow.importTwitchFollows)
+	app.post('/importhitboxfollows', follow.importHitboxFollows)
 
 	app.all('/api/*', (req, res) ->
 		res.send(404)

@@ -10,27 +10,42 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-md-10-offset-2">
-					<div class="pull-right">
-						<div ng-show="isTwitchConnected">
-							Twitch account connected
-						</div>
-						<div ng-hide="isTwitchConnected">
-							<a fixlink ng-href="/auth/twitchtv" href="/auth/twitchtv" class="btn-twitch-login">Twitch login</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-md-10-offset-2">
-					<div class="pull-right">
-						<div ng-show="isTwitchConnected">
-							<a ng-click="importTwitchFollows()" href="#" class="btn btn-primary">Twitch follows import</a>
-						</div>
-					</div>
-				</div>
-			</div>
 		</form>
+		<div class="col-md-10-offset-2 clearfix">
+			<div class="pull-right">
+				<div ng-show="isTwitchConnected">
+					Twitch account connected
+				</div>
+				<div ng-hide="isTwitchConnected">
+					<a fixlink ng-href="/auth/twitchtv" href="/auth/twitchtv" class="btn-twitch-login">Twitch login</a>
+				</div>
+			</div>
+		</div>
+		<div class="import-container">
+			<div class="col-md-10-offset-2 clearfix">
+				<div class="pull-right">
+					<div ng-show="isTwitchConnected">
+						<a ng-click="importTwitchFollows()" href="#" class="btn btn-primary">Twitch follows import</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-10-offset-2 clearfix">
+				<div class="pull-right">
+					<div>
+						<button ng-click="importHitboxShowFunc()" class="btn btn-primary">Hitbox follows import</button>
+					</div>
+					<div ng-show="importHitboxShow">
+						<form class="form-horizontal" name="hitboxImportForm">
+							<div>
+								<input id="hitbox-user" class="form-control" name="hitbox-user" type="text" placeholder="Enter your Hitbox username" ng-model="hitboxUser" ng-maxlength="50" required />
+							</div>
+							<div>
+								<a class="btn btn-primary" href="#" ng-click="importHitboxFollows()" ng-disabled="hitboxImportForm.$invalid">Submit</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

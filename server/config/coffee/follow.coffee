@@ -64,3 +64,19 @@ exports.importTwitchFollows = (req, res, next) ->
 				res.end()
 			res.send({success: true})
 		)
+
+exports.importHitboxFollows = (req, res, next) ->
+	console.log(req.body.channels)
+	console.log(req.user)
+	if (!req.user || !req.body.channels)
+		res.status(400)
+		res.send({reason: 'Missing arguments'})
+		res.end()
+	else
+		User.update({username: req.user.username}, {$addToSet: {hitboxFollows: { $each: req.body.channels } }}).exec( (err, collection) ->
+			if (err)
+				res.status(500)
+				res.send({reason: 'Database error'})
+				res.end()
+			res.send({success: true})
+		)

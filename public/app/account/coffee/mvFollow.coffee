@@ -49,4 +49,15 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 				dfd.resolve(false)
 		)
 		dfd.promise
+
+	importHitboxFollows: (channels) ->
+		dfd = $q.defer()
+		$http.post("/importhitboxfollows", {channels: channels}).then( (response) ->
+			if (response.data.success)
+				mvIdentity.currentUser.hitboxFollows = mvIdentity.currentUser.hitboxFollows.concat(channels).unique()
+				dfd.resolve(true)
+			else
+				dfd.resolve(false)
+		)
+		dfd.promise
 ])
