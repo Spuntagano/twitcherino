@@ -18,9 +18,10 @@ exports.getUsers = (req, res) ->
 	)
 	
 exports.createUser = (req, res, next) ->
+
 	userData = req.body
 
-	validateInput(res, userData)
+	validateUser(res, userData)
 
 	userData.username = sanitizeHtml(userData.username.toLowerCase())
 
@@ -42,11 +43,17 @@ exports.createUser = (req, res, next) ->
 
 exports.updateUser = (req, res) ->
 
+	if (!req.user)
+		res.status(400)
+		return res.send(reason: 'Not logged in')
+
+	console.log(req.body)
+
 	userUpdates = req.body
 
-	validateInput(res, userUpdates)
+	validateUser(res, userUpdates)
 
-	if(parseInt(req.user._id, 10) != parseInt(userUpdates._id, 10) && !req.user.hasRole('admin'))
+	if(req.user.username != userUpdates.username && !req.user.hasRole('admin'))
 		res.status(403)
 		return res.send(reason: Unauthaurized)
 
@@ -64,19 +71,63 @@ exports.updateUser = (req, res) ->
 		res.send(req.user)
 	)
 
+exports.deleteUser = (req, res) ->
 
-validateInput = (res, userData) ->
+	if (!req.user)
+		res.status(400)
+		return res.send(reason: 'Not logged in')
+
+	validator.isEmail(req.params.username)
+
+	if(req.user.username != req.params.username && !req.user.hasRole('admin'))
+		res.status(403)
+		return res.send(reason: Unauthaurized)
+
+	User.remove({username: req.params.username}).exec( (err, collection) ->
+		if (err)
+			res.status(500)
+			res.send({reason: 'Database error'})
+		res.send(req.user)
+	)
+
+exports.disconnectTwitch = (req, res) ->
+
+	if (!req.user)
+		res.status(400)
+		return res.send(reason: 'Not logged in')
+
+	validator.isEmail(req.params.username)
+
+	if(req.user.username != req.params.username && !req.user.hasRole('admin'))
+		res.status(403)
+		return res.send(reason: Unauthaurized)
+
+	User.update({username: req.params.username}, {$unset: {twitchtvUsername: '', twitchtvAccessToken: '', twitchtvRefreshToken: ''}}).exec( (err, collection) ->
+		if (err)
+			res.status(500)
+			res.send({reason: 'Database error'})
+		res.send(req.user)
+	)
+
+validateUser = (res, userData) ->
+	###
 	if (!userData.username || !userData.password)
 		res.status(400)
-		res.send({reason: 'validation error'})
+		res.send({reason: 'Validation error'})
 		res.end()
 
 	if (!validator.isEmail(userData.username))
 		res.status(400)
-		res.send({reason: 'validation error'})
+		res.send({reason: 'Validation error'})
 		res.end()
 
-	if (!validator.isLength(userData.username, 1, 50) || !validator.isLength(userData.password, 6, 20))
+	if (!validator.isLength(userData.username, 1, 50))
 		res.status(400)
-		res.send({reason: 'validation error'})
+		res.send({reason: 'Validation error'})
 		res.end()
+
+	if (userData.password && !validator.isLength(userData.password, 6, 20))
+		res.status(400)
+		res.send({reason: 'Validation error'})
+		res.end()
+	###

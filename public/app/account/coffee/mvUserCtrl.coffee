@@ -8,17 +8,19 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 		mvRedirect.toHTTPS()
 
 		$scope.signup = ->
-			newUserData =
-				username: $scope.email
-				password: $scope.password
+			if ($scope.password == $scope.passwordConfirm)
+				newUserData =
+					username: $scope.email
+					password: $scope.password
 
-			mvAuth.createUser(newUserData).then( ->
-				mvNotifier.notify('User account created!')
-				$location.path('/')
-			(reason) ->
-				mvNotifier.error(reason)
-			)
-
+				mvAuth.createUser(newUserData).then( ->
+					mvNotifier.notify('User account created!')
+					$location.path('/')
+				(reason) ->
+					mvNotifier.error(reason)
+				)
+			else
+				mvNotifier.error('The passwords does not match')
 ])
 
 angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', 'mvRedirect', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow, mvRedirect) ->
@@ -27,6 +29,7 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 
 	$scope.email = mvIdentity.currentUser.username
 	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
+	$scope.notChangePassword = true
 
 	#call the server to see if its been connected after first login
 	if (!$scope.isTwitchConnected)
@@ -35,30 +38,55 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 			url: '/api/user'
 		}).success( (data, status, headers, config) ->
 			if (data[0])
-				if (data[0].twitchtvId)
-					mvIdentity.currentUser.twitchtvId = data[0].twitchtvId
+				if (data[0].twitchtvUsername)
 					mvIdentity.currentUser.twitchtvUsername = data[0].twitchtvUsername
 					$scope.isTwitchConnected = true
 		)
 
 	$scope.update = ->
-		newUserData =
-			username: $scope.email
+		if ($scope.password == $scope.passwordConfirm)
+			newUserData =
+				username: $scope.email
 
-		if ($scope.password && $scope.password.length > 0)
-			newUserData.password = $scope.password
+			if ($scope.password && $scope.password.length > 0)
+				newUserData.password = $scope.password
 
-		mvAuth.updateCurrentUser(newUserData).then( ->
-			mvNotifier.notify('Your profile has been updated')
-		(reason) ->
-			mvNotifier.error(reason)
-		)
+			mvAuth.updateCurrentUser(newUserData).then( ->
+				mvNotifier.notify('Your profile has been updated')
+			(reason) ->
+				mvNotifier.error(reason)
+			)
+		else
+			mvNotifier.error('The passwords does not match')
+
+	$scope.changePasswordFunc = ->
+		$scope.notChangePassword = !$scope.notChangePassword
+
+	$scope.deleteUser = ->
+		if (window.confirm("Are you sure you want to delete your account? There is no turning back"))
+			mvAuth.deleteUser(mvIdentity.currentUser.username).then( ->
+				mvNotifier.notify('Your account has been deleted')
+			(reason) ->
+				mvNotifier.error(reason)
+			)
+
+	$scope.disconnectTwitch = ->
+		if (!mvIdentity.currentUser.has_pw)
+			mvNotifier.error('Please set a password on your account')
+		else
+			if (window.confirm("Are you sure you want to disconect your twitch account?"))
+				mvAuth.disconectTwitch(mvIdentity.currentUser.username).then( ->
+					mvNotifier.notify('Your twitch account has been disconnected')
+					$scope.isTwitchConnected = false
+				(reason) ->
+					mvNotifier.error(reason)
+				)
 
 	$scope.importTwitchFollows = ->
 
 		channels = []
 
-		if (mvIdentity.currentUser.twitchtvId && mvIdentity.currentUser.twitchtvUsername)
+		if (mvIdentity.currentUser.twitchtvUsername)
 			twitchcall = $http({
 				method: 'JSONP'
 				url: "https://api.twitch.tv/kraken/users/#{mvIdentity.currentUser.twitchtvUsername}/follows/channels"

@@ -1,10 +1,6 @@
-delete account
-remove twitch id from bootstrap user
-log auth token
-disconect account
-profile edit password
-bootstrapped user remove id
-twitch html 5
-remove stream overlays
+redo update.user (leak info)
+a to button
+redo validation
+do factories?
 tests
 branding

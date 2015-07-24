@@ -47,5 +47,26 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-10-offset-2 clearfix">
+			<div class="pull-right">
+				<div class="delete-account-container">
+					<button class="btn btn-primary" ng-click="deleteUser()">Delete account</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-10-offset-2 clearfix" ng-show="isTwitchConnected">
+			<div class="pull-right">
+				<div class="disconnect-twitch-account-container">
+					<button class="btn btn-primary" ng-click="disconnectTwitch()">Disconnect twitch account</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-10-offset-2 clearfix">
+			<div class="pull-right">
+				<div class="change-password-container">
+					<button class="btn btn-primary" href="#" ng-click="changePasswordFunc()">Change Password</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -167,66 +167,73 @@ iframe {
   position: fixed;
 }
 
-.stream-overlay.twitch {
-  height: calc(100% - 80px);
+/*
+.stream-overlay.twitch{
+	height: calc(100% - 80px);
 }
 
-.stream-overlay.hitbox {
-  height: calc(100% - 90px);
+.stream-overlay.hitbox{
+	height: calc(100% - 90px);
 }
 
-.stream-overlay.azubu {
-  height: calc(100% - 90px);
+.stream-overlay.azubu{
+	height: calc(100% - 90px);
 }
 
-.stream-overlay {
-  height: calc(100% - 80px);
-  width: calc(100% - 340px);
-  position: fixed;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0);
-}
-.stream-overlay img {
-  width: 100px;
-  height: auto;
-  margin: 10px 0 0 10px;
-  float: left;
-  display: none;
-}
-.stream-overlay p {
-  margin-top: 5px;
-  position: relative;
-  left: 10px;
-  padding-right: 10px;
-  display: none;
-  color: #ccc;
-  font-size: 22px;
-}
-.stream-overlay .stream-info {
-  width: 70%;
-  float: left;
-}
-.stream-overlay .channel-viewers {
-  width: 30%;
-  float: left;
-}
-.stream-overlay .channel-viewers p {
-  float: right;
-  margin-right: 10px;
+.stream-overlay{
+	height: calc(100% - 80px);
+	width: calc(100% - 340px);
+	position: fixed;
+	z-index: 1;
+	background-color: rgba(0,0,0,0);
+
+	img{
+		width: 100px;
+		height: auto;
+		margin: 10px 0 0 10px;
+		float: left;
+		display: none;
+	}
+
+	p{
+		margin-top: 5px;
+		position: relative;
+		left: 10px;
+		padding-right: 10px;
+		display: none;
+		color: #ccc;
+		font-size: 22px;
+	}
+
+	.stream-info{
+		width: 70%;
+		float: left;
+	}
+
+	.channel-viewers{
+		width: 30%;
+		float: left;
+
+		p{
+			float: right;
+			margin-right: 10px;
+		}
+	}
 }
 
-.stream-overlay:hover {
-  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.5)), color-stop(100%, rgba(0, 0, 0, 0)));
-  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-  background: -o-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-  background: -ms-linear-gradient(top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
-}
-.stream-overlay:hover img, .stream-overlay:hover p {
-  display: block;
-}
+.stream-overlay:hover{
+	background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0)));
+	background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
 
+	img, p{
+		display: block;
+	}
+}
+*/
 /*toastr*/
 .toast-top-right {
   top: 70px;

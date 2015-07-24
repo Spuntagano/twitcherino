@@ -8,10 +8,13 @@ User = mongoose.model('User')
 module.exports = (app, config) ->
 
 	app.get('/api/users', auth.requiresRole('admin'), users.getUsers)
-	app.post('/api/users', users.createUser)
-	app.put('/api/users', users.updateUser)
 
+	app.post('/api/user', users.createUser)
+	app.put('/api/user', users.updateUser)
+	app.delete('/api/user/:username', users.deleteUser)
 	app.get('/api/user', users.getUser)
+
+	app.delete('/api/user/twitch/:username', users.disconnectTwitch)
 
 	app.get('/partials/*', (req, res) ->
 		res.render('../../public/app/' + req.params[0])
@@ -67,16 +70,18 @@ module.exports = (app, config) ->
 
 bootstrappedUserFunc = (req) ->
 	bootstrappedUser = false
+	has_pw = false
+	if (req.user && req.user.hashed_pwd)
+		has_pw = true
 	if (req.user)
 		bootstrappedUser =
-			_id: req.user._id
 			username: req.user.username
 			firstname: req.user.firstName
 			lastName: req.user.lastName
-			twitchtvId: req.user.twitchtvId
 			twitchtvUsername: req.user.twitchtvUsername
 			hitboxFollows: req.user.hitboxFollows
 			twitchFollows: req.user.twitchFollows
 			azubuFollows: req.user.azubuFollows
 			roles: req.user.roles
+			has_pw: has_pw
 

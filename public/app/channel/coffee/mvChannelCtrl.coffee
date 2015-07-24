@@ -6,11 +6,12 @@ angular.module('twitcherinoControllers', [])
 		mvRedirect.toHTTP()
 
 		$scope.videoUrl = () ->
-			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed?auto_play=true")
+			 $sce.trustAsResourceUrl("http://player.twitch.tv/?channel=#{$routeParams.channelUser}")
 
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat")
 
+		###
 		$scope.channel = {}
 
 		twitchcallfunc = ->
@@ -57,6 +58,7 @@ angular.module('twitcherinoControllers', [])
 		$scope.$on('$destroy', (next, current) ->
 			clearInterval(twitchInterval);
 		)
+		###
 
 
 		$scope.isAuthenticated = mvIdentity.isAuthenticated()
@@ -74,6 +76,7 @@ angular.module('twitcherinoControllers', [])
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/#{$routeParams.channelUser}")
 
+		###
 		$scope.channel = {}
 
 		hitboxcallfunc = ->
@@ -113,6 +116,7 @@ angular.module('twitcherinoControllers', [])
 		$scope.$on('$destroy', (next, current) ->
 			clearInterval(hitboxInterval);
 		)
+		###
 
 		$scope.isAuthenticated = mvIdentity.isAuthenticated()
 
@@ -129,6 +133,8 @@ angular.module('twitcherinoControllers', [])
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.azubu.tv/#{$routeParams.channelUser}/chatpopup")
 
+
+		###
 		$scope.channel = {}
 
 		azubucallfunc = ->
@@ -168,6 +174,7 @@ angular.module('twitcherinoControllers', [])
 		$scope.$on('$destroy', (next, current) ->
 			clearInterval(azubuInterval);
 		)
+		###
 
 		$scope.isAuthenticated = mvIdentity.isAuthenticated()
 

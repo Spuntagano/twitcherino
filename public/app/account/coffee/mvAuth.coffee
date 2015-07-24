@@ -1,4 +1,4 @@
-angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdentity', '$q', ($http, mvUser, mvIdentity, $q) ->
+angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdentity', '$q', '$location', ($http, mvUser, mvIdentity, $q, $location) ->
 
 	authenticateUser: (username, password) ->
 
@@ -29,6 +29,28 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 
 		dfd.promise
 
+	deleteUser: (username) ->
+		dfd = $q.defer()
+		$http.delete("/api/user/#{username}").then( -> 
+			mvIdentity.currentUser = undefined
+			dfd.resolve()
+			$location.path('/')
+		)
+
+	disconectTwitch: (username) ->
+		dfd = $q.defer()
+		$http.delete("/api/user/twitch/#{username}").then( -> 
+			if (mvIdentity.currentUser.twitchtvUsername)
+				mvIdentity.currentUser.twitchtvUsername = undefined
+
+			if (mvIdentity.currentUser.twitchtvAccessToken)
+				mvIdentity.currentUser.twitchtvAccessToken = undefined
+
+			if (mvIdentity.currentUser.twitchtvRefreshToken)
+				mvIdentity.currentUser.twitchtvRefreshToken = undefined
+			dfd.resolve()
+		)
+
 	updateCurrentUser: (newUserData) ->
 		dfd = $q.defer()
 		clone = angular.copy(mvIdentity.currentUser)
@@ -36,6 +58,8 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		newClone = new mvUser(clone)
 		newClone.$update().then( ->
 			mvIdentity.currentUser = newClone
+			if (mvIdentity.currentUser.hashed_pwd)
+				mvIdentity.currentUser.has_pw = true
 			dfd.resolve()
 		(response) ->
 			dfd.reject(response.data.reason)
