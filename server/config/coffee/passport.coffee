@@ -13,6 +13,7 @@ module.exports = (config) ->
 		(username, password, done) ->
 			User.findOne({username: username}).exec( (err, user) ->
 				if (user && user.authenticate(password))
+					User.update({username: username}, {lastLogin: new Date}).exec()
 					done(null, user)
 				else
 					done(null, false)
@@ -42,13 +43,14 @@ module.exports = (config) ->
 		else
 			User.findOne({twitchtvUsername: profile.username}).exec( (err, user) ->
 				if (user)
+					User.update({twitchtvUsername: profile.username}, {lastLogin: new Date}).exec()
 					done(null, user) #log in user
 				else if (!profile.email)
 					done(null, false, {message: 'Please validate your twitch email'}) #twitch email not validated
 				else if (!user)
 					User.findOne({username: profile.email}).exec( (err, user) ->
 						if (!user)
-							User.create({username: profile.email, twitchtvUsername: profile.username, twitchtvAccessToken: accessToken, twitchtvRefreshToken: refreshToken}, (err, user) ->
+							User.create({username: profile.email, twitchtvUsername: profile.username, twitchtvAccessToken: accessToken, twitchtvRefreshToken: refreshToken, accountCreated: new Date}, (err, user) ->
 								done(null, user) #create account and log in
 							)
 						else

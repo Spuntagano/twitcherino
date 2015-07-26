@@ -1,6 +1,5 @@
 User = require('mongoose').model('User')
 encrypt = require('../utilities/encryption')
-sanitizeHtml = require('sanitize-html')
 validator = require('validator')
 
 exports.getUser = (req, res) ->
@@ -21,9 +20,10 @@ exports.createUser = (req, res, next) ->
 
 	userData = req.body
 
-	validateUser(res, userData)
-
-	userData.username = sanitizeHtml(userData.username.toLowerCase())
+	if (!userData.username || !userData.password || !validator.isEmail(userData.username) || !validator.isLength(userData.username, 1, 50) || !validator.isLength(userData.password, 6, 20))
+		res.status(400)
+		res.send({reason: 'Validation error'})
+		res.end()
 
 	userData.salt = encrypt.createSalt()
 	userData.hashed_pwd =  encrypt.hashPwd(userData.salt, userData.password)
@@ -37,7 +37,7 @@ exports.createUser = (req, res, next) ->
 		req.logIn(user, (err) ->
 			if (err)
 				next(err)
-			res.send(user)
+			res.send()
 		)
 	)
 
@@ -47,18 +47,23 @@ exports.updateUser = (req, res) ->
 		res.status(400)
 		return res.send(reason: 'Not logged in')
 
-	console.log(req.body)
-
 	userUpdates = req.body
 
-	validateUser(res, userUpdates)
+	if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
+		res.status(400)
+		res.send({reason: 'Validation error'})
+		res.end()
+
+	if (!userUpdates.username || !validator.isEmail(userUpdates.username) || !validator.isLength(userUpdates.username, 1, 50))
+		res.status(400)
+		res.send({reason: 'Validation error'})
+		res.end()
 
 	if(req.user.username != userUpdates.username && !req.user.hasRole('admin'))
 		res.status(403)
 		return res.send(reason: Unauthaurized)
 
 	oldUsername = req.user.username
-	req.user.username = sanitizeHtml(userUpdates.username)
 
 	if (userUpdates.password && userUpdates.password.length > 0)
 		req.user.salt = encrypt.createSalt()
@@ -68,7 +73,7 @@ exports.updateUser = (req, res) ->
 		if (err)
 			res.status(500)
 			res.send({reason: 'Database error'})
-		res.send(req.user)
+		res.send()
 	)
 
 exports.deleteUser = (req, res) ->
@@ -87,7 +92,7 @@ exports.deleteUser = (req, res) ->
 		if (err)
 			res.status(500)
 			res.send({reason: 'Database error'})
-		res.send(req.user)
+		res.send()
 	)
 
 exports.disconnectTwitch = (req, res) ->
@@ -106,28 +111,6 @@ exports.disconnectTwitch = (req, res) ->
 		if (err)
 			res.status(500)
 			res.send({reason: 'Database error'})
-		res.send(req.user)
+		res.send()
 	)
-
-validateUser = (res, userData) ->
-	###
-	if (!userData.username || !userData.password)
-		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
-
-	if (!validator.isEmail(userData.username))
-		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
-
-	if (!validator.isLength(userData.username, 1, 50))
-		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
-
-	if (userData.password && !validator.isLength(userData.password, 6, 20))
-		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
-	###
+	

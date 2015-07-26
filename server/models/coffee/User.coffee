@@ -15,6 +15,8 @@ userSchema = mongoose.Schema({
 	twitchtvRefreshToken: {type: String}
 	salt: {type: String}
 	hashed_pwd: {type: String}
+	accountCreated: {type: Date}
+	lastLogin: {type: Date}
 	roles: [String]
 	twitchFollows: [String]
 	hitboxFollows: [String]

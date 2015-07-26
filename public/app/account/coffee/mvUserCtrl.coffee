@@ -23,7 +23,7 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 				mvNotifier.error('The passwords does not match')
 ])
 
-angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', 'mvRedirect', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow, mvRedirect) ->
+angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', 'mvRedirect', 'mvUser', ($http, $scope, mvAuth, mvIdentity, mvNotifier, mvFollow, mvRedirect, mvUser) ->
 	
 	mvRedirect.toHTTPS()
 
@@ -31,7 +31,6 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
 	$scope.notChangePassword = true
 
-	#call the server to see if its been connected after first login
 	if (!$scope.isTwitchConnected)
 		$http({
 			method: 'GET'
@@ -174,6 +173,7 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 
 							mvFollow.importHitboxFollows(channels).then( ->
 								mvNotifier.notify("#{data.following.length} Channels imported")
+								$scope.importHitboxShow = false
 							(reason) ->
 								mvNotifier.error(reason)
 							)
@@ -181,6 +181,7 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 
 				mvFollow.importHitboxFollows(channels).then( ->
 					mvNotifier.notify("#{data.following.length} Channels imported")
+
 				(reason) ->
 					mvNotifier.error(reason)
 				)

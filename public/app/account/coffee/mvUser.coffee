@@ -1,4 +1,4 @@
-angular.module('twitcherinoApp').factory('mvUser', ['$resource', ($resource) ->
+angular.module('twitcherinoApp').factory('mvUser', ['$resource', '$http', ($resource, $http) ->
 	UserResource = $resource("/api/user/:id", {_id: '@id'}, {
 		update: {method: 'PUT', isArray: false}
 	})
