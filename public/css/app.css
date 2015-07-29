@@ -12,6 +12,13 @@ nav.nav-style {
   margin-bottom: 0;
 }
 
+.collapse.in, .collapsing {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  background-color: #f8f8f8;
+}
+
 .no-padding {
   padding: 0;
 }
@@ -182,7 +189,7 @@ iframe {
 
   .video-container {
     width: 100%;
-    height: calc(100% + 50px);
+    height: calc(100%);
     top: 0;
   }
 }
