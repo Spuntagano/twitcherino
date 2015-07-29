@@ -6,7 +6,8 @@ angular.module('twitcherinoControllers', [])
 		mvRedirect.toHTTP()
 
 		$scope.videoUrl = () ->
-			 $sce.trustAsResourceUrl("http://player.twitch.tv/?channel=#{$routeParams.channelUser}")
+			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed")
+			 #$sce.trustAsResourceUrl("http://player.twitch.tv/?channel=#{$routeParams.channelUser}")
 
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat")
