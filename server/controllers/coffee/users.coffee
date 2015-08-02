@@ -5,7 +5,8 @@ validator = require('validator')
 exports.getUser = (req, res) ->
 	if (!req.user)
 		res.status(400)
-		return res.send(reason: 'Not logged in')
+		res.send(reason: 'Not logged in')
+		res.end()
 
 	User.find(username: req.user.username).exec( (err, collection) ->
 		res.send(collection)
@@ -34,10 +35,12 @@ exports.createUser = (req, res, next) ->
 				err = new Error('Duplicate Username')
 			res.status(400)
 			res.send({reason: err.toString()})
+			res.end()
 		req.logIn(user, (err) ->
 			if (err)
 				next(err)
 			res.send()
+			res.end()
 		)
 	)
 
@@ -45,7 +48,8 @@ exports.updateUser = (req, res) ->
 
 	if (!req.user)
 		res.status(400)
-		return res.send(reason: 'Not logged in')
+		res.send(reason: 'Not logged in')
+		res.end()
 
 	userUpdates = req.body
 
@@ -61,7 +65,8 @@ exports.updateUser = (req, res) ->
 
 	if(req.user.username != userUpdates.username && !req.user.hasRole('admin'))
 		res.status(403)
-		return res.send(reason: Unauthaurized)
+		res.send(reason: Unauthaurized)
+		res.end()
 
 	oldUsername = req.user.username
 
@@ -73,6 +78,7 @@ exports.updateUser = (req, res) ->
 		if (err)
 			res.status(500)
 			res.send({reason: 'Database error'})
+			res.end()
 		res.send()
 	)
 
@@ -80,18 +86,24 @@ exports.deleteUser = (req, res) ->
 
 	if (!req.user)
 		res.status(400)
-		return res.send(reason: 'Not logged in')
+		res.send(reason: 'Not logged in')
+		res.end()
 
-	validator.isEmail(req.params.username)
+	if (!validator.isEmail(req.params.username))
+		res.status(400)
+		res.send(reason: 'Validation error')
+		res.end()
 
 	if(req.user.username != req.params.username && !req.user.hasRole('admin'))
 		res.status(403)
-		return res.send(reason: Unauthaurized)
+		res.send(reason: Unauthaurized)
+		res.end()
 
 	User.remove({username: req.params.username}).exec( (err, collection) ->
 		if (err)
 			res.status(500)
 			res.send({reason: 'Database error'})
+			res.end()
 		res.send()
 	)
 
@@ -99,18 +111,24 @@ exports.disconnectTwitch = (req, res) ->
 
 	if (!req.user)
 		res.status(400)
-		return res.send(reason: 'Not logged in')
+		res.send(reason: 'Not logged in')
+		res.end()
 
-	validator.isEmail(req.params.username)
+	if (!validator.isEmail(req.params.username))
+		res.status(400)
+		res.send(reason: 'Validation error')
+		res.end()
 
 	if(req.user.username != req.params.username && !req.user.hasRole('admin'))
 		res.status(403)
-		return res.send(reason: Unauthaurized)
+		res.send(reason: Unauthaurized)
+		res.end()
 
 	User.update({username: req.params.username}, {$unset: {twitchtvUsername: '', twitchtvAccessToken: '', twitchtvRefreshToken: ''}}).exec( (err, collection) ->
 		if (err)
 			res.status(500)
 			res.send({reason: 'Database error'})
+			res.end()
 		res.send()
 	)
 	

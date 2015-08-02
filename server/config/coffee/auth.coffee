@@ -5,6 +5,7 @@ exports.authenticate = (req, res, next) ->
 	if(!req.body.username || !req.body.username)
 		res.status(400)
 		res.send({reason: err.toString})
+		res.end()
 
 	req.body.username = req.body.username.toLowerCase()
 	auth = passport.authenticate('local', (err, user) ->

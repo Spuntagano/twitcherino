@@ -7,11 +7,9 @@
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.6.1",
-    "karma": "^0.12.31",
-    "karma-chai-plugins": "^0.4.0",
-    "karma-junit-reporter": "^0.2.2",
-    "karma-mocha": "^0.1.10",
     "mocha": "^2.2.1",
+    "chai": "^3.2.0",
+    "sinon": "^1.15.4",
     "protractor": "^1.1.1",
     "shelljs": "^0.2.6",
     "nodemon": "*"
@@ -51,6 +49,7 @@
     "grunt-contrib-sass": "*",
     "grunt-contrib-coffee": "*",
     "grunt-contrib-watch": "*",
+    "grunt-mocha-test": "*",
     "validator": "^3.41.x"
   }
 }

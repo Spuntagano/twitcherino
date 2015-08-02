@@ -11,18 +11,21 @@ exports.addFollow = (req, res, next) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
+					res.end()
 				res.send({success: true})
 			)
 			when 'hitbox' then User.update({username: req.user.username}, {$addToSet: {hitboxFollows: req.body.channelTitle}}).exec( (err, collection) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
+					res.end()
 				res.send({success: true})
 			)
 			when 'azubu' then User.update({username: req.user.username}, {$addToSet: {azubuFollows: req.body.channelTitle}}).exec( (err, collection) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
+					res.end()
 				res.send({success: true})
 			)
 
@@ -36,18 +39,21 @@ exports.removeFollow = (req, res, next) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
+					res.end()
 				res.send({success: true})
 			)
 			when 'hitbox' then User.update({username: req.user.username}, {$pull: {hitboxFollows: req.body.channelTitle}}).exec( (err, collection) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
+					res.end()
 				res.send({success: true})
 			)
 			when 'azubu' then User.update({username: req.user.username}, {$pull: {azubuFollows: req.body.channelTitle}}).exec( (err, collection) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
+					res.end()
 				res.send({success: true})
 			)
 
