@@ -1,17 +1,46 @@
 chai = require('chai')
+sinon = require('sinon')
+validator = require('validator')
+userModel = require('../server/models/User')
+User = require('mongoose').model('User')
+users = require('../server/controllers/users')
 expect = chai.expect
 
 chai.should()
 
-isEven = (num) ->
-	num % 2 == 0
+describe('Users', ->
 
-describe('isEven', ->
-	it('should return true when number is even', ->
-		isEven(4).should.be.true
+	user = {}
+
+	req = {}
+	req.body = {}
+
+	res = {
+		status: ->
+			true
+
+		send: ->
+			true
+
+		end: ->
+			true
+	}
+	
+	next = ->
+		true
+
+	beforeEach( ->
+		req.body.username = 'bob'
+		req.body.password = 'qwertyuiop'
+		req.body.email = 'bob@bob.bob'
 	)
 
-	it('should return false when number is odd', ->
-		expect(isEven(5)).to.be.false
+	it('Should create a user', ->
+		stub = sinon.stub(User)
+		stub.Create.returns(true)
+
+		users.createUser(req, res, next)
+
+		sinon.assert.called(user.Create)
 	)
 )

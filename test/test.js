@@ -1,20 +1,50 @@
-var chai, expect, isEven;
+var User, chai, expect, sinon, userModel, users, validator;
 
 chai = require('chai');
+
+sinon = require('sinon');
+
+validator = require('validator');
+
+userModel = require('../server/models/User');
+
+User = require('mongoose').model('User');
+
+users = require('../server/controllers/users');
 
 expect = chai.expect;
 
 chai.should();
 
-isEven = function(num) {
-  return num % 2 === 0;
-};
-
-describe('isEven', function() {
-  it('should return true when number is even', function() {
-    return isEven(4).should.be["true"];
+describe('Users', function() {
+  var next, req, res, user;
+  user = {};
+  req = {};
+  req.body = {};
+  res = {
+    status: function() {
+      return true;
+    },
+    send: function() {
+      return true;
+    },
+    end: function() {
+      return true;
+    }
+  };
+  next = function() {
+    return true;
+  };
+  beforeEach(function() {
+    req.body.username = 'bob';
+    req.body.password = 'qwertyuiop';
+    return req.body.email = 'bob@bob.bob';
   });
-  return it('should return false when number is odd', function() {
-    return expect(isEven(5)).to.be["false"];
+  return it('Should create a user', function() {
+    var stub;
+    stub = sinon.stub(User);
+    stub.Create.returns(true);
+    users.createUser(req, res, next);
+    return sinon.assert.called(user.Create);
   });
 });

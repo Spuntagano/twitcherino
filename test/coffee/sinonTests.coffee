@@ -1,3 +1,4 @@
+
 chai = require('chai')
 sinon = require('sinon')
 expect = chai.expect
@@ -79,5 +80,18 @@ describe('sinon tests', ->
 			student.addClass(schedule)
 			expectation.verify()
 		)
+	)
+)
+
+isEven = (num) ->
+	num % 2 == 0
+
+describe('isEven', ->
+	it('should return true when number is even', ->
+		isEven(4).should.be.true
+	)
+
+	it('should return false when number is odd', ->
+		expect(isEven(5)).to.be.false
 	)
 )
