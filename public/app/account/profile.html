@@ -25,7 +25,7 @@
 			<div class="col-md-10-offset-2 clearfix">
 				<div class="pull-right">
 					<div ng-show="isTwitchConnected">
-						<button ng-click="importTwitchFollows()" href="#" class="btn btn-primary">Twitch follows import</button>
+						<button ng-click="importTwitchFollows()" class="btn btn-primary">Twitch follows import</button>
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 								<input id="hitbox-user" class="form-control" name="hitbox-user" type="text" placeholder="Enter your Hitbox username" ng-model="hitboxUser" ng-maxlength="50" required />
 							</div>
 							<div>
-								<button class="btn btn-primary" href="#" ng-click="importHitboxFollows()" ng-disabled="hitboxImportForm.$invalid">Submit</button>
+								<button class="btn btn-primary" ng-click="importHitboxFollows()" ng-disabled="hitboxImportForm.$invalid">Submit</button>
 							</div>
 						</form>
 					</div>
@@ -64,7 +64,7 @@
 		<div class="col-md-10-offset-2 clearfix">
 			<div class="pull-right">
 				<div class="change-password-container">
-					<button class="btn btn-primary" href="#" ng-click="changePasswordFunc()">Change Password</button>
+					<button class="btn btn-primary" ng-click="changePasswordFunc()">Change Password</button>
 				</div>
 			</div>
 		</div>

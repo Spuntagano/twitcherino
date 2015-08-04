@@ -46,6 +46,7 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 		if ($scope.password == $scope.passwordConfirm)
 			newUserData =
 				username: $scope.email
+				oldUsername: mvIdentity.currentUser.username
 
 			if ($scope.password && $scope.password.length > 0)
 				newUserData.password = $scope.password

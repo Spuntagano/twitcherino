@@ -46,8 +46,8 @@ exports.createUser = (req, res, next) ->
 
 exports.updateUser = (req, res) ->
 
+	user = new User(req.user)
 	userUpdates = req.body
-	oldUsername = req.user.username
 	valid = true
 
 	if (!req.user)
@@ -55,27 +55,27 @@ exports.updateUser = (req, res) ->
 		res.status(400)
 		res.send(reason: 'Not logged in')
 
-	if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
-		valid = false
-		res.status(400)
-		res.send({reason: 'Invalid Password'})
-
 	if (!userUpdates.username || !validator.isEmail(userUpdates.username) || !validator.isLength(userUpdates.username, 1, 50))
 		valid = false
 		res.status(400)
 		res.send({reason: 'Invalid username'})
 
-	if(req.user.username != userUpdates.username && !req.user.hasRole('admin'))
+	if(user.username != userUpdates.oldUsername && !user.hasRole('admin'))
 		valid = false
 		res.status(403)
 		res.send(reason: 'Unauthaurized')
 
-	if (userUpdates.password && userUpdates.password.length > 0)
-		req.user.salt = encrypt.createSalt()
-		req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password)
+	if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
+		valid = false
+		res.status(400)
+		res.send({reason: 'Invalid Password'})
+
+	if (userUpdates.password)
+		user.salt = encrypt.createSalt()
+		user.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password)
 
 	if (valid)
-		User.update({username: oldUsername}, req.user, (err, collection) ->
+		User.update({username: userUpdates.oldUsername}, user, (err, collection) ->
 			if (err)
 				res.status(500)
 				res.send({reason: 'Database error'})
