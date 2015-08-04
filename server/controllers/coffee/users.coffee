@@ -20,67 +20,67 @@ exports.getUsers = (req, res) ->
 exports.createUser = (req, res, next) ->
 
 	userData = req.body
+	valid = true
 
 	if (!userData.username || !userData.password || !validator.isEmail(userData.username) || !validator.isLength(userData.username, 1, 50) || !validator.isLength(userData.password, 6, 20))
+		valid = false
 		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
+		res.send({reason: 'Invalid parameters'})
 
-	userData.salt = encrypt.createSalt()
-	userData.hashed_pwd =  encrypt.hashPwd(userData.salt, userData.password)
-	User.create(userData, (err, user) ->
-		if (err)
-			console.log(err)
-			if (err.toString().indexOf('E11000') > -1)
-				err = new Error('Duplicate Username')
-			res.status(400)
-			res.send({reason: err.toString()})
-			res.end()
-		req.logIn(user, (err) ->
+	if (valid)
+		userData.salt = encrypt.createSalt()
+		userData.hashed_pwd =  encrypt.hashPwd(userData.salt, userData.password)
+		User.create(userData, (err, user) ->
 			if (err)
-				next(err)
-			res.send()
-			res.end()
+				console.log(err)
+				if (err.toString().indexOf('E11000') > -1)
+					err = new Error('Duplicate Username')
+				res.status(400)
+				res.send({reason: err.toString()})
+			req.logIn(user, (err) ->
+				if (err)
+					next(err)
+				res.send()
+			)
 		)
-	)
 
 exports.updateUser = (req, res) ->
 
+	userUpdates = req.body
+	oldUsername = req.user.username
+	valid = true
+
 	if (!req.user)
+		valid = false
 		res.status(400)
 		res.send(reason: 'Not logged in')
-		res.end()
-
-	userUpdates = req.body
 
 	if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
+		valid = false
 		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
+		res.send({reason: 'Invalid Password'})
 
 	if (!userUpdates.username || !validator.isEmail(userUpdates.username) || !validator.isLength(userUpdates.username, 1, 50))
+		valid = false
 		res.status(400)
-		res.send({reason: 'Validation error'})
-		res.end()
+		res.send({reason: 'Invalid username'})
 
 	if(req.user.username != userUpdates.username && !req.user.hasRole('admin'))
+		valid = false
 		res.status(403)
-		res.send(reason: Unauthaurized)
-		res.end()
-
-	oldUsername = req.user.username
+		res.send(reason: 'Unauthaurized')
 
 	if (userUpdates.password && userUpdates.password.length > 0)
 		req.user.salt = encrypt.createSalt()
 		req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password)
 
-	User.update({username: oldUsername}, req.user).exec( (err, collection) ->
-		if (err)
-			res.status(500)
-			res.send({reason: 'Database error'})
-			res.end()
-		res.send()
-	)
+	if (valid)
+		User.update({username: oldUsername}, req.user, (err, collection) ->
+			if (err)
+				res.status(500)
+				res.send({reason: 'Database error'})
+			res.send()
+		)
 
 exports.deleteUser = (req, res) ->
 
