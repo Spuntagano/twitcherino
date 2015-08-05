@@ -25,12 +25,15 @@ userSchema = mongoose.Schema({
 
 userSchema.methods = {
 	authenticate: (passwordToMatch) ->
-		encrypt.hashPwd(this.salt, passwordToMatch) == this.hashed_pwd
+		if (this.salt)
+			encrypt.hashPwd(this.salt, passwordToMatch) == this.hashed_pwd
 	hasRole: (role) ->
 		this.roles.indexOf(role) > -1
 }
 
 User = mongoose.model('User', userSchema)
+
+###
 
 createDefaultUsers = ->
 	User.find({}).exec( (err, collection) ->
@@ -47,3 +50,5 @@ createDefaultUsers = ->
 	)
 
 exports.createDefaultUsers = createDefaultUsers
+
+###

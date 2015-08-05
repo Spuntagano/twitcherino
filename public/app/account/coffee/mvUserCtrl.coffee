@@ -35,6 +35,7 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 		$http({
 			method: 'GET'
 			url: '/api/user'
+			params: mvIdentity.currentUser.username
 		}).success( (data, status, headers, config) ->
 			if (data[0])
 				if (data[0].twitchtvUsername)

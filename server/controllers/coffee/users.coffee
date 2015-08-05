@@ -3,14 +3,30 @@ encrypt = require('../utilities/encryption')
 validator = require('validator')
 
 exports.getUser = (req, res) ->
+
+	user = new User(req.user)
+	userData = req.body
+	valid = true
+
 	if (!req.user)
+		valid = false
 		res.status(400)
 		res.send(reason: 'Not logged in')
-		res.end()
+	else
+		if(!userData.username)
+			valid = false
+			res.status(400)
+			res.send(reason: 'Invalid params')
 
-	User.find(username: req.user.username).exec( (err, collection) ->
-		res.send(collection)
-	)
+		if(user.username != userData.username && !user.hasRole('admin'))
+			valid = false
+			res.status(403)
+			res.send(reason: 'Unauthaurized')
+
+		if (valid)
+			User.find(username: userData.username, (err, collection) ->
+				res.send(collection)
+			)
 
 exports.getUsers = (req, res) ->
 	User.find({}).exec( (err, collection) ->
@@ -54,81 +70,90 @@ exports.updateUser = (req, res) ->
 		valid = false
 		res.status(400)
 		res.send(reason: 'Not logged in')
+	else
+		if (!userUpdates.username || !validator.isEmail(userUpdates.username) || !validator.isLength(userUpdates.username, 1, 50))
+			valid = false
+			res.status(400)
+			res.send({reason: 'Invalid username'})
 
-	if (!userUpdates.username || !validator.isEmail(userUpdates.username) || !validator.isLength(userUpdates.username, 1, 50))
-		valid = false
-		res.status(400)
-		res.send({reason: 'Invalid username'})
+		if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
+			valid = false
+			res.status(400)
+			res.send({reason: 'Invalid Password'})
 
-	if(user.username != userUpdates.oldUsername && !user.hasRole('admin'))
-		valid = false
-		res.status(403)
-		res.send(reason: 'Unauthaurized')
+		if(user.username != userUpdates.oldUsername && !user.hasRole('admin'))
+			valid = false
+			res.status(403)
+			res.send(reason: 'Unauthaurized')
 
-	if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
-		valid = false
-		res.status(400)
-		res.send({reason: 'Invalid Password'})
+		if (userUpdates.password)
+			req.user.salt = encrypt.createSalt()
+			req.user.hashed_pwd = encrypt.hashPwd(req.user.salt, userUpdates.password)
 
-	if (userUpdates.password)
-		user.salt = encrypt.createSalt()
-		user.hashed_pwd = encrypt.hashPwd(user.salt, userUpdates.password)
+		req.user.username = userUpdates.username
 
-	if (valid)
-		User.update({username: userUpdates.oldUsername}, user, (err, collection) ->
-			if (err)
-				res.status(500)
-				res.send({reason: 'Database error'})
-			res.send()
-		)
+		if (valid)
+			User.update({username: userUpdates.oldUsername}, req.user, (err, collection) ->
+				if (err)
+					res.status(500)
+					res.send({reason: 'Database error'})
+				res.send()
+			)
 
 exports.deleteUser = (req, res) ->
 
+	user = new User(req.user)
+	valid = true
+
 	if (!req.user)
+		valid = false
 		res.status(400)
 		res.send(reason: 'Not logged in')
-		res.end()
+	else
+		if (!validator.isEmail(req.params.username))
+			valid = false
+			res.status(400)
+			res.send(reason: 'Validation error')
 
-	if (!validator.isEmail(req.params.username))
-		res.status(400)
-		res.send(reason: 'Validation error')
-		res.end()
+		if(user.username != req.params.username && !user.hasRole('admin'))
+			valid = false
+			res.status(403)
+			res.send(reason: 'Unauthaurized')
 
-	if(req.user.username != req.params.username && !req.user.hasRole('admin'))
-		res.status(403)
-		res.send(reason: Unauthaurized)
-		res.end()
-
-	User.remove({username: req.params.username}).exec( (err, collection) ->
-		if (err)
-			res.status(500)
-			res.send({reason: 'Database error'})
-			res.end()
-		res.send()
-	)
+		if (valid)
+			User.remove({username: req.params.username}, (err, collection) ->
+				if (err)
+					res.status(500)
+					res.send({reason: 'Database error'})
+					res.end()
+				res.send()
+			)
 
 exports.disconnectTwitch = (req, res) ->
 
+	user = new User(req.user)
+	valid = true
+
 	if (!req.user)
+		valid = false
 		res.status(400)
 		res.send(reason: 'Not logged in')
-		res.end()
+	else
+		if (!validator.isEmail(req.params.username))
+			valid = false
+			res.status(400)
+			res.send(reason: 'Validation error')
 
-	if (!validator.isEmail(req.params.username))
-		res.status(400)
-		res.send(reason: 'Validation error')
-		res.end()
+		if(user.username != req.params.username && !user.hasRole('admin'))
+			valid = false
+			res.status(403)
+			res.send(reason: 'Unauthaurized')
 
-	if(req.user.username != req.params.username && !req.user.hasRole('admin'))
-		res.status(403)
-		res.send(reason: Unauthaurized)
-		res.end()
-
-	User.update({username: req.params.username}, {$unset: {twitchtvUsername: '', twitchtvAccessToken: '', twitchtvRefreshToken: ''}}).exec( (err, collection) ->
-		if (err)
-			res.status(500)
-			res.send({reason: 'Database error'})
-			res.end()
-		res.send()
-	)
+		if (valid)
+			User.update({username: req.params.username}, {$unset: {twitchtvUsername: '', twitchtvAccessToken: '', twitchtvRefreshToken: ''}}, (err, collection) ->
+				if (err)
+					res.status(500)
+					res.send({reason: 'Database error'})
+				res.send()
+			)
 	
