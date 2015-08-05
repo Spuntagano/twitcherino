@@ -53,6 +53,8 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$http', '$scope', '
 				newUserData.password = $scope.password
 
 			mvAuth.updateCurrentUser(newUserData).then( ->
+				if (newUserData.password)
+					mvIdentity.currentUser.has_pw = true
 				mvNotifier.notify('Your profile has been updated')
 			(reason) ->
 				mvNotifier.error(reason)

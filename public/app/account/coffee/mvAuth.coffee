@@ -58,8 +58,6 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		newClone = new mvUser(clone)
 		newClone.$update().then( ->
 			mvIdentity.currentUser = newClone
-			if (mvIdentity.currentUser.hashed_pwd)
-				mvIdentity.currentUser.has_pw = true
 			dfd.resolve()
 		(response) ->
 			dfd.reject(response.data.reason)

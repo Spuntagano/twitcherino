@@ -56,7 +56,7 @@ exports.createUser = (req, res, next) ->
 			req.logIn(user, (err) ->
 				if (err)
 					next(err)
-				res.send()
+				res.send({success: true})
 			)
 		)
 
@@ -97,7 +97,7 @@ exports.updateUser = (req, res) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
-				res.send()
+				res.send({success: true})
 			)
 
 exports.deleteUser = (req, res) ->
@@ -125,8 +125,7 @@ exports.deleteUser = (req, res) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
-					res.end()
-				res.send()
+				res.send({success: true})
 			)
 
 exports.disconnectTwitch = (req, res) ->
@@ -154,6 +153,6 @@ exports.disconnectTwitch = (req, res) ->
 				if (err)
 					res.status(500)
 					res.send({reason: 'Database error'})
-				res.send()
+				res.send({success: true})
 			)
 	

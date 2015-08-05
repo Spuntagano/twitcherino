@@ -46,7 +46,7 @@
 		</script>
 	<% } %>
 
-	<% if ( typeof env != 'undefined' && !!env ){ %>
+	<% if ( typeof env != 'undefined' && !!env && env == 'developement'){ %>
 		<script>
 			window.env = <%- JSON.stringify(env); %>
 		</script>

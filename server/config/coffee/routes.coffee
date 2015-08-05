@@ -1,5 +1,5 @@
 auth = require('./auth')
-follow = require('./follow')
+follow = require('../controllers/follow')
 users = require('../controllers/users')
 mongoose = require('mongoose')
 passport = require('passport')
