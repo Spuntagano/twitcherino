@@ -35,6 +35,9 @@ describe('Auth', ->
 	describe('Authenticate', ->
 
 		beforeEach( ->
+
+			mockPassport = sinon.mock(passport)
+
 			req = {}
 			req.user = {}
 			req.body = {}
@@ -44,6 +47,10 @@ describe('Auth', ->
 
 			req.body.username = 'bob@bob.bob'
 			req.body.password = 'qwertyuiop'
+		)
+
+		afterEach (->
+			mockPassport.restore()
 		)
 
 		it('Should fail to get a user with no username params', ->

@@ -37,6 +37,10 @@ describe('Users', ->
 	describe('Get', ->
 
 		beforeEach( ->
+
+			mockUser = sinon.mock(User)
+			mockEncrypt = sinon.mock(encrypt)
+
 			req = {}
 			req.user = {}
 			req.body = {}
@@ -46,6 +50,11 @@ describe('Users', ->
 
 			req.user.username = 'bob@bob.bob'
 			req.body.username = 'bob@bob.bob'
+		)
+
+		afterEach (->
+			mockUser.restore()
+			mockEncrypt.restore()
 		)
 
 		it('Should get a user with valid params', ->
@@ -98,6 +107,9 @@ describe('Users', ->
 
 		beforeEach( ->
 
+			mockUser = sinon.mock(User)
+			mockEncrypt = sinon.mock(encrypt)
+
 			req = {}
 			req.user = {}
 			req.body = {}
@@ -107,6 +119,11 @@ describe('Users', ->
 
 			req.body.username = 'bob@bob.bob'
 			req.body.password = 'qwertyuiop'
+		)
+
+		afterEach (->
+			mockUser.restore()
+			mockEncrypt.restore()
 		)
 
 		it('Should create a user with valid params', ->
@@ -176,6 +193,9 @@ describe('Users', ->
 
 		beforeEach( ->
 
+			mockUser = sinon.mock(User)
+			mockEncrypt = sinon.mock(encrypt)
+
 			req = {}
 			req.user = {}
 			req.body = {}
@@ -189,6 +209,11 @@ describe('Users', ->
 			req.body.oldUsername = 'bob@bob.bob'
 			req.body.username = 'bob@bobb.bob'
 			req.body.password = 'qwertyuiop2'
+		)
+
+		afterEach (->
+			mockUser.restore()
+			mockEncrypt.restore()
 		)
 
 		it('Should update their info with valid params', ->
@@ -296,6 +321,9 @@ describe('Users', ->
 
 		beforeEach( ->
 
+			mockUser = sinon.mock(User)
+			mockEncrypt = sinon.mock(encrypt)
+
 			req = {}
 			req.user = {}
 			req.body = {}
@@ -306,6 +334,11 @@ describe('Users', ->
 			req.user.username = 'bob@bob.bob'
 
 			req.params.username = 'bob@bob.bob'
+		)
+
+		afterEach (->
+			mockUser.restore()
+			mockEncrypt.restore()
 		)
 
 		it('Should delete their info with valid params', ->
@@ -367,6 +400,9 @@ describe('Users', ->
 
 		beforeEach( ->
 
+			mockUser = sinon.mock(User)
+			mockEncrypt = sinon.mock(encrypt)
+
 			req = {}
 			req.user = {}
 			req.body = {}
@@ -377,6 +413,11 @@ describe('Users', ->
 			req.user.username = 'bob@bob.bob'
 
 			req.params.username = 'bob@bob.bob'
+		)
+
+		afterEach (->
+			mockUser.restore()
+			mockEncrypt.restore()
 		)
 
 		it('Should disconect with valid params', ->

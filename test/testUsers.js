@@ -41,6 +41,8 @@ describe('Users', function() {
   mockEncrypt = sinon.mock(encrypt);
   describe('Get', function() {
     beforeEach(function() {
+      mockUser = sinon.mock(User);
+      mockEncrypt = sinon.mock(encrypt);
       req = {};
       req.user = {};
       req.body = {};
@@ -49,6 +51,10 @@ describe('Users', function() {
       req.user.username = 'bob@bob.bob';
       return req.body.username = 'bob@bob.bob';
     });
+    afterEach((function() {
+      mockUser.restore();
+      return mockEncrypt.restore();
+    }));
     it('Should get a user with valid params', function() {
       var expectation;
       expectation = mockUser.expects('find').once();
@@ -87,6 +93,8 @@ describe('Users', function() {
   });
   describe('Create', function() {
     beforeEach(function() {
+      mockUser = sinon.mock(User);
+      mockEncrypt = sinon.mock(encrypt);
       req = {};
       req.user = {};
       req.body = {};
@@ -95,6 +103,10 @@ describe('Users', function() {
       req.body.username = 'bob@bob.bob';
       return req.body.password = 'qwertyuiop';
     });
+    afterEach((function() {
+      mockUser.restore();
+      return mockEncrypt.restore();
+    }));
     it('Should create a user with valid params', function() {
       var expectation;
       expectation = mockUser.expects('create').once();
@@ -146,6 +158,8 @@ describe('Users', function() {
   });
   describe('Update', function() {
     beforeEach(function() {
+      mockUser = sinon.mock(User);
+      mockEncrypt = sinon.mock(encrypt);
       req = {};
       req.user = {};
       req.body = {};
@@ -157,6 +171,10 @@ describe('Users', function() {
       req.body.username = 'bob@bobb.bob';
       return req.body.password = 'qwertyuiop2';
     });
+    afterEach((function() {
+      mockUser.restore();
+      return mockEncrypt.restore();
+    }));
     it('Should update their info with valid params', function() {
       var expectation;
       expectation = mockUser.expects('update').once();
@@ -238,6 +256,8 @@ describe('Users', function() {
   });
   describe('Delete', function() {
     beforeEach(function() {
+      mockUser = sinon.mock(User);
+      mockEncrypt = sinon.mock(encrypt);
       req = {};
       req.user = {};
       req.body = {};
@@ -246,6 +266,10 @@ describe('Users', function() {
       req.user.username = 'bob@bob.bob';
       return req.params.username = 'bob@bob.bob';
     });
+    afterEach((function() {
+      mockUser.restore();
+      return mockEncrypt.restore();
+    }));
     it('Should delete their info with valid params', function() {
       var expectation;
       expectation = mockUser.expects('remove').once();
@@ -291,6 +315,8 @@ describe('Users', function() {
   });
   return describe('Disconect twitch', function() {
     beforeEach(function() {
+      mockUser = sinon.mock(User);
+      mockEncrypt = sinon.mock(encrypt);
       req = {};
       req.user = {};
       req.body = {};
@@ -299,6 +325,10 @@ describe('Users', function() {
       req.user.username = 'bob@bob.bob';
       return req.params.username = 'bob@bob.bob';
     });
+    afterEach((function() {
+      mockUser.restore();
+      return mockEncrypt.restore();
+    }));
     it('Should disconect with valid params', function() {
       var expectation;
       expectation = mockUser.expects('update').once();
