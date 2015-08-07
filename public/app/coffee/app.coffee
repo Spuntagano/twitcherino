@@ -31,7 +31,7 @@ angular.module('twitcherinoApp', [
 			templateUrl: '/partials/account/login'
 			controller: 'LoginCtrl'
 		}).when('/follow', {
-			templateUrl: '/partials/account/follow'
+			templateUrl: '/partials/follow/follow'
 			controller: 'FollowCtrl'
 		}).when('/azubu/:channelUser', {
 			templateUrl: '/partials/channel/channel'

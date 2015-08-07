@@ -12,7 +12,7 @@ module.exports = (app, config) ->
 	app.post('/api/user', users.createUser)
 	app.put('/api/user', users.updateUser)
 	app.delete('/api/user/:username', users.deleteUser)
-	app.get('/api/user', users.getUser)
+	app.get('/api/user/:username', users.getUser)
 
 	app.delete('/api/user/twitch/:username', users.disconnectTwitch)
 
@@ -54,8 +54,7 @@ module.exports = (app, config) ->
 	app.post('/follow', follow.addFollow)
 	app.post('/unfollow', follow.removeFollow)
 
-	app.post('/importtwitchfollows', follow.importTwitchFollows)
-	app.post('/importhitboxfollows', follow.importHitboxFollows)
+	app.post('/importfollows', follow.importFollows)
 
 	app.all('/api/*', (req, res) ->
 		res.send(404)
@@ -76,8 +75,6 @@ bootstrappedUserFunc = (req) ->
 	if (req.user)
 		bootstrappedUser =
 			username: req.user.username
-			firstname: req.user.firstName
-			lastName: req.user.lastName
 			twitchtvUsername: req.user.twitchtvUsername
 			hitboxFollows: req.user.hitboxFollows
 			twitchFollows: req.user.twitchFollows

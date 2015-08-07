@@ -9,45 +9,53 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 				user = new mvUser()
 				angular.extend(user, response.data.user)
 				mvIdentity.currentUser = user
-				dfd.resolve(true)
-				mvIdentity.currentUser = response.data.user;
+				dfd.resolve()
 			else
-				dfd.resolve(false)
+				dfd.reject(response.data.reason)
 		)
 		dfd.promise
+
+	getUser: (user) ->
+		user = new mvUser(user)
+
+		dfd = $q.defer()
+		user.$get({id: user.username}).then( (response) ->
+			angular.extend(mvIdentity.currentUser, response)
+			dfd.resolve()
+		(response) ->
+			dfd.reject(response.data.reason)
+		)
 
 	createUser: (newUserData) ->
 		newUser = new mvUser(newUserData)
 		dfd = $q.defer()
 
 		newUser.$save().then( ->
-			mvIdentity.currentUser = newUser
+			mvIdentity.currentUser = newUserData
 			dfd.resolve()
+			$location.path('/profile')
 		(response) ->
 			dfd.reject(response.data.reason)
 		)
 
 		dfd.promise
 
-	deleteUser: (username) ->
+	deleteUser: (user) ->
 		dfd = $q.defer()
-		$http.delete("/api/user/#{username}").then( -> 
+		user.$remove({id: user.username}).then( ->
 			mvIdentity.currentUser = undefined
 			dfd.resolve()
 			$location.path('/')
+		(response) ->
+			dfd.reject(response.data.reason)
 		)
 
 	disconectTwitch: (username) ->
 		dfd = $q.defer()
 		$http.delete("/api/user/twitch/#{username}").then( -> 
-			if (mvIdentity.currentUser.twitchtvUsername)
-				mvIdentity.currentUser.twitchtvUsername = undefined
-
-			if (mvIdentity.currentUser.twitchtvAccessToken)
-				mvIdentity.currentUser.twitchtvAccessToken = undefined
-
-			if (mvIdentity.currentUser.twitchtvRefreshToken)
-				mvIdentity.currentUser.twitchtvRefreshToken = undefined
+			mvIdentity.currentUser.twitchtvUsername = undefined
+			mvIdentity.currentUser.twitchtvAccessToken = undefined
+			mvIdentity.currentUser.twitchtvRefreshToken = undefined
 			dfd.resolve()
 		)
 

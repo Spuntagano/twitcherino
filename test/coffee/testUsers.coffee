@@ -49,7 +49,7 @@ describe('Users', ->
 			req.user.roles = []
 
 			req.user.username = 'bob@bob.bob'
-			req.body.username = 'bob@bob.bob'
+			req.params.username = 'bob@bob.bob'
 		)
 
 		afterEach (->
@@ -75,7 +75,7 @@ describe('Users', ->
 		)
 
 		it('Should fail to get a user while no user params', ->
-			req.body.username = undefined
+			req.params.username = undefined
 
 			expectation = mockUser.expects('find').never()
 
@@ -84,7 +84,7 @@ describe('Users', ->
 		)
 
 		it('Should fail to get a user info with valid params while not admin', ->
-			req.body.username = 'bob@bobb.bob'
+			req.params.username = 'bob@bobb.bob'
 
 			expectation = mockUser.expects('find').never()
 

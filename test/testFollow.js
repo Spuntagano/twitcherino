@@ -152,7 +152,7 @@ describe('Follow', function() {
       return expectation.verify();
     });
   });
-  describe('Twitch import', function() {
+  return describe('Import', function() {
     beforeEach(function() {
       mockUser = sinon.mock(User);
       req = {};
@@ -161,6 +161,7 @@ describe('Follow', function() {
       req.params = {};
       req.user.roles = [];
       req.user.username = 'bob@bob.bob';
+      req.body.platform = 'twitch';
       return req.body.channels = ['destiny', 'kripp', 'alisha12287'];
     });
     afterEach((function() {
@@ -169,70 +170,42 @@ describe('Follow', function() {
     it('Should import follows with valid params', function() {
       var expectation;
       expectation = mockUser.expects('update').once();
-      follow.importTwitchFollows(req, res, next);
+      follow.importFollows(req, res, next);
       return expectation.verify();
     });
     it('Should fail to import follows while not logged in', function() {
       var expectation;
       req.user = void 0;
       expectation = mockUser.expects('update').never();
-      follow.importTwitchFollows(req, res, next);
+      follow.importFollows(req, res, next);
+      return expectation.verify();
+    });
+    it('Should fail to import follows with no platform', function() {
+      var expectation;
+      req.body.platform = void 0;
+      expectation = mockUser.expects('update').never();
+      follow.importFollows(req, res, next);
       return expectation.verify();
     });
     it('Should fail to remove a follow with no channel params', function() {
       var expectation;
       req.body.channels = void 0;
       expectation = mockUser.expects('update').never();
-      follow.importTwitchFollows(req, res, next);
+      follow.importFollows(req, res, next);
+      return expectation.verify();
+    });
+    it('Should fail to remove a follow with invalid channel', function() {
+      var expectation;
+      req.body.channels = ['dsad', 'dsad^¸;`;', 'das'];
+      expectation = mockUser.expects('update').never();
+      follow.importFollows(req, res, next);
       return expectation.verify();
     });
     return it('Should fail to remove a follow with invalid platform', function() {
       var expectation;
-      req.body.channels = ['dsad', 'dsad^¸;`;', 'das'];
+      req.body.platform = 'dsad';
       expectation = mockUser.expects('update').never();
-      follow.importTwitchFollows(req, res, next);
-      return expectation.verify();
-    });
-  });
-  return describe('Hitbox import', function() {
-    beforeEach(function() {
-      mockUser = sinon.mock(User);
-      req = {};
-      req.user = {};
-      req.body = {};
-      req.params = {};
-      req.user.roles = [];
-      req.user.username = 'bob@bob.bob';
-      return req.body.channels = ['destiny', 'kripp', 'alisha12287'];
-    });
-    afterEach((function() {
-      return mockUser.restore();
-    }));
-    it('Should import follows with valid params', function() {
-      var expectation;
-      expectation = mockUser.expects('update').once();
-      follow.importHitboxFollows(req, res, next);
-      return expectation.verify();
-    });
-    it('Should fail to import follows while not logged in', function() {
-      var expectation;
-      req.user = void 0;
-      expectation = mockUser.expects('update').never();
-      follow.importHitboxFollows(req, res, next);
-      return expectation.verify();
-    });
-    it('Should fail to remove a follow with no channel params', function() {
-      var expectation;
-      req.body.channels = void 0;
-      expectation = mockUser.expects('update').never();
-      follow.importHitboxFollows(req, res, next);
-      return expectation.verify();
-    });
-    return it('Should fail to remove a follow with invalid platform', function() {
-      var expectation;
-      req.body.channels = ['dsad', 'dsad^¸;`;', 'das'];
-      expectation = mockUser.expects('update').never();
-      follow.importHitboxFollows(req, res, next);
+      follow.importFollows(req, res, next);
       return expectation.verify();
     });
   });

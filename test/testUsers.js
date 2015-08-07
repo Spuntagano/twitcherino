@@ -49,7 +49,7 @@ describe('Users', function() {
       req.params = {};
       req.user.roles = [];
       req.user.username = 'bob@bob.bob';
-      return req.body.username = 'bob@bob.bob';
+      return req.params.username = 'bob@bob.bob';
     });
     afterEach((function() {
       mockUser.restore();
@@ -70,14 +70,14 @@ describe('Users', function() {
     });
     it('Should fail to get a user while no user params', function() {
       var expectation;
-      req.body.username = void 0;
+      req.params.username = void 0;
       expectation = mockUser.expects('find').never();
       users.getUser(req, res, next);
       return expectation.verify();
     });
     it('Should fail to get a user info with valid params while not admin', function() {
       var expectation;
-      req.body.username = 'bob@bobb.bob';
+      req.params.username = 'bob@bobb.bob';
       expectation = mockUser.expects('find').never();
       users.getUser(req, res, next);
       return expectation.verify();

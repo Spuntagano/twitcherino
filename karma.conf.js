@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Sat Mar 28 2015 15:13:45 GMT-0400 (Est (heure d’été))
+// Generated on Thu Aug 06 2015 09:58:34 GMT-0400 (Est (heure d’été))
 
 module.exports = function(config) {
   config.set({
@@ -10,23 +10,49 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'sinon-chai'],
+    frameworks: ['mocha'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      'public/bower_components/angular/angular.js',
-      'public/bower_components/angular-resource/angular-resource.js',
-      'public/bower_components/angular-mocks/angular-mocks.js',
-      'test/test-app.js',
-      'public/app/**/*.js',
-      'test/tests/**/*.js'
+      "public/bower_components/jquery/dist/jquery.js",
+      "public/bower_components/toastr/toastr.js",
+      "public/bower_components/bootstrap/dist/js/bootstrap.js",
+      "public/bower_components/angular/angular.js",
+      "public/bower_components/angular-route/angular-route.js",
+      "public/bower_components/angular-resource/angular-resource.js",
+      "public/bower_components/angular-mocks/angular-mocks.js",
+      "public/app/config.js",
+      "public/app/app.js",
+      "public/app/services.js",
+      "public/app/directives.js",
+      "public/app/controllers.js",
+      "public/app/account/mvUserCtrl.js",
+      "public/app/account/mvFollowCtrl.js",
+      "public/app/account/mvLoginCtrl.js",
+      "public/app/channel/mvChannelCtrl.js",
+      "public/app/channels/mvChannelsCtrl.js",
+      "public/app/games/mvGamesCtrl.js",
+      "public/app/gameschannels/mvGamesChannelsCtrl.js",
+      "public/app/account/mvUser.js",
+      "public/app/account/mvIdentity.js",
+      "public/app/account/mvAuth.js",
+      "public/app/account/mvFollow.js",
+      "public/app/common/mvNotifier.js",
+      "public/app/common/mvRedirect.js",
+      "public/app/navbar/mvNavbarCtrl.js",
+      "public/bower_components/nginfinitescroll/build/ng-infinite-scroll.js",
+      "public/bower_components/numeral/numeral.js",
+      "public/vendors/js/attrchange.js",
+      "public/app/scripts.js",
+
+      //'server/**/*.js',
+      'karma/**/*.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      'public/app/app.js'
     ],
 
 

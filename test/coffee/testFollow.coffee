@@ -187,7 +187,7 @@ describe('Follow', ->
 		)
 	)
 
-	describe('Twitch import', ->
+	describe('Import', ->
 
 		beforeEach( ->
 
@@ -202,6 +202,7 @@ describe('Follow', ->
 
 			req.user.username = 'bob@bob.bob'
 
+			req.body.platform = 'twitch'
 			req.body.channels = ['destiny', 'kripp', 'alisha12287']
 		)
 
@@ -213,7 +214,7 @@ describe('Follow', ->
 
 			expectation = mockUser.expects('update').once()
 
-			follow.importTwitchFollows(req, res, next)
+			follow.importFollows(req, res, next)
 			expectation.verify()
 		)
 
@@ -222,7 +223,16 @@ describe('Follow', ->
 
 			expectation = mockUser.expects('update').never()
 
-			follow.importTwitchFollows(req, res, next)
+			follow.importFollows(req, res, next)
+			expectation.verify()
+		)
+
+		it('Should fail to import follows with no platform', ->
+			req.body.platform = undefined
+
+			expectation = mockUser.expects('update').never()
+
+			follow.importFollows(req, res, next)
 			expectation.verify()
 		)
 
@@ -231,77 +241,28 @@ describe('Follow', ->
 
 			expectation = mockUser.expects('update').never()
 
-			follow.importTwitchFollows(req, res, next)
+			follow.importFollows(req, res, next)
 			expectation.verify()
 		)
 
-		it('Should fail to remove a follow with invalid platform', ->
+		it('Should fail to remove a follow with invalid channel', ->
 			req.body.channels = ['dsad', 'dsad^¸;`;', 'das']
 
 			expectation = mockUser.expects('update').never()
 
-			follow.importTwitchFollows(req, res, next)
+			follow.importFollows(req, res, next)
+			expectation.verify()
+		)
+
+		it('Should fail to remove a follow with invalid platform', ->
+			req.body.platform = 'dsad'
+
+			expectation = mockUser.expects('update').never()
+
+			follow.importFollows(req, res, next)
 			expectation.verify()
 		)
 
 	)
 
-	describe('Hitbox import', ->
-
-		beforeEach( ->
-
-			mockUser = sinon.mock(User)
-
-			req = {}
-			req.user = {}
-			req.body = {}
-			req.params = {}
-
-			req.user.roles = []
-
-			req.user.username = 'bob@bob.bob'
-
-			req.body.channels = ['destiny', 'kripp', 'alisha12287']
-		)
-
-		afterEach (->
-			mockUser.restore()
-		)
-
-		it('Should import follows with valid params', ->
-
-			expectation = mockUser.expects('update').once()
-
-			follow.importHitboxFollows(req, res, next)
-			expectation.verify()
-		)
-
-		it('Should fail to import follows while not logged in', ->
-			req.user = undefined
-
-			expectation = mockUser.expects('update').never()
-
-			follow.importHitboxFollows(req, res, next)
-			expectation.verify()
-		)
-
-		it('Should fail to remove a follow with no channel params', ->
-			req.body.channels = undefined
-
-			expectation = mockUser.expects('update').never()
-
-			follow.importHitboxFollows(req, res, next)
-			expectation.verify()
-		)
-
-		it('Should fail to remove a follow with invalid platform', ->
-			req.body.channels = ['dsad', 'dsad^¸;`;', 'das']
-
-			expectation = mockUser.expects('update').never()
-
-			follow.importHitboxFollows(req, res, next)
-			expectation.verify()
-		)
-
-	)
 )

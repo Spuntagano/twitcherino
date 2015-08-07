@@ -1,9 +1,12 @@
 angular.module('twitcherinoControllers', [])
 
-.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location', 'mvRedirect'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location, mvRedirect) ->
+.controller('TwitchChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', 'mvChannel', '$location', 'mvRedirect'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, mvChannel, $location, mvRedirect) ->
 
 		mvRedirect.toHTTP()
+
+		$scope.isAuthenticated = mvIdentity.isAuthenticated()
+		$scope.channel = {}
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/embed")
@@ -12,64 +15,42 @@ angular.module('twitcherinoControllers', [])
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.twitch.tv/#{$routeParams.channelUser}/chat")
 
-		
-		$scope.channel = {}
+		mvChannel.twitchFollow($routeParams.channelUser).then( (data, status, headers, config) ->
 
-		twitchcallfunc = ->
-			twitchcall = $http({
-				method: 'JSONP'
-				url: "https://api.twitch.tv/kraken/streams/#{$routeParams.channelUser}"
-				params: {
-					callback: 'JSON_CALLBACK'
-				}
-				headers: {
-					Accept: 'application/vnd.twitchtv.v3+json'
-				}
-			}).success( (data, status, headers, config) ->
-				channel =
-					username: data.stream.channel.name
-					title: data.stream.channel.status
-					display_name: data.stream.channel.display_name
-					viewers_number: parseInt(data.stream.viewers, 10)
-					profile_url: data.stream.channel.logo
-					platform: 'twitch'
-				$scope.channel = channel
-				$scope.isFollowed = mvFollow.isFollowed(channel.username, channel.platform)
+			channelName = data.data.stream.channel.name
+			channelPlatform = 'twitch'
 
-				$scope.addFollow = () ->
-					mvFollow.addFollow(channel.username, channel.platform).then( ->
-						mvNotifier.notify('Channel followed')
-						$scope.isFollowed = true
-					(reason) ->
-						mvNotifier.error(reason)
-					)
+			$scope.channel = channelName
+			$scope.isFollowed = mvFollow.isFollowed(channelName, channelPlatform)
 
-				$scope.removeFollow = () ->
-					mvFollow.removeFollow(channel.username, channel.platform).then( ->
-						mvNotifier.notify('Channel unfollowed')
-						$scope.isFollowed = false
-					(reason) ->
-						mvNotifier.error(reason)
-					)
-			)
+			$scope.addFollow = ->
+				mvFollow.addFollow(channelName, channelPlatform).then( ->
+					mvNotifier.notify('Channel followed')
+					$scope.isFollowed = true
+				(reason) ->
+					mvNotifier.error(reason)
+				)
 
-		twitchcallfunc()
-		twitchInterval = setInterval(twitchcallfunc, OPTIONS.refreshInterval)
-
-		$scope.$on('$destroy', (next, current) ->
-			clearInterval(twitchInterval);
+			$scope.removeFollow = ->
+				mvFollow.removeFollow(channelName, channelPlatform).then( ->
+					mvNotifier.notify('Channel unfollowed')
+					$scope.isFollowed = false
+				(reason) ->
+					mvNotifier.error(reason)
+				)
+		(reason) ->
+			mvNotifier.error(reason)
 		)
-		
-
-
-		$scope.isAuthenticated = mvIdentity.isAuthenticated()
 
 ])
 
-.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', '$location', 'mvRedirect'
-	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, $location, mvRedirect) ->
+.controller('HitboxChannelCtrl', ['$scope', '$routeParams', '$sce', '$http', 'mvFollow', 'mvIdentity', 'mvNotifier', 'mvChannel', '$location', 'mvRedirect'
+	($scope, $routeParams, $sce, $http, mvFollow, mvIdentity, mvNotifier, mvChannel, $location, mvRedirect) ->
 
 		mvRedirect.toHTTP()
+
+		$scope.isAuthenticated = mvIdentity.isAuthenticated()
+		$scope.channel = {}
 
 		$scope.videoUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embed/#{$routeParams.channelUser}?autoplay=true")
@@ -77,49 +58,33 @@ angular.module('twitcherinoControllers', [])
 		$scope.chatUrl = () ->
 			 $sce.trustAsResourceUrl("http://www.hitbox.tv/embedchat/#{$routeParams.channelUser}")
 
-		
-		$scope.channel = {}
+		mvChannel.hitboxFollow($routeParams.channelUser).then( (data, status, headers, config) ->
 
-		hitboxcallfunc = ->
-			hitboxcall = $http({
-				method: 'GET'
-				url: "https://api.hitbox.tv/media/live/#{$routeParams.channelUser}"
-			}).success( (data, status, headers, config) ->
-				channel =
-					username: data.livestream[0].media_user_name
-					title: data.livestream[0].media_status
-					display_name: data.livestream[0].media_user_name
-					viewers_number: parseInt(data.livestream[0].media_views, 10)
-					profile_url: "https://edge.sf.hitbox.tv#{data.livestream[0].channel.user_logo}"
-					platform: 'hitbox'
-				$scope.channel = channel
-				$scope.isFollowed = mvFollow.isFollowed(channel.username, channel.platform)
+			channelName: data.livestream[0].media_user_name
+			platformName: 'hitbox'
 
-				$scope.addFollow = () ->
-					mvFollow.addFollow(channel.username, channel.platform).then( ->
-						mvNotifier.notify('Channel followed')
-						$scope.isFollowed = true
-					(reason) ->
-						mvNotifier.error(reason)
-					)
+			$scope.channel = channelName
+			$scope.isFollowed = mvFollow.isFollowed(channelName, channelPlatform)
 
-				$scope.removeFollow = () ->
-					mvFollow.removeFollow(channel.username, channel.platform).then( ->
-						mvNotifier.notify('Channel unfollowed')
-						$scope.isFollowed = false
-					(reason) ->
-						mvNotifier.error(reason)
-					)
-			)
-		hitboxcallfunc()
-		hitboxInterval = setInterval(hitboxcallfunc, OPTIONS.refreshInterval)
+			$scope.addFollow = () ->
+				mvFollow.addFollow(channelName, channelPlatform).then( ->
+					mvNotifier.notify('Channel followed')
+					$scope.isFollowed = true
+				(reason) ->
+					mvNotifier.error(reason)
+				)
 
-		$scope.$on('$destroy', (next, current) ->
-			clearInterval(hitboxInterval);
+			$scope.removeFollow = () ->
+				mvFollow.removeFollow(channelName, channelPlatform).then( ->
+					mvNotifier.notify('Channel unfollowed')
+					$scope.isFollowed = false
+				(reason) ->
+					mvNotifier.error(reason)
+				)
+			(reason) ->
+				mvNotifier.error(reason)
 		)
 		
-
-		$scope.isAuthenticated = mvIdentity.isAuthenticated()
 
 ])
 

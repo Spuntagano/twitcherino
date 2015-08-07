@@ -5,7 +5,7 @@ validator = require('validator')
 exports.getUser = (req, res) ->
 
 	user = new User(req.user)
-	userData = req.body
+	userData = req.params
 	valid = true
 
 	if (!req.user)
@@ -25,7 +25,18 @@ exports.getUser = (req, res) ->
 
 		if (valid)
 			User.find(username: userData.username, (err, collection) ->
-				res.send(collection)
+				has_pw = false
+				if (collection[0].hashed_pwd)
+					has_pw = true
+				res.send(
+					username: collection[0].username
+					twitchtvUsername: collection[0].twitchtvUsername
+					hitboxFollows: collection[0].hitboxFollows
+					twitchFollows: collection[0].twitchFollows
+					azubuFollows: collection[0].azubuFollows
+					roles: collection[0].roles
+					has_pw: has_pw
+				)
 			)
 
 exports.getUsers = (req, res) ->

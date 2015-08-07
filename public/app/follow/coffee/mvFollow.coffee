@@ -5,23 +5,27 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 				when 'twitch' then mvIdentity.currentUser.twitchFollows.indexOf(channelTitle) > -1
 				when 'hitbox' then mvIdentity.currentUser.hitboxFollows.indexOf(channelTitle) > -1
 				when 'azubu' then mvIdentity.currentUser.azubuFollows.indexOf(channelTitle) > -1
+
 	addFollow: (channelTitle, platform) ->
 		dfd = $q.defer()
 		$http.post("/follow", {channelTitle: channelTitle, platform: platform, user: mvIdentity.currentUser}).then( (response) ->
+			console.log(response.data.success)
+			console.log(platform)
+			console.log(channelTitle)
 			if (response.data.success)
 				switch (platform)
 					when 'twitch' then mvIdentity.currentUser.twitchFollows.push(channelTitle)
 					when 'hitbox' then mvIdentity.currentUser.hitboxFollows.push(channelTitle)
 					when 'azubu' then mvIdentity.currentUser.azubuFollows.push(channelTitle)
-				dfd.resolve(true)
+				dfd.resolve()
 			else
-				dfd.resolve(false)
+				dfd.reject()
 		)
-		dfd.promise
 
 	removeFollow: (channelTitle, platform) ->
 		dfd = $q.defer()
 		$http.post("/unfollow", {channelTitle: channelTitle, platform: platform, user: mvIdentity.currentUser}).then( (response) ->
+			console.log(response)
 			if (response.data.success)
 				switch (platform)
 					when 'twitch' then for i in [0...mvIdentity.currentUser.twitchFollows.length]
@@ -33,31 +37,8 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', '$q
 					when 'azubu' then for i in [0...mvIdentity.currentUser.azubuFollows.length]
 						if (mvIdentity.currentUser.azubuFollows[i] == channelTitle)
 							mvIdentity.currentUser.azubuFollows.splice(i, 1)
-				dfd.resolve(true)
+				dfd.resolve()
 			else
-				dfd.resolve(false)
+				dfd.reject()
 		)
-		dfd.promise
-
-	importTwitchFollows: (channels) ->
-		dfd = $q.defer()
-		$http.post("/importtwitchfollows", {channels: channels}).then( (response) ->
-			if (response.data.success)
-				mvIdentity.currentUser.twitchFollows = mvIdentity.currentUser.twitchFollows.concat(channels).unique()
-				dfd.resolve(true)
-			else
-				dfd.resolve(false)
-		)
-		dfd.promise
-
-	importHitboxFollows: (channels) ->
-		dfd = $q.defer()
-		$http.post("/importhitboxfollows", {channels: channels}).then( (response) ->
-			if (response.data.success)
-				mvIdentity.currentUser.hitboxFollows = mvIdentity.currentUser.hitboxFollows.concat(channels).unique()
-				dfd.resolve(true)
-			else
-				dfd.resolve(false)
-		)
-		dfd.promise
 ])
