@@ -1,10 +1,9 @@
-angular.module('twitcherinoApp').factory('mvFollow', ['$http', ($http) ->
-	twitchFollows: (twitchChannels, offset) ->
+angular.module('twitcherinoApp').factory('mvChannels', ['$http', ($http) ->
+	twitchChannels: (offset) ->
 		$http({
 			method: 'JSONP'
 			url: "https://api.twitch.tv/kraken/streams"
 			params : {
-				channel: twitchChannels
 				callback: 'JSON_CALLBACK'
 				limit: OPTIONS.channelsInitial
 				offset: offset
@@ -14,24 +13,23 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', ($http) ->
 			}
 		})
 
-	hitboxFollows: (hitboxChannels, offset) ->
+	hitboxChannels: (offset) ->
 		$http({
 			method: 'GET'
-			url: "https://api.hitbox.tv/media/live/#{hitboxChannels}"
+			url: "https://api.hitbox.tv/media"
 			params: {
 				limit: OPTIONS.channelsInitial
 				offset: offset
 			}
 		})
 
-	azubuFollows: (azubuChannels, offset) ->
+	azubuChannels: (offset) ->
 		$http({
 			method: 'GET'
-			url: "https://api.azubu.tv/public/channel/list"
+			url: "https://api.azubu.tv/public/channel/live/list"
 			params: {
 				limit: OPTIONS.channelsInitial
 				offset: offset
-				channels: azubuChannels
 			}
 		})
 ])

@@ -1,5 +1,5 @@
-angular.module('twitcherinoApp').controller('GamesCtrl', ['$http', '$scope', '$routeParams',
-	($http, $scope, $routeParams) ->
+angular.module('twitcherinoApp').controller('GamesCtrl', ['$http', '$scope', '$routeParams', 'mvGames',
+	($http, $scope, $routeParams, mvGames) ->
 
 		$scope.offset = 0
 		$scope.cats = {}
@@ -7,63 +7,46 @@ angular.module('twitcherinoApp').controller('GamesCtrl', ['$http', '$scope', '$r
 
 		$scope.loadMore= ->
 
-			twitchcall = $http({
-				method: 'JSONP'
-				url: "https://api.twitch.tv/kraken/games/top"
-				params: {
-					callback: 'JSON_CALLBACK'
-					limit: OPTIONS.gamesInitial
-					offset: $scope.offset
-				}
-				headers: {
-					Accept: 'application/vnd.twitchtv.v3+json'
-				}
-			}).success( (data, status, headers, config) ->
-				for i in [0...Object.keys(data.top).length]
+			mvGames.twitchGames($scope.offset).success( (data, status, headers, config) ->
+				games = data.top
+				for i in [0...Object.keys(games).length]
 					skip = false
 					for j in [0...$scope.cats.categories.length]
-						if ($scope.cats.categories[j].category_name == data.top[i].game.name)
-							$scope.cats.categories[j].viewers_number += parseInt(data.top[i].viewers, 10)
-							$scope.cats.categories[j].thumbnail_url == "https://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-438x614.jpg"
+						if ($scope.cats.categories[j].category_name == games[i].game.name)
+							$scope.cats.categories[j].viewers_number += parseInt(games[i].viewers, 10)
+							$scope.cats.categories[j].thumbnail_url == "https://static-cdn.jtvnw.net/ttv-boxart/#{games[i].game.name}-438x614.jpg"
 							skip = true
 					if (!skip)
 						category =
-							category_name: data.top[i].game.name
-							viewers_number: parseInt(data.top[i].viewers, 10)
-							thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/#{data.top[i].game.name}-438x614.jpg"
-							link: "/twitch/#{data.top[i].game.name}"
+							category_name: games[i].game.name
+							viewers_number: parseInt(games[i].viewers, 10)
+							thumbnail_url: "https://static-cdn.jtvnw.net/ttv-boxart/#{games[i].game.name}-438x614.jpg"
+							link: "/twitch/#{games[i].game.name}"
 						$scope.cats.categories.push(category)
 			)
 
 			setTimeout( -> #hack to get twitch images
-				hitboxcall = $http({
-					method: 'GET'
-					url: "https://api.hitbox.tv/games"
-					params: {
-						limit: OPTIONS.gamesInitial
-						offset: $scope.offset
-					}
-				}).success( (data, status, headers, config) ->
-					for i in [0...data.categories.length]
+				mvGames.hitboxGames($scope.offset).success( (data, status, headers, config) ->
+					games = data.categories
+					for i in [0...games.length]
 						skip = false
 						for j in [0...$scope.cats.categories.length]
-							if ($scope.cats.categories[j].category_name == data.categories[i].category_name)
-								$scope.cats.categories[j].viewers_number += parseInt(data.categories[i].category_viewers, 10)
+							if ($scope.cats.categories[j].category_name == games[i].category_name)
+								$scope.cats.categories[j].viewers_number += parseInt(games[i].category_viewers, 10)
 								skip = true
 						if (!skip)
 							category =
-								category_name: data.categories[i].category_name
-								viewers_number: parseInt(data.categories[i].category_viewers, 10)
-								thumbnail_url: "http://edge.sf.hitbox.tv#{data.categories[i].category_logo_large}"
-								link: "/hitbox/#{data.categories[i].category_name}"
+								category_name: games[i].category_name
+								viewers_number: parseInt(games[i].category_viewers, 10)
+								thumbnail_url: "http://edge.sf.hitbox.tv#{games[i].category_logo_large}"
+								link: "/hitbox/#{games[i].category_name}"
 							$scope.cats.categories.push(category)
 				)
 
-				#azubu api dosen't support listing of all games... RIP
-
-				$scope.offset += OPTIONS.gamesIncrement
 			, 100)
 
+			$scope.offset += OPTIONS.gamesIncrement
+			#azubu api dosen't support listing of all games... RIP
 
 
 ])

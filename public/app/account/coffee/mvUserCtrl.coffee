@@ -15,7 +15,7 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 
 				mvAuth.createUser(newUserData).then( ->
 					mvNotifier.notify('User account created!')
-					$location.path('/')
+					$location.path('/profile')
 				(reason) ->
 					mvNotifier.error(reason)
 				)

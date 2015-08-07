@@ -21,6 +21,9 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		dfd = $q.defer()
 		user.$get({id: user.username}).then( (response) ->
 			angular.extend(mvIdentity.currentUser, response)
+			mvIdentity.currentUser.twitchFollows = response.twitchFollows
+			mvIdentity.currentUser.hitboxFollows = response.hitboxFollows
+			mvIdentity.currentUser.azubuFollows = response.azubuFollows
 			dfd.resolve()
 		(response) ->
 			dfd.reject(response.data.reason)
@@ -33,7 +36,6 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		newUser.$save().then( ->
 			mvIdentity.currentUser = newUserData
 			dfd.resolve()
-			$location.path('/profile')
 		(response) ->
 			dfd.reject(response.data.reason)
 		)
