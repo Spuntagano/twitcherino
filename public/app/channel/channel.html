@@ -2,16 +2,10 @@
 	<div class="row">
 		<div class="stream-overlay {{channel.platform}}">
 			<div class="stream-info">
-				<img ng-src="{{channel.profile_url}}" alt="{{channel.display_name}}" />
-				<p>{{channel.display_name}}</p>
-				<p>{{channel.title}}</p>
 				<div ng-show="isAuthenticated">
 					<p ng-hide="isFollowed"><button class="btn btn-primary" ng-click="addFollow()">Follow</button><p>
 					<p ng-show="isFollowed"><button class="btn btn-primary" ng-click="removeFollow()">Unfollow</button></p>
 				</div>
-			</div>
-			<div class="channel-viewers">
-				<p>Viewers: <span data-viewers="{{channel.viewers_number}}" formatnumber></span></p>
 			</div>
 		</div>
 		<div class="video-container">

@@ -23,7 +23,7 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 				mvNotifier.error('The passwords does not match')
 ])
 
-angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvFollow', 'mvRedirect', 'mvImport', 'mvUser', ($scope, mvAuth, mvIdentity, mvNotifier, mvFollow, mvRedirect, mvImport, mvUser) ->
+angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvRedirect', 'mvImport', 'mvUser', ($scope, mvAuth, mvIdentity, mvNotifier, mvRedirect, mvImport, mvUser) ->
 	
 	mvRedirect.toHTTPS()
 

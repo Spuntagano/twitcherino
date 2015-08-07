@@ -33,15 +33,6 @@ angular.module('twitcherinoApp', [
 		}).when('/follow', {
 			templateUrl: '/partials/follow/follow'
 			controller: 'FollowCtrl'
-		}).when('/azubu/:channelUser', {
-			templateUrl: '/partials/channel/channel'
-			controller: 'AzubuChannelCtrl'
-		}).when('/hitbox/:channelUser', {
-			templateUrl: '/partials/channel/channel'
-			controller: 'HitboxChannelCtrl'
-		}).when('/twitch/:channelUser', {
-			templateUrl: '/partials/channel/channel'
-			controller: 'TwitchChannelCtrl'
 		}).when('/games', {
 			templateUrl: '/partials/games/games'
 			controller: 'GamesCtrl'
@@ -59,6 +50,9 @@ angular.module('twitcherinoApp', [
 			templateUrl: '/partials/account/profile'
 			controller: 'ProfileCtrl'
 			resolve: routeRoleChecks.user
+		}).when('/:platform/:channelUser', {
+			templateUrl: '/partials/channel/channel'
+			controller: 'ChannelCtrl'
 		}).otherwise({
 			redirectTo: '/'
 		})

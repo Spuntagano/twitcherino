@@ -1,4 +1,4 @@
-angular.module('twitcherinoApp').factory('mvImport', ['$http', 'mvFollow', 'mvNotifier', 'mvImportFollows', ($http, mvFollow, mvNotifier, mvImportFollows) ->
+angular.module('twitcherinoApp').factory('mvImport', ['$http', 'mvNotifier', 'mvImportFollows', ($http, mvNotifier, mvImportFollows) ->
 	{
 		importTwitch: (user) ->
 			channels = []
