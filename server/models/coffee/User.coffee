@@ -18,9 +18,11 @@ userSchema = mongoose.Schema({
 	accountCreated: {type: Date}
 	lastLogin: {type: Date}
 	roles: [String]
-	twitchFollows: [String]
-	hitboxFollows: [String]
-	azubuFollows: [String]
+	follows: {
+		twitch: [String]
+		hitbox: [String]
+		azubu: [String]
+	}
 })
 
 userSchema.methods = {

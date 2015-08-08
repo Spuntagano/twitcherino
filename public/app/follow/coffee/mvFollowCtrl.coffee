@@ -14,19 +14,31 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 
 			mvAuth.getUser(mvIdentity.currentUser).then( ->
 
-				for i in [0...mvIdentity.currentUser.twitchFollows.length]
-					twitchChannels += "#{mvIdentity.currentUser.twitchFollows[i]},"
+				if (!mvIdentity.currentUser.follows)
+					mvIdentity.currentUser.follows = {}
 
-				for i in [0...mvIdentity.currentUser.hitboxFollows.length]
-					hitboxChannels += "#{mvIdentity.currentUser.hitboxFollows[i]},"
+				if (!mvIdentity.currentUser.follows['twitch'])
+					mvIdentity.currentUser.follows['twitch'] = []
 
-				for i in [0...mvIdentity.currentUser.azubuFollows.length]
-					azubuChannels += "#{mvIdentity.currentUser.azubuFollows[i]},"
+				if (!mvIdentity.currentUser.follows['hitbox'])
+					mvIdentity.currentUser.follows['hitbox'] = []
+
+				if (!mvIdentity.currentUser.follows['azubu'])
+					mvIdentity.currentUser.follows['azubu'] = []
+
+				for i in [0...mvIdentity.currentUser.follows['twitch'].length]
+					twitchChannels += "#{mvIdentity.currentUser.follows['twitch'][i]},"
+
+				for i in [0...mvIdentity.currentUser.follows['hitbox'].length]
+					hitboxChannels += "#{mvIdentity.currentUser.follows['hitbox'][i]},"
+
+				for i in [0...mvIdentity.currentUser.follows['azubu'].length]
+					azubuChannels += "#{mvIdentity.currentUser.follows['azubu'][i]},"
 
 				$scope.loadMore= ->
 
 					mvFollow.twitchFollows(twitchChannels, $scope.offset).success( (data, status, headers, config) ->
-						if (mvIdentity.currentUser.twitchFollows.length > 0)
+						if (data.streams.length > 0)
 							streams = data.streams
 							for i in [0...streams.length]
 								channel =
@@ -45,7 +57,7 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 					)
 
 					mvFollow.hitboxFollows(hitboxChannels, $scope.offset).success( (data, status, headers, config) ->
-						if (mvIdentity.currentUser.hitboxFollows.length > 0)
+						if (data.livestream.length > 0)
 							streams = data.livestream
 							for i in [0...streams.length]
 								channel =
@@ -64,7 +76,7 @@ angular.module('twitcherinoApp').controller('FollowCtrl', ['$http', '$scope', '$
 					)
 
 					mvFollow.azubuFollows(azubuChannels, $scope.offset).success( (data, status, headers, config) ->
-						if (mvIdentity.currentUser.azubuFollows.length > 0)
+						if (data.data.length > 0)
 							streams = data.data
 							for i in [0...streams.length]
 								channel =

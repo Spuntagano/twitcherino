@@ -23,6 +23,8 @@ angular.module('twitcherinoApp').controller('NavigationCtrl', ['$scope', '$locat
 				$scope.password = ""
 				mvNotifier.notify('Bye')
 				$location.path('/')
+			(reason) ->
+				mvNotifier.notify(reason)
 			)
 
 		$scope.isAuthenticated = mvIdentity.isAuthenticated()

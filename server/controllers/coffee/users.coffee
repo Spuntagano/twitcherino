@@ -1,6 +1,7 @@
 User = require('mongoose').model('User')
 encrypt = require('../utilities/encryption')
 validator = require('validator')
+bootstrappedUser = require('../utilities/bootstrappedUser')
 
 exports.getUser = (req, res) ->
 
@@ -10,33 +11,20 @@ exports.getUser = (req, res) ->
 
 	if (!req.user)
 		valid = false
-		res.status(400)
 		res.send(reason: 'Not logged in')
 	else
 		if(!userData.username)
 			valid = false
-			res.status(400)
 			res.send(reason: 'Invalid params')
 
 		if(user.username != userData.username && !user.hasRole('admin'))
 			valid = false
-			res.status(403)
 			res.send(reason: 'Unauthaurized')
 
 		if (valid)
 			User.find(username: userData.username, (err, collection) ->
-				has_pw = false
-				if (collection[0].hashed_pwd)
-					has_pw = true
-				res.send(
-					username: collection[0].username
-					twitchtvUsername: collection[0].twitchtvUsername
-					hitboxFollows: collection[0].hitboxFollows
-					twitchFollows: collection[0].twitchFollows
-					azubuFollows: collection[0].azubuFollows
-					roles: collection[0].roles
-					has_pw: has_pw
-				)
+				user = bootstrappedUser.bootstrappedUser(collection[0])
+				res.send(user)
 			)
 
 exports.getUsers = (req, res) ->
@@ -79,22 +67,18 @@ exports.updateUser = (req, res) ->
 
 	if (!req.user)
 		valid = false
-		res.status(400)
 		res.send(reason: 'Not logged in')
 	else
 		if (!userUpdates.username || !validator.isEmail(userUpdates.username) || !validator.isLength(userUpdates.username, 1, 50))
 			valid = false
-			res.status(400)
 			res.send({reason: 'Invalid username'})
 
 		if (userUpdates.password && !validator.isLength(userUpdates.password, 6, 20))
 			valid = false
-			res.status(400)
 			res.send({reason: 'Invalid Password'})
 
 		if(user.username != userUpdates.oldUsername && !user.hasRole('admin'))
 			valid = false
-			res.status(403)
 			res.send(reason: 'Unauthaurized')
 
 		if (userUpdates.password)
@@ -106,7 +90,6 @@ exports.updateUser = (req, res) ->
 		if (valid)
 			User.update({username: userUpdates.oldUsername}, req.user, (err, collection) ->
 				if (err)
-					res.status(500)
 					res.send({reason: 'Database error'})
 				res.send({success: true})
 			)
@@ -118,23 +101,19 @@ exports.deleteUser = (req, res) ->
 
 	if (!req.user)
 		valid = false
-		res.status(400)
 		res.send(reason: 'Not logged in')
 	else
 		if (!validator.isEmail(req.params.username))
 			valid = false
-			res.status(400)
 			res.send(reason: 'Validation error')
 
 		if(user.username != req.params.username && !user.hasRole('admin'))
 			valid = false
-			res.status(403)
 			res.send(reason: 'Unauthaurized')
 
 		if (valid)
 			User.remove({username: req.params.username}, (err, collection) ->
 				if (err)
-					res.status(500)
 					res.send({reason: 'Database error'})
 				res.send({success: true})
 			)
@@ -146,23 +125,19 @@ exports.disconnectTwitch = (req, res) ->
 
 	if (!req.user)
 		valid = false
-		res.status(400)
 		res.send(reason: 'Not logged in')
 	else
 		if (!validator.isEmail(req.params.username))
 			valid = false
-			res.status(400)
 			res.send(reason: 'Validation error')
 
 		if(user.username != req.params.username && !user.hasRole('admin'))
 			valid = false
-			res.status(403)
 			res.send(reason: 'Unauthaurized')
 
 		if (valid)
 			User.update({username: req.params.username}, {$unset: {twitchtvUsername: '', twitchtvAccessToken: '', twitchtvRefreshToken: ''}}, (err, collection) ->
 				if (err)
-					res.status(500)
 					res.send({reason: 'Database error'})
 				res.send({success: true})
 			)

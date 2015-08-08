@@ -16,69 +16,79 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		dfd.promise
 
 	getUser: (user) ->
-		user = new mvUser(user)
-
 		dfd = $q.defer()
-		user.$get({id: user.username}).then( (response) ->
-			angular.extend(mvIdentity.currentUser, response)
-			mvIdentity.currentUser.twitchFollows = response.twitchFollows
-			mvIdentity.currentUser.hitboxFollows = response.hitboxFollows
-			mvIdentity.currentUser.azubuFollows = response.azubuFollows
-			dfd.resolve()
-		(response) ->
-			dfd.reject(response.data.reason)
+		username = user.username
+		user = new mvUser(user)
+		user.$get({id: username}).then( (response) ->
+			if (response.username)
+				angular.extend(mvIdentity.currentUser, response)
+				mvIdentity.currentUser.follows = response.follows
+				mvIdentity.currentUser.twitchtvUsername = response.twitchtvUsername
+				dfd.resolve()
+			else
+				dfd.reject(response.reason)
 		)
+		dfd.promise
 
 	createUser: (newUserData) ->
-		newUser = new mvUser(newUserData)
 		dfd = $q.defer()
-
-		newUser.$save().then( ->
-			mvIdentity.currentUser = newUserData
-			dfd.resolve()
-		(response) ->
-			dfd.reject(response.data.reason)
+		newUser = new mvUser(newUserData)
+		newUser.$save().then( (response) ->
+			if (response.success)
+				mvIdentity.currentUser = newUserData
+				dfd.resolve()
+			else
+				dfd.reject(response.reason)
 		)
-
 		dfd.promise
 
 	deleteUser: (user) ->
 		dfd = $q.defer()
-		user.$remove({id: user.username}).then( ->
-			mvIdentity.currentUser = undefined
-			dfd.resolve()
-			$location.path('/')
-		(response) ->
-			dfd.reject(response.data.reason)
+		user.$remove({id: user.username}).then( (response) ->
+			if (response.success)
+				mvIdentity.currentUser = undefined
+				dfd.resolve()
+				$location.path('/')
+			else
+				dfd.reject(response.reason)
 		)
+		dfd.promise
 
 	disconectTwitch: (username) ->
 		dfd = $q.defer()
-		$http.delete("/api/user/twitch/#{username}").then( -> 
-			mvIdentity.currentUser.twitchtvUsername = undefined
-			mvIdentity.currentUser.twitchtvAccessToken = undefined
-			mvIdentity.currentUser.twitchtvRefreshToken = undefined
-			dfd.resolve()
+		$http.delete("/api/user/twitch/#{username}").then( (response) -> 
+			if (response.data.success)
+				mvIdentity.currentUser.twitchtvUsername = undefined
+				mvIdentity.currentUser.twitchtvAccessToken = undefined
+				mvIdentity.currentUser.twitchtvRefreshToken = undefined
+				dfd.resolve()
+			else
+				dfd.reject(response.data.reason)
 		)
+		dfd.promise
 
 	updateCurrentUser: (newUserData) ->
 		dfd = $q.defer()
 		clone = angular.copy(mvIdentity.currentUser)
 		angular.extend(clone, newUserData)
 		newClone = new mvUser(clone)
-		newClone.$update().then( ->
-			mvIdentity.currentUser = newClone
-			dfd.resolve()
-		(response) ->
-			dfd.reject(response.data.reason)
+		newClone.$update().then( (response) ->
+			if (response.success)
+				mvIdentity.currentUser = clone
+				dfd.resolve()
+			else
+				dfd.reject(response.reason)
 		)
 		dfd.promise
 
 	logoutUser: ->
 		dfd = $q.defer()
-		$http.post("/logout", {logout: true}).then( -> 
-			mvIdentity.currentUser = undefined
-			dfd.resolve()
+		$http.post("/logout", {logout: true}).then( (response) ->
+			if (response.data.success)
+				mvIdentity.currentUser = undefined
+				dfd.resolve()
+			else
+				dfd.reject('Failed to logout')
 		)
 		dfd.promise
 

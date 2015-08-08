@@ -18,7 +18,7 @@ angular.module('twitcherinoApp').factory('mvImport', ['$http', 'mvNotifier', 'mv
 						for k in [0...follows.length]
 							channels.push(follows[k].channel.name)
 							
-						mvImportFollows.importFollows(channels, 'twitch').then( ->
+						mvImportFollows.importFollows(channels, 'twitch').then( (response) ->
 							mvNotifier.notify("#{follows.length} Channels imported")
 						(reason) ->
 							mvNotifier.error(reason)
@@ -50,6 +50,7 @@ angular.module('twitcherinoApp').factory('mvImport', ['$http', 'mvNotifier', 'mv
 				if (followPageCount > 1)
 					for j in [1...followPageCount]
 						mvImportFollows.loadHitbox(user, maxImport, j).success( (data, status, headers, config) ->
+							follows = data.following
 							for k in [0...follows.length]
 								channels.push(follows[k].user_name)
 
@@ -62,7 +63,6 @@ angular.module('twitcherinoApp').factory('mvImport', ['$http', 'mvNotifier', 'mv
 
 				mvImportFollows.importFollows(channels, 'hitbox').then( ->
 					mvNotifier.notify("#{follows.length} Channels imported")
-
 				(reason) ->
 					mvNotifier.error(reason)
 				)
@@ -72,24 +72,23 @@ angular.module('twitcherinoApp').factory('mvImport', ['$http', 'mvNotifier', 'mv
 angular.module('twitcherinoApp').factory('mvImportFollows', ['$q', '$http', 'mvIdentity', ($q, $http, mvIdentity) ->
 	importFollows: (channels, platform) ->
 
-		follows = ''
+		if (!mvIdentity.currentUser.follows)
+			mvIdentity.currentUser.follows = {}
+		
+		if (!mvIdentity.currentUser.follows[platform])
+			mvIdentity.currentUser.follows[platform] = []
 
-		switch (platform)
-			when 'twitch' then follows = mvIdentity.currentUser.twitchFollows
-			when 'hitbox' then follows = mvIdentity.currentUser.hitboxFollows
-			when 'azubu' then follows = mvIdentity.currentUser.azubuFollows
+		follows = mvIdentity.currentUser.follows[platform]
 
 		dfd = $q.defer()
 		$http.post("/importfollows", {channels: channels, platform: platform}).then( (response) ->
 			if (response.data.success)
-				switch (platform)
-					when 'twitch' then mvIdentity.currentUser.twitchFollows = follows.concat(channels).unique()
-					when 'hitbox' then mvIdentity.currentUser.hitboxFollows = follows.concat(channels).unique()
-					when 'azubu' then mvIdentity.currentUser.azubuFollows = follows.concat(channels).unique()
+				mvIdentity.currentUser.follows[platform] = follows.concat(channels).unique()
 				dfd.resolve()
 			else
-				dfd.reject()
+				dfd.reject(response.data.reason)
 		)
+		dfd.promise
 
 	loadTwitch: (user, maxImport, i) ->
 		$http({
@@ -98,7 +97,7 @@ angular.module('twitcherinoApp').factory('mvImportFollows', ['$q', '$http', 'mvI
 			params: {
 				callback: 'JSON_CALLBACK'
 				limit: maxImport
-				offset: i * 100
+				offset: i * maxImport
 			}
 			headers: {
 				Accept: 'application/vnd.twitchtv.v3+json'

@@ -4,6 +4,7 @@ users = require('../controllers/users')
 mongoose = require('mongoose')
 passport = require('passport')
 User = mongoose.model('User')
+bootstrappedUser = require('../utilities/bootstrappedUser')
 
 module.exports = (app, config) ->
 
@@ -24,7 +25,7 @@ module.exports = (app, config) ->
 
 	app.post('/logout', (req, res) ->
 		req.logout()
-		res.end()
+		res.send({success: true})
 	)
 
 	app.get('/auth/twitchtv', passport.authenticate('twitchtv'))
@@ -40,14 +41,14 @@ module.exports = (app, config) ->
 		res.render('index', {
 			errorMessage: errorMessage,
 			env: config.ENV
-			bootstrappedUser: bootstrappedUserFunc(req)
+			bootstrappedUser: bootstrappedUser.bootstrappedUser(req.user)
 		})
 	)
 
 	app.get('/profile', (req, res) ->
 		res.render('index', {
 			env: config.ENV
-			bootstrappedUser: bootstrappedUserFunc(req)
+			bootstrappedUser: bootstrappedUser.bootstrappedUser(req.user)
 		})
 	)
 
@@ -63,22 +64,7 @@ module.exports = (app, config) ->
 	app.get('*', (req, res) ->
 		res.render('index', {
 			env: config.ENV
-			bootstrappedUser: bootstrappedUserFunc(req)
+			bootstrappedUser: bootstrappedUser.bootstrappedUser(req.user)
 		})
 	)
-
-bootstrappedUserFunc = (req) ->
-	bootstrappedUser = false
-	has_pw = false
-	if (req.user && req.user.hashed_pwd)
-		has_pw = true
-	if (req.user)
-		bootstrappedUser =
-			username: req.user.username
-			twitchtvUsername: req.user.twitchtvUsername
-			hitboxFollows: req.user.hitboxFollows
-			twitchFollows: req.user.twitchFollows
-			azubuFollows: req.user.azubuFollows
-			roles: req.user.roles
-			has_pw: has_pw
 

@@ -7,12 +7,11 @@ angular.module('twitcherinoApp').controller('LoginCtrl', ['$scope', '$location',
 			$location.path('/profile')
 
 		$scope.signin = (username, password) ->
-			mvAuth.authenticateUser(username, password).then( (success) ->
-				if (success)
-					mvNotifier.notify('Welcome')
-					$location.path('/profile')
-				else
-					mvNotifier.error('Invalid login')
+			mvAuth.authenticateUser(username, password).then( ->
+				mvNotifier.notify('Welcome')
+				$location.path('/profile')
+			(reason) ->
+				mvNotifier.error(reason)
 			)
 
 ])

@@ -31,13 +31,14 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 
 	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
 	$scope.notChangePassword = true
 
-	if (!$scope.isTwitchConnected)
-		mvAuth.getUser(mvIdentity.currentUser).then( ->
-			if (mvIdentity.currentUser.twitchtvUsername)
-				$scope.isTwitchConnected = true
-		(reason) ->
-			mvNotifier.error(reason)
-		)
+	mvAuth.getUser(mvIdentity.currentUser).then( ->
+		if (mvIdentity.currentUser.twitchtvUsername)
+			$scope.isTwitchConnected = true
+		else
+			$scope.isTwitchConnected = false
+	(reason) ->
+		mvNotifier.error(reason)
+	)
 
 	$scope.update = ->
 		if ($scope.password == $scope.passwordConfirm)

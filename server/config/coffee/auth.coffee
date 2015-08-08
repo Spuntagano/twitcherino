@@ -6,8 +6,7 @@ exports.authenticate = (req, res, next) ->
 
 	if(!req.body.username || !req.body.password)
 		valid = false
-		res.status(400)
-		res.send({'Invalid parameters'})
+		res.send({reason: 'Invalid parameters'})
 
 	if (valid)
 		req.body.username = req.body.username.toLowerCase()
@@ -15,7 +14,7 @@ exports.authenticate = (req, res, next) ->
 			if (err)
 				next(err)
 			if(!user)
-				res.send({success: false})
+				res.send({reason: 'Invalid login'})
 			req.logIn(user, (err) ->
 				if (err)
 					next(err)
