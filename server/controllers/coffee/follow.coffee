@@ -14,12 +14,16 @@ exports.addFollow = (req, res, next) ->
 			valid = false
 			res.send({reason: 'Invalid parameters'})
 
+		###
 		if (req.body.platform != 'twitch' && req.body.platform != 'hitbox' && req.body.platform != 'azubu')
 			valid = false
 			res.send({reason: 'Invalid parameters'})
+		###
 
-		if (valid)
-			User.update({username: req.user.username}, {$addToSet: {'follows["platform"]': req.body.channelTitle}}, (err, collection) ->
+		followObj = getFollowObj(req.body.platform, req.body.channelTitle)
+
+		if (valid && followObj)
+			User.update({username: req.user.username}, {$addToSet: followObj}, (err, collection) ->
 				if (err)
 					res.send({reason: 'Database error'})
 				res.send({success: true})
@@ -38,12 +42,16 @@ exports.removeFollow = (req, res, next) ->
 			valid = false
 			res.send({reason: 'Invalid parameters'})
 
+		###
 		if (req.body.platform != 'twitch' && req.body.platform != 'hitbox' && req.body.platform != 'azubu')
 			valid = false
 			res.send({reason: 'Invalid parameters'})
+		###
 
-		if (valid)
-			User.update({username: req.user.username}, {$pull: {'follows["platform"]': req.body.channelTitle}}, (err, collection) ->
+		followObj = getFollowObj(req.body.platform, req.body.channelTitle)
+
+		if (valid && followObj)
+			User.update({username: req.user.username}, {$pull: followObj}, (err, collection) ->
 				if (err)
 					res.send({reason: 'Database error'})
 				res.send({success: true})
@@ -61,9 +69,13 @@ exports.importFollows = (req, res, next) ->
 			valid = false
 			res.send({reason: 'Invalid parameters'})
 
+		###
 		if (req.body.platform != 'twitch' && req.body.platform != 'hitbox' && req.body.platform != 'azubu')
 			valid = false
 			res.send({reason: 'Invalid parameters'})
+		###
+
+		importObj = getImportObj(req.body.platform, req.body.channels)
 
 		if (!req.body.channels)
 			valid = false
@@ -75,8 +87,8 @@ exports.importFollows = (req, res, next) ->
 					i = req.body.channels.length
 					res.send({reason: 'Invalid channel name'})
 
-		if (valid)
-			User.update({username: req.user.username}, {$addToSet: {'follows["platform"]': { $each: req.body.channels }}}, (err, collection) ->
+		if (valid && importObj)
+			User.update({username: req.user.username}, {$addToSet: importObj}, (err, collection) ->
 				if (err)
 					res.send({reason: 'Database error'})
 				res.send({success: true})
@@ -84,3 +96,19 @@ exports.importFollows = (req, res, next) ->
 
 validator.isValidTitle = (title) ->
 	title.match('^[a-zA-Z0-9_-]*$')
+
+getFollowObj = (platform, channelTitle) ->
+	switch (platform)
+		when 'twitch' then followObj = {'follows.twitch': channelTitle}
+		when 'hitbox' then followObj = {'follows.hitbox': channelTitle}
+		when 'azubu' then followObj = {'follows.azubu': channelTitle}
+		else
+			undefined
+
+getImportObj = (platform, channels) ->
+	switch (platform)
+		when 'twitch' then importObj = {'follows.twitch': { $each: channels }}
+		when 'hitbox' then importObj = {'follows.hitbox': { $each: channels }}
+		when 'azubu' then importObj = {'follows.azubu': { $each: channels }}
+		else
+			undefined
