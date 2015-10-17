@@ -1,3 +1,4 @@
+###
 chai = require('chai')
 sinon = require('sinon')
 mongoose = require('mongoose')
@@ -266,3 +267,4 @@ describe('Follow', ->
 	)
 
 )
+###

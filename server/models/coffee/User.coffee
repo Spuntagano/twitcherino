@@ -13,18 +13,22 @@ userSchema = mongoose.Schema({
 	}
 	twitchtvAccessToken: {type: String}
 	twitchtvRefreshToken: {type: String}
-	salt: {type: String}
-	hashed_pwd: {type: String}
+	hitboxtvUsername: {type: String}
+	hitboxtvAccessToken: {type: String}
+	hitboxtvId: {type: String}
+	#salt: {type: String}
+	#hashed_pwd: {type: String}
 	accountCreated: {type: Date}
 	lastLogin: {type: Date}
 	roles: [String]
-	follows: {
-		twitch: [String]
-		hitbox: [String]
-		azubu: [String]
-	}
+	#follows: {
+	#	twitch: [String]
+	#	hitbox: [String]
+	#	azubu: [String]
+	#}
 })
 
+###
 userSchema.methods = {
 	authenticate: (passwordToMatch) ->
 		if (this.salt)
@@ -32,6 +36,7 @@ userSchema.methods = {
 	hasRole: (role) ->
 		this.roles.indexOf(role) > -1
 }
+###
 
 User = mongoose.model('User', userSchema)
 

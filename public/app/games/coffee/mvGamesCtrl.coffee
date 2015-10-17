@@ -7,8 +7,8 @@ angular.module('twitcherinoApp').controller('GamesCtrl', ['$http', '$scope', '$r
 
 		$scope.loadMore= ->
 
-			mvGames.twitchGames($scope.offset).success( (data, status, headers, config) ->
-				games = data.top
+			mvGames.twitchGames($scope.offset).then( (data) ->
+				games = data.data.top
 				for i in [0...Object.keys(games).length]
 					skip = false
 					for j in [0...$scope.cats.categories.length]
@@ -26,8 +26,8 @@ angular.module('twitcherinoApp').controller('GamesCtrl', ['$http', '$scope', '$r
 			)
 
 			setTimeout( -> #hack to get twitch images
-				mvGames.hitboxGames($scope.offset).success( (data, status, headers, config) ->
-					games = data.categories
+				mvGames.hitboxGames($scope.offset).then( (data) ->
+					games = data.data.categories
 					for i in [0...games.length]
 						skip = false
 						for j in [0...$scope.cats.categories.length]

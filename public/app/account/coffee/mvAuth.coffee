@@ -11,7 +11,29 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 				mvIdentity.currentUser = user
 				dfd.resolve()
 			else
-				dfd.reject(response.data.reason)
+				dfd.reject(response.reason)
+		)
+		dfd.promise
+
+	hitboxAuth: (username, password) ->
+
+		dfd = $q.defer()
+
+		$http.post("https://www.hitbox.tv/api/auth/login", {login: username, pass: password}).then( (response) ->
+			if (response.status == 200)
+				$http.post("/hitbox-auth", {hitboxtvUsername: response.data.user_name, hitboxtvAccessToken: response.data.authToken, hitboxtvId: response.data.user_id}).then( (response) ->
+					if (response.data.success)
+						dfd.resolve()
+						mvIdentity.currentUser.hitboxtvUsername = response.data.user_name
+						mvIdentity.currentUser.hitboxtvAccessToken = response.data.authToken
+						mvIdentity.currentUser.hitboxtvId = response.data.user_id
+					else
+						dfd.reject(response.data.reason)
+				)
+			else
+				dfd.reject('Invalid login')
+		(response) ->
+			dfd.reject('Invalid login')
 		)
 		dfd.promise
 
@@ -22,14 +44,15 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 		user.$get({id: username}).then( (response) ->
 			if (response.username)
 				angular.extend(mvIdentity.currentUser, response)
-				mvIdentity.currentUser.follows = response.follows
-				mvIdentity.currentUser.twitchtvUsername = response.twitchtvUsername
+				#mvIdentity.currentUser.follows = response.follows
+				#mvIdentity.currentUser.twitchtvUsername = response.twitchtvUsername
 				dfd.resolve()
 			else
 				dfd.reject(response.reason)
 		)
 		dfd.promise
 
+	###
 	createUser: (newUserData) ->
 		dfd = $q.defer()
 		newUser = new mvUser(newUserData)
@@ -41,6 +64,7 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 				dfd.reject(response.reason)
 		)
 		dfd.promise
+	###
 
 	deleteUser: (user) ->
 		dfd = $q.defer()
@@ -61,6 +85,19 @@ angular.module('twitcherinoApp').factory('mvAuth', ['$http', 'mvUser', 'mvIdenti
 				mvIdentity.currentUser.twitchtvUsername = undefined
 				mvIdentity.currentUser.twitchtvAccessToken = undefined
 				mvIdentity.currentUser.twitchtvRefreshToken = undefined
+				dfd.resolve()
+			else
+				dfd.reject(response.data.reason)
+		)
+		dfd.promise
+
+	disconectHitbox: (username) ->
+		dfd = $q.defer()
+		$http.delete("/api/user/hitbox/#{username}").then( (response) ->
+			if (response.data.success)
+				mvIdentity.currentUser.hitboxtvUsername = undefined
+				mvIdentity.currentUser.hitboxtvAccessToken = undefined
+				mvIdentity.currentUser.hitboxtvId = undefined
 				dfd.resolve()
 			else
 				dfd.reject(response.data.reason)

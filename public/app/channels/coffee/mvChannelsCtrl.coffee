@@ -7,8 +7,8 @@ angular.module('twitcherinoApp').controller('ChannelsCtrl', ['$http', '$scope', 
 
 		$scope.loadMore= ->
 
-			mvChannels.twitchChannels($scope.offset).success( (data, status, headers, config) ->
-				streams = data.streams
+			mvChannels.twitchChannels($scope.offset).then( (data) ->
+				streams = data.data.streams
 				for i in [0...streams.length]
 					channel =
 						username: streams[i].channel.name
@@ -25,8 +25,8 @@ angular.module('twitcherinoApp').controller('ChannelsCtrl', ['$http', '$scope', 
 					$scope.channels.streams.push(channel)
 			)
 
-			mvChannels.hitboxChannels($scope.offset).success( (data, status, headers, config) ->
-				streams = data.livestream
+			mvChannels.hitboxChannels($scope.offset).then( (data) ->
+				streams = data.data.livestream
 				for i in [0...streams.length]
 					channel =
 						username: streams[i].media_user_name
@@ -36,15 +36,15 @@ angular.module('twitcherinoApp').controller('ChannelsCtrl', ['$http', '$scope', 
 						thumbnail_url: "https://edge.sf.hitbox.tv#{streams[i].media_thumbnail}"
 						game_thumbnail_url: "https://edge.sf.hitbox.tv#{streams[i].category_logo_large}"
 						game_link: "/games/#{streams[i].category_name}"
-						game_name: data.livestream[i].category_name
+						game_name: streams[i].category_name
 						link: "/hitbox/#{streams[i].media_user_name}"
 						platform_logo: '/img/hitbox_logo.png'
 						profile_url: "https://edge.sf.hitbox.tv#{streams[i].channel.user_logo}"
 					$scope.channels.streams.push(channel)
 			)
 
-			mvChannels.azubuChannels($scope.offset).success( (data, status, headers, config) ->
-				streams = data.data
+			mvChannels.azubuChannels($scope.offset).then( (data) ->
+				streams = data.data.data
 				for i in [0...streams.length]
 					channel =
 						username: streams[i].user.username
@@ -54,7 +54,7 @@ angular.module('twitcherinoApp').controller('ChannelsCtrl', ['$http', '$scope', 
 						thumbnail_url: streams[i].url_thumbnail
 						game_thumbnail_url: '/img/azubu_game.png'
 						game_link: "/games/#{streams[i].category.title}"
-						game_name: data.data[i].category.title
+						game_name: streams[i].category.title
 						link: "/azubu/#{streams[i].user.username}"
 						platform_logo: '/img/azubu_logo.png'
 						profile_url: '/img/azubu_profile.png'

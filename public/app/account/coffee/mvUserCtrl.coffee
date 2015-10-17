@@ -1,10 +1,11 @@
 angular.module('twitcherinoControllers').controller('UserListCtrl', ['$scope', 'mvUser', ($scope, mvUser) ->
-	$scope.users = mvUser.query()
+	#$scope.users = mvUser.query()
 ])
 
 angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location', 'mvNotifier', 'mvAuth', 'mvUser', 'mvRedirect'
 	($scope, $location, mvNotifier, mvAuth, mvUser, mvRedirect) ->
 
+		###
 		mvRedirect.toHTTPS()
 
 		$scope.signup = ->
@@ -21,21 +22,25 @@ angular.module('twitcherinoApp').controller('SignupCtrl', ['$scope', '$location'
 				)
 			else
 				mvNotifier.error('The passwords does not match')
+		###
 ])
 
-angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvRedirect', 'mvImport', 'mvUser', ($scope, mvAuth, mvIdentity, mvNotifier, mvRedirect, mvImport, mvUser) ->
+angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 'mvIdentity', 'mvNotifier', 'mvRedirect', 'mvUser', ($scope, mvAuth, mvIdentity, mvNotifier, mvRedirect, mvUser) ->
 	
-	mvRedirect.toHTTPS()
+	#mvRedirect.toHTTPS()
 
 	$scope.email = mvIdentity.currentUser.username
-	$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
-	$scope.notChangePassword = true
+	#$scope.isTwitchConnected = mvIdentity.isTwitchConnected()
+	#$scope.isHitboxConnected = mvIdentity.isHitboxConnected()
+	#$scope.notChangePassword = true
 
+	$scope.isTwitchConnected = false
+	$scope.isHitboxConnected = false
 	mvAuth.getUser(mvIdentity.currentUser).then( ->
 		if (mvIdentity.currentUser.twitchtvUsername)
 			$scope.isTwitchConnected = true
-		else
-			$scope.isTwitchConnected = false
+		if (mvIdentity.currentUser.hitboxtvUsername)
+			$scope.isHitboxConnected = true
 	(reason) ->
 		mvNotifier.error(reason)
 	)
@@ -45,13 +50,14 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 
 			newUserData =
 				username: $scope.email
 				oldUsername: mvIdentity.currentUser.username
-
+			###
 			if ($scope.password && $scope.password.length > 0)
 				newUserData.password = $scope.password
+			###
 
 			mvAuth.updateCurrentUser(newUserData).then( ->
-				if (newUserData.password)
-					mvIdentity.currentUser.has_pw = true
+				#if (newUserData.password)
+				#	mvIdentity.currentUser.has_pw = true
 				mvNotifier.notify('Your profile has been updated')
 			(reason) ->
 				mvNotifier.error(reason)
@@ -59,8 +65,10 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 
 		else
 			mvNotifier.error('The passwords does not match')
 
+	###
 	$scope.changePasswordFunc = ->
 		$scope.notChangePassword = !$scope.notChangePassword
+	###
 
 	$scope.deleteUser = ->
 		if (window.confirm("Are you sure you want to delete your account? There is no turning back"))
@@ -71,17 +79,23 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 
 			)
 
 	$scope.disconnectTwitch = ->
-		if (!mvIdentity.currentUser.has_pw)
-			mvNotifier.error('Please set a password on your account')
-		else
-			if (window.confirm("Are you sure you want to disconect your twitch account?"))
-				mvAuth.disconectTwitch(mvIdentity.currentUser.username).then( ->
-					mvNotifier.notify('Your twitch account has been disconnected')
-					$scope.isTwitchConnected = false
-				(reason) ->
-					mvNotifier.error(reason)
-				)
+		if (window.confirm("Are you sure you want to disconect your twitch account?"))
+			mvAuth.disconectTwitch(mvIdentity.currentUser.username).then( ->
+				mvNotifier.notify('Your twitch account has been disconnected')
+				$scope.isTwitchConnected = false
+			(reason) ->
+				mvNotifier.error(reason)
+			)
 
+	$scope.disconnectHitbox = ->
+		if (window.confirm("Are you sure you want to disconect your twitch account?"))
+			mvAuth.disconectHitbox(mvIdentity.currentUser.username).then( ->
+				mvNotifier.notify('Your hitbox account has been disconnected')
+				$scope.isHitboxConnected = false
+			(reason) ->
+				mvNotifier.error(reason)
+			)
+	###
 	$scope.importTwitchFollows = ->
 		mvImport.importTwitch(mvIdentity.currentUser.twitchtvUsername)
 
@@ -92,4 +106,5 @@ angular.module('twitcherinoApp').controller('ProfileCtrl', ['$scope', 'mvAuth', 
 		mvImport.importHitbox($scope.hitboxUser)
 		$scope.importHitboxShow = false
 		$scope.hitboxUser = ''
+	###
 ])

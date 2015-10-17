@@ -8,20 +8,23 @@ bootstrappedUser = require('../utilities/bootstrappedUser')
 
 module.exports = (app, config) ->
 
-	app.get('/api/users', auth.requiresRole('admin'), users.getUsers)
+	#app.get('/api/users', auth.requiresRole('admin'), users.getUsers)
 
-	app.post('/api/user', users.createUser)
+	#app.post('/api/user', users.createUser)
 	app.put('/api/user', users.updateUser)
 	app.delete('/api/user/:username', users.deleteUser)
 	app.get('/api/user/:username', users.getUser)
 
 	app.delete('/api/user/twitch/:username', users.disconnectTwitch)
+	app.delete('/api/user/hitbox/:username', users.disconnectHitbox)
 
 	app.get('/partials/*', (req, res) ->
 		res.render('../../public/app/' + req.params[0])
 	)
 
-	app.post('/login', auth.authenticate)
+	#app.post('/login', auth.authenticate)
+
+	app.post('/hitbox-auth', auth.hitboxAuth)
 
 	app.post('/logout', (req, res) ->
 		req.logout()
@@ -39,23 +42,23 @@ module.exports = (app, config) ->
 	app.get('/login', (req, res) ->
 		errorMessage = req.flash('error')
 		res.render('index', {
-			errorMessage: errorMessage,
-			env: config.ENV
+			errorMessage: errorMessage
+			#env: config.ENV
 			bootstrappedUser: bootstrappedUser.bootstrappedUser(req.user)
 		})
 	)
 
 	app.get('/profile', (req, res) ->
 		res.render('index', {
-			env: config.ENV
+			#env: config.ENV
 			bootstrappedUser: bootstrappedUser.bootstrappedUser(req.user)
 		})
 	)
 
-	app.post('/follow', follow.addFollow)
-	app.post('/unfollow', follow.removeFollow)
+	#app.post('/follow', follow.addFollow)
+	#app.post('/unfollow', follow.removeFollow)
 
-	app.post('/importfollows', follow.importFollows)
+	#app.post('/importfollows', follow.importFollows)
 
 	app.all('/api/*', (req, res) ->
 		res.send(404)
@@ -63,7 +66,7 @@ module.exports = (app, config) ->
 
 	app.get('*', (req, res) ->
 		res.render('index', {
-			env: config.ENV
+			#env: config.ENV
 			bootstrappedUser: bootstrappedUser.bootstrappedUser(req.user)
 		})
 	)

@@ -1,3 +1,5 @@
+###
+
 mongoose = require('mongoose')
 User = mongoose.model('User')
 validator = require('validator')
@@ -14,11 +16,11 @@ exports.addFollow = (req, res, next) ->
 			valid = false
 			res.send({reason: 'Invalid parameters'})
 
-		###
+		
 		if (req.body.platform != 'twitch' && req.body.platform != 'hitbox' && req.body.platform != 'azubu')
 			valid = false
 			res.send({reason: 'Invalid parameters'})
-		###
+		
 
 		followObj = getFollowObj(req.body.platform, req.body.channelTitle)
 
@@ -42,11 +44,11 @@ exports.removeFollow = (req, res, next) ->
 			valid = false
 			res.send({reason: 'Invalid parameters'})
 
-		###
+		
 		if (req.body.platform != 'twitch' && req.body.platform != 'hitbox' && req.body.platform != 'azubu')
 			valid = false
 			res.send({reason: 'Invalid parameters'})
-		###
+		
 
 		followObj = getFollowObj(req.body.platform, req.body.channelTitle)
 
@@ -69,11 +71,11 @@ exports.importFollows = (req, res, next) ->
 			valid = false
 			res.send({reason: 'Invalid parameters'})
 
-		###
+		
 		if (req.body.platform != 'twitch' && req.body.platform != 'hitbox' && req.body.platform != 'azubu')
 			valid = false
 			res.send({reason: 'Invalid parameters'})
-		###
+		
 
 		importObj = getImportObj(req.body.platform, req.body.channels)
 
@@ -112,3 +114,4 @@ getImportObj = (platform, channels) ->
 		when 'azubu' then importObj = {'follows.azubu': { $each: channels }}
 		else
 			undefined
+###

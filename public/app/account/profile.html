@@ -21,6 +21,17 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-10-offset-2 clearfix">
+			<div class="pull-right">
+				<div ng-show="isHitboxConnected">
+					Hitbox account connected
+				</div>
+				<div ng-hide="isHitboxConnected">
+					<a ng-href="/hitbox-login" href="hitbox-login" class="btn btn-primary">Hitbox login</a>
+				</div>
+			</div>
+		</div>
+		<!--
 		<div class="import-container">
 			<div class="col-md-10-offset-2 clearfix">
 				<div class="pull-right">
@@ -46,7 +57,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="col-md-10-offset-2 clearfix">
 			<div class="pull-right">
 				<div class="delete-account-container">
@@ -58,6 +69,13 @@
 			<div class="pull-right">
 				<div class="disconnect-twitch-account-container">
 					<button class="btn btn-primary" ng-click="disconnectTwitch()">Disconnect twitch account</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-10-offset-2 clearfix" ng-show="isHitboxConnected">
+			<div class="pull-right">
+				<div class="disconnect-hitbox-account-container">
+					<button class="btn btn-primary" ng-click="disconnectHitbox()">Disconnect hitbox account</button>
 				</div>
 			</div>
 		</div>

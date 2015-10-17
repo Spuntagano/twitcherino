@@ -14,5 +14,10 @@ angular.module('twitcherinoApp').factory('mvIdentity', ['$window', 'mvUser', ($w
 				return !!this.currentUser.twitchtvUsername
 			else
 				return false
+		isHitboxConnected: ->
+			if (!!this.currentUser)
+				return !!this.currentUser.hitboxtvUsername
+			else
+				return false
 	}
 ])

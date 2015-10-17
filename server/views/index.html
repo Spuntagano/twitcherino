@@ -24,6 +24,7 @@
 	<script src="/app/account/mvUserCtrl.js"></script>
 	<script src="/app/follow/mvFollowCtrl.js"></script>
 	<script src="/app/account/mvLoginCtrl.js"></script>
+	<script src="/app/account/mvHitboxLoginCtrl.js"></script>
 	<script src="/app/channel/mvChannelCtrl.js"></script>
 	<script src="/app/channel/mvChannel.js"></script>
 	<script src="/app/channels/mvChannels.js"></script>
@@ -45,25 +46,27 @@
 	<script src="/vendors/js/attrchange.js"></script>
 	<script src="/app/scripts.js"></script>
 
-	<% if ( typeof bootstrappedUser != 'undefined' && !!bootstrappedUser ){ %>
+	<% if ( typeof bootstrappedUser !== 'undefined' && !!bootstrappedUser ){ %>
 		<script>
 			window.bootstrappedUserObject = <%- JSON.stringify(bootstrappedUser); %>
 		</script>
 	<% } %>
 
-	<% if ( typeof env != 'undefined' && !!env && env == 'developement'){ %>
+	<!--
+	<% if ( typeof env !== 'undefined' && !!env && env === 'development'){ %>
 		<script>
 			window.env = <%- JSON.stringify(env); %>
 		</script>
 	<% } %>
+	-->
 
-	<% if ( typeof errorMessage != 'undefined' && !!errorMessage ){ %>
+	<% if ( typeof errorMessage !== 'undefined' && !!errorMessage ){ %>
 		<script>
 			window.errorMessage = <%- '\'' + errorMessage + '\'' %>
 		</script>
 	<% } %>
 
-	<% if ( typeof infoMessage != 'undefined' && infoMessage ){ %>
+	<% if ( typeof infoMessage !== 'undefined' && infoMessage ){ %>
 		<script>
 			window.infoMessage = <%- '\'' + infoMessage + '\'' %>
 		</script>

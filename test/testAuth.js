@@ -1,66 +1,81 @@
-var auth, chai, expect, passport, sinon;
 
-chai = require('chai');
+/*
+chai = require('chai')
+sinon = require('sinon')
+auth = require('../server/config/auth')
+passport = require('passport')
+mongoose = require('mongoose')
+User = mongoose.model('User')
 
-sinon = require('sinon');
+expect = chai.expect
 
-auth = require('../server/config/auth');
+chai.should()
 
-passport = require('passport');
+describe('Auth', ->
 
-expect = chai.expect;
+	req = {}
+	req.user = {}
+	req.body = {}
+	req.params = {}
 
-chai.should();
+	req.user.roles = []
 
-describe('Auth', function() {
-  var mockPassport, next, req, res;
-  req = {};
-  req.user = {};
-  req.body = {};
-  req.params = {};
-  req.user.roles = [];
-  res = {
-    status: function() {
-      return true;
-    },
-    send: function() {
-      return true;
-    },
-    end: function() {
-      return true;
-    }
-  };
-  next = function() {
-    return true;
-  };
-  mockPassport = sinon.mock(passport);
-  return describe('Authenticate', function() {
-    beforeEach(function() {
-      mockPassport = sinon.mock(passport);
-      req = {};
-      req.user = {};
-      req.body = {};
-      req.params = {};
-      req.user.roles = [];
-      req.body.username = 'bob@bob.bob';
-      return req.body.password = 'qwertyuiop';
-    });
-    afterEach((function() {
-      return mockPassport.restore();
-    }));
-    it('Should fail to get a user with no username params', function() {
-      var expectation;
-      req.body.username = void 0;
-      expectation = mockPassport.expects('authenticate').never();
-      auth.authenticate(req, res, next);
-      return expectation.verify();
-    });
-    return it('Should fail to get a user with no password params', function() {
-      var expectation;
-      req.body.password = void 0;
-      expectation = mockPassport.expects('authenticate').never();
-      auth.authenticate(req, res, next);
-      return expectation.verify();
-    });
-  });
-});
+	res = {
+		status: ->
+			true
+
+		send: ->
+			true
+
+		end: ->
+			true
+	}
+	
+	next = ->
+		true
+
+	mockPassport = sinon.mock(passport)
+
+	describe('Authenticate', ->
+
+		beforeEach( ->
+
+			mockPassport = sinon.mock(passport)
+
+			req = {}
+			req.user = {}
+			req.body = {}
+			req.params = {}
+
+			req.user.roles = []
+
+			req.body.username = 'bob@bob.bob'
+			req.body.password = 'qwertyuiop'
+		)
+
+		afterEach (->
+			mockPassport.restore()
+		)
+
+		it('Should fail to get a user with no username params', ->
+			req.body.username = undefined
+
+			expectation = mockPassport.expects('authenticate').never()
+
+			auth.authenticate(req, res, next)
+			expectation.verify()
+		)
+
+		it('Should fail to get a user with no password params', ->
+			req.body.password = undefined
+
+			expectation = mockPassport.expects('authenticate').never()
+
+			auth.authenticate(req, res, next)
+			expectation.verify()
+		)
+
+	)
+)
+ */
+

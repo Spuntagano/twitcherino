@@ -1,3 +1,4 @@
+###
 crypto = require('crypto')
 
 exports.createSalt = () ->
@@ -6,3 +7,4 @@ exports.createSalt = () ->
 exports.hashPwd = (salt, pwd) ->
 	hmac = crypto.createHmac('sha1', salt)
 	hmac.update(pwd).digest('hex')
+###

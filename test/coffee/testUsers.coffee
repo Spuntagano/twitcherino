@@ -1,3 +1,4 @@
+###
 chai = require('chai')
 sinon = require('sinon')
 encrypt = require('../server/utilities/encryption')
@@ -474,4 +475,4 @@ describe('Users', ->
 			expectation.verify()
 		)
 	)
-)
+)###

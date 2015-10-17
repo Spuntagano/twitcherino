@@ -1,5 +1,8 @@
 passport = require('passport')
+mongoose = require('mongoose')
+User = mongoose.model('User')
 
+###
 exports.authenticate = (req, res, next) ->
 
 	valid = true
@@ -21,6 +24,20 @@ exports.authenticate = (req, res, next) ->
 				res.send({success: true})
 			)
 		)(req, res, next)
+###
+exports.hitboxAuth = (req, res, next) ->
+	if (req.user)
+		User.findOne({username: req.user.username}).exec( (err, user) ->
+			if (user)
+				User.update({username: user.username}, {hitboxtvUsername: req.body.hitboxtvUsername, hitboxtvAccessToken: req.body.hitboxtvAccessToken, hitboxtvId: req.body.hitboxtvId}, (err) ->
+					res.send({success: true})
+				)
+			else
+				res.send({reason: 'Invalid username'})
+		)
+	else
+		res.send({reason: 'Not logged in'})
+
 
 exports.requireApiLogin = (req, res, next) ->
 	if (!req.isAuthenticated())

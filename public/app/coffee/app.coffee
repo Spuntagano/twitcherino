@@ -30,6 +30,10 @@ angular.module('twitcherinoApp', [
 		}).when('/login', {
 			templateUrl: '/partials/account/login'
 			controller: 'LoginCtrl'
+		}).when('/hitbox-login', {
+			templateUrl: '/partials/account/hitbox-login'
+			controller: 'HitboxLoginCtrl'
+			resolve: routeRoleChecks.user
 		}).when('/follow', {
 			templateUrl: '/partials/follow/follow'
 			controller: 'FollowCtrl'

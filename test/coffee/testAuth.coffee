@@ -1,7 +1,10 @@
+###
 chai = require('chai')
 sinon = require('sinon')
 auth = require('../server/config/auth')
 passport = require('passport')
+mongoose = require('mongoose')
+User = mongoose.model('User')
 
 expect = chai.expect
 
@@ -73,3 +76,4 @@ describe('Auth', ->
 
 	)
 )
+###

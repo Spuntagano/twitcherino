@@ -1,7 +1,7 @@
 angular.module('twitcherinoApp').controller('LoginCtrl', ['$scope', '$location', '$http', 'mvNotifier', 'mvIdentity', 'mvAuth', 'mvRedirect'
 	($scope, $location, $http, mvNotifier, mvIdentity, mvAuth, mvRedirect) ->
 
-		mvRedirect.toHTTPS()
+		#mvRedirect.toHTTPS()
 
 		if (mvIdentity.isAuthenticated())
 			$location.path('/profile')

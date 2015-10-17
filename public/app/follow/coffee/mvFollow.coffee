@@ -1,30 +1,32 @@
-angular.module('twitcherinoApp').factory('mvFollow', ['$http', ($http) ->
-	twitchFollows: (twitchChannels, offset) ->
+angular.module('twitcherinoApp').factory('mvFollow', ['$http', 'mvIdentity', ($http, mvIdentity) ->
+	twitchFollows: (offset) ->
 		$http({
-			method: 'JSONP'
-			url: "https://api.twitch.tv/kraken/streams"
+			method: 'GET'
+			url: "https://api.twitch.tv/kraken/streams/followed"
 			params : {
-				channel: twitchChannels
-				callback: 'JSON_CALLBACK'
+				#channel: twitchChannels
 				limit: OPTIONS.channelsInitial
 				offset: offset
 			}
 			headers: {
 				Accept: 'application/vnd.twitchtv.v3+json'
+				Authorization: "OAuth #{mvIdentity.currentUser.twitchtvAccessToken}"
 			}
 		})
 
-	hitboxFollows: (hitboxChannels, offset) ->
+	
+	hitboxFollows: (offset) ->
 		$http({
 			method: 'GET'
-			url: "https://api.hitbox.tv/media/live/#{hitboxChannels}"
+			url: "https://api.hitbox.tv/media/live/list"
 			params: {
 				limit: OPTIONS.channelsInitial
 				offset: offset
+				follower_id: mvIdentity.currentUser.hitboxtvId
 			}
 		})
-
-	azubuFollows: (azubuChannels, offset) ->
+	###
+	azubuFollows: (offset) ->
 		$http({
 			method: 'GET'
 			url: "https://api.azubu.tv/public/channel/list"
@@ -34,4 +36,5 @@ angular.module('twitcherinoApp').factory('mvFollow', ['$http', ($http) ->
 				channels: azubuChannels
 			}
 		})
+	###
 ])
